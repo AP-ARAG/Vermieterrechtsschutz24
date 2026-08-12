@@ -1,7 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
+import Link from "./link";
+
+const DEFAULT_FORM_ENDPOINT = "https://formsubmit.co/ajax/info@sofortrechtsschutz.de";
+const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT?.trim() || DEFAULT_FORM_ENDPOINT;
 
 export function scrollToOffer() {
   document.getElementById("angebot")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -48,12 +51,11 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
 }
 
 export function CookieConsent() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(() => !localStorage.getItem("sr-cookie-consent"));
   const [settings, setSettings] = useState(false);
   const [choices, setChoices] = useState({ analytics: false, ads: false, personalization: false });
 
   useEffect(() => {
-    setOpen(!localStorage.getItem("sr-cookie-consent"));
     const show = () => { setSettings(true); setOpen(true); };
     window.addEventListener("open-cookie-settings", show);
     return () => window.removeEventListener("open-cookie-settings", show);
@@ -109,7 +111,7 @@ const questions = [
 export function OfferWizard() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   const choose = (answer: string) => {
     const next = [...answers];
@@ -118,18 +120,48 @@ export function OfferWizard() {
     setStep(step + 1);
   };
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSent(true);
+    setStatus("sending");
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      _subject: "Neue Anfrage über sofortrechtsschutz.de",
+      _template: "table",
+      _captcha: "false",
+      _honey: String(formData.get("_honey") ?? ""),
+      _url: window.location.href,
+      Name: String(formData.get("name") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      Telefon: String(formData.get("phone") ?? ""),
+      "Mehr als eine Wohnung oder ein Haus": answers[0] ?? "Keine Angabe",
+      "Zusätzlicher Mietausfallschutz": answers[1] ?? "Keine Angabe",
+      "Bereits bestehender Rechtsfall": answers[2] ?? "Keine Angabe",
+    };
+
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json().catch(() => null) as { success?: boolean | string } | null;
+      if (!response.ok || result?.success === false || result?.success === "false") {
+        throw new Error("Formularversand fehlgeschlagen");
+      }
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   };
 
-  if (sent) {
+  if (status === "sent") {
     return (
       <div className="wizard-card wizard-success" role="status">
         <div className="big-check">✓</div>
         <h2>Vielen Dank für Ihre Anfrage!</h2>
         <p>Ihre Angaben wurden erfasst. Wir melden uns schnellstmöglich bei Ihnen.</p>
-        <button className="blue-button" onClick={() => { setSent(false); setStep(0); setAnswers([]); }}>Neue Anfrage</button>
+        <button className="blue-button" onClick={() => { setStatus("idle"); setStep(0); setAnswers([]); }}>Neue Anfrage</button>
       </div>
     );
   }
@@ -151,15 +183,17 @@ export function OfferWizard() {
   }
 
   return (
-    <form className="wizard-card contact-form" onSubmit={submit}>
+    <form className="wizard-card contact-form" action={FORM_ENDPOINT} method="POST" onSubmit={submit}>
       <h2>Bitte tragen Sie Ihre Kontaktdaten ein:</h2>
       <label>Name *<input name="name" autoComplete="name" required /></label>
       <label>E-Mail *<input type="email" name="email" autoComplete="email" required /></label>
       <label>Telefon<div className="phone-input"><span>🇩🇪 &nbsp; +49</span><input type="tel" name="phone" autoComplete="tel" aria-label="Telefonnummer" /></div></label>
+      <label className="form-honeypot" aria-hidden="true">Bitte nicht ausfüllen<input name="_honey" tabIndex={-1} autoComplete="off" /></label>
       <p className="privacy-note">Wir verarbeiten Ihre Daten zum Zwecke der Bearbeitung Ihrer Anfrage. Bitte beachten Sie unsere <Link href="/datenschutz">Datenschutzerklärung</Link>.</p>
+      {status === "error" && <p className="form-error" role="alert">Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie an <a href="mailto:info@sofortrechtsschutz.de">info@sofortrechtsschutz.de</a>.</p>}
       <div className="wizard-nav">
-        <button type="button" className="back-button" onClick={() => setStep(2)}>Zurück</button>
-        <button type="submit" className="blue-button">Formular absenden</button>
+        <button type="button" className="back-button" onClick={() => setStep(2)} disabled={status === "sending"}>Zurück</button>
+        <button type="submit" className="blue-button" disabled={status === "sending"}>{status === "sending" ? "Wird gesendet …" : "Formular absenden"}</button>
       </div>
     </form>
   );

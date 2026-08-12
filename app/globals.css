@@ -47,6 +47,7 @@ img { display: block; max-width: 100%; }
 .step-badge { font-weight: 700; }
 .blue-button { min-height: 52px; font-weight: 600; }
 .blue-button:hover, .blue-button:focus-visible { background: #14547f; }
+.blue-button:disabled, .back-button:disabled { cursor: wait; opacity: .65; }
 .back-button { color: var(--blue); background: rgba(255, 255, 255, .55); }
 .back-button:hover, .back-button:focus-visible { background: #fff; }
 .contact-form { width: min(620px, 100%); margin: 0 auto; text-align: left; }
@@ -57,6 +58,9 @@ img { display: block; max-width: 100%; }
 .phone-input span { padding-left: 12px; font-weight: 400; white-space: nowrap; }
 .phone-input input { margin: 0; border: 0; }
 .privacy-note { text-align: center; font-weight: 400; }
+.form-honeypot { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: nowrap !important; }
+.form-error { margin: 16px 0 0; padding: 12px 14px; border: 1px solid #9b1c1c; border-radius: 5px; color: #7a1010; background: #fff2f2; text-align: center; font-size: 16px; }
+.form-error a { font-weight: 700; }
 .wizard-success { padding: 32px; }
 .big-check { width: 66px; height: 66px; margin: 0 auto; border: 3px solid var(--blue); color: var(--blue); border-radius: 50%; display: grid; place-items: center; font-size: 38px; }
 

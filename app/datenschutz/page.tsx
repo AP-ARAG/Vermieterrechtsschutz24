@@ -43,6 +43,7 @@ export default function Datenschutz() {
 
           <h2>6. Kontaktmöglichkeit über die Internetseite</h2>
           <p>Wenn Sie per E-Mail oder Kontaktformular Kontakt aufnehmen, werden die freiwillig übermittelten personenbezogenen Daten zur Bearbeitung der Anfrage und zur Kontaktaufnahme gespeichert. Eine Weitergabe an Dritte erfolgt nur, soweit dafür eine Rechtsgrundlage besteht.</p>
+          <p>Für die technische Weiterleitung von Kontaktformularen nutzen wir FormSubmit. Beim Absenden werden die eingegebenen Kontaktdaten und Antworten an FormSubmit übermittelt und von dort per E-Mail an uns weitergeleitet. Weitere Informationen zur Verarbeitung durch diesen Dienst finden Sie in der <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noreferrer">Datenschutzerklärung von FormSubmit</a>.</p>
 
           <h2>7. Routinemäßige Löschung und Sperrung</h2>
           <p>Personenbezogene Daten werden nur so lange verarbeitet und gespeichert, wie dies für den Zweck erforderlich oder gesetzlich vorgeschrieben ist. Entfällt der Zweck oder endet eine Aufbewahrungsfrist, werden die Daten nach den gesetzlichen Vorschriften gelöscht oder gesperrt.</p>
