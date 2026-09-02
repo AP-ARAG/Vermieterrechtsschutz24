@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import Link from "./link";
 
-const DEFAULT_FORM_ENDPOINT = "https://formsubmit.co/ajax/info@sofortrechtsschutz.de";
+const DEFAULT_FORM_ENDPOINT = "/api/contact.php";
 const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT?.trim() || DEFAULT_FORM_ENDPOINT;
 
 export function scrollToOffer() {
@@ -126,17 +126,16 @@ export function OfferWizard() {
 
     const formData = new FormData(event.currentTarget);
     const payload = {
-      _subject: "Neue Anfrage über sofortrechtsschutz.de",
-      _template: "table",
-      _captcha: "false",
-      _honey: String(formData.get("_honey") ?? ""),
-      _url: window.location.href,
-      Name: String(formData.get("name") ?? ""),
+      honeypot: String(formData.get("_honey") ?? ""),
+      sourceUrl: window.location.href,
+      name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
-      Telefon: String(formData.get("phone") ?? ""),
-      "Mehr als eine Wohnung oder ein Haus": answers[0] ?? "Keine Angabe",
-      "Zusätzlicher Mietausfallschutz": answers[1] ?? "Keine Angabe",
-      "Bereits bestehender Rechtsfall": answers[2] ?? "Keine Angabe",
+      phone: String(formData.get("phone") ?? ""),
+      answers: {
+        multipleProperties: answers[0] ?? "Keine Angabe",
+        rentLossProtection: answers[1] ?? "Keine Angabe",
+        existingLegalCase: answers[2] ?? "Keine Angabe",
+      },
     };
 
     try {
@@ -185,6 +184,9 @@ export function OfferWizard() {
   return (
     <form className="wizard-card contact-form" action={FORM_ENDPOINT} method="POST" onSubmit={submit}>
       <h2>Bitte tragen Sie Ihre Kontaktdaten ein:</h2>
+      <input type="hidden" name="multiple_properties" value={answers[0] ?? "Keine Angabe"} />
+      <input type="hidden" name="rent_loss_protection" value={answers[1] ?? "Keine Angabe"} />
+      <input type="hidden" name="existing_legal_case" value={answers[2] ?? "Keine Angabe"} />
       <label>Name *<input name="name" autoComplete="name" required /></label>
       <label>E-Mail *<input type="email" name="email" autoComplete="email" required /></label>
       <label>Telefon<div className="phone-input"><span>🇩🇪 &nbsp; +49</span><input type="tel" name="phone" autoComplete="tel" aria-label="Telefonnummer" /></div></label>

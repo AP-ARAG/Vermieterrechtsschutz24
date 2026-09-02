@@ -4,7 +4,7 @@ import test from "node:test";
 
 const dist = new URL("../dist/", import.meta.url);
 
-test("builds a deployable static multi-page website", async () => {
+test("builds a deployable PHP-backed multi-page website", async () => {
   const [home, impressum, datenschutz] = await Promise.all([
     readFile(new URL("index.html", dist), "utf8"),
     readFile(new URL("impressum/index.html", dist), "utf8"),
@@ -27,9 +27,11 @@ test("bundles the funnel, legal content and public assets", async () => {
 
   assert.match(bundledJavaScript, /Häufig gestellte Fragen/);
   assert.match(bundledJavaScript, /Formular absenden/);
-  assert.match(bundledJavaScript, /formsubmit\.co\/ajax/);
+  assert.match(bundledJavaScript, /api\/contact\.php/);
+  assert.doesNotMatch(bundledJavaScript, /formsubmit\.co/);
   assert.match(bundledJavaScript, /Angaben gemäß/);
   assert.match(bundledJavaScript, /Rechte der betroffenen Person/);
   assert.ok((await stat(new URL("hero-office.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("og.png", dist))).size > 0);
+  assert.ok((await stat(new URL("api/contact.php", dist))).size > 0);
 });

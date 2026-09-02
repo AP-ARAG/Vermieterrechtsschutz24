@@ -1,6 +1,6 @@
 # Sofortrechtsschutz Nürnberg
 
-Statische React/Vite-Website für den ARAG Immobilien-Rechtsschutz für Vermieter.
+React/Vite-Website mit eigenem PHP-Formularendpunkt für den ARAG Immobilien-Rechtsschutz für Vermieter.
 
 ## Entwicklung
 
@@ -18,16 +18,16 @@ Der Produktions-Build liegt im Ordner `dist/` und enthält eigenständige Seiten
 - `/impressum/`
 - `/datenschutz/`
 
-## IONOS Deploy Now
+## IONOS Deploy Now (PHP)
 
-- Projektpaket: **Static**
-- Workflow-Vorlage: **React**
+- Projektpaket: **PHP**
+- Workflow-Vorlage: **Vite/Node.js mit PHP-Ausgabe**
 - Installations- und Build-Befehl: `npm ci && npm run build`
 - Veröffentlichungsordner: `dist`
 - Produktionsbranch: `main`
 
 ## Kontaktformular
 
-Das Formular sendet standardmäßig per AJAX an FormSubmit und leitet Anfragen an `info@sofortrechtsschutz.de` weiter. Vor dem ersten Live-Einsatz muss die einmalig von FormSubmit gesendete Aktivierungs-E-Mail bestätigt werden.
+Das Formular sendet per AJAX an `dist/api/contact.php`. Der PHP-Endpunkt validiert die Angaben, verwendet ein Honeypot-Feld gegen einfache Bots und leitet Anfragen per E-Mail an `info@sofortrechtsschutz.de` weiter.
 
-Alternativ kann beim Build über `VITE_FORM_ENDPOINT` ein anderer kompatibler Formular-Endpunkt gesetzt werden.
+Alternativ kann beim Build über `VITE_FORM_ENDPOINT` ein anderer kompatibler JSON-Endpunkt gesetzt werden.
