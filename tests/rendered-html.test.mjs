@@ -21,8 +21,12 @@ test("builds a deployable PHP-backed multi-page website", async () => {
 test("bundles the funnel, legal content and public assets", async () => {
   const assetNames = await readdir(new URL("assets/", dist));
   const scripts = assetNames.filter((name) => name.endsWith(".js"));
+  const styles = assetNames.filter((name) => name.endsWith(".css"));
   const bundledJavaScript = (await Promise.all(
     scripts.map((name) => readFile(new URL(`assets/${name}`, dist), "utf8")),
+  )).join("\n");
+  const bundledStyles = (await Promise.all(
+    styles.map((name) => readFile(new URL(`assets/${name}`, dist), "utf8")),
   )).join("\n");
 
   assert.match(bundledJavaScript, /Fragen vor der Anfrage/);
@@ -33,6 +37,10 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Ihre Rechte/);
   assert.doesNotMatch(bundledJavaScript, /TOP-PRODUKT|Testsieger|weltweit.größter|ab € 6,90/iu);
   assert.doesNotMatch(bundledJavaScript, /arag-wordmark|awards\.png|hero-office|bauherren\.jpg/);
+  assert.match(bundledStyles, /#fff100/);
+  assert.match(bundledStyles, /#f8f0dd/);
+  assert.match(bundledStyles, /#fcf9f4/);
+  assert.match(bundledStyles, /#f1e5c7/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("favicon.svg", dist))).size > 0);

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
   <title id="title">SofortRechtsschutz</title>
-  <path fill="#e9b38f" d="M32 3 56 12v18c0 15.5-9.8 25.4-24 31C17.8 55.4 8 45.5 8 30V12L32 3Z"/>
-  <path fill="none" stroke="#18544f" stroke-width="4" d="M32 7 52 14.5V30c0 12.7-7.7 21.2-20 26.4C19.7 51.2 12 42.7 12 30V14.5L32 7Z"/>
-  <text x="32" y="38" fill="#18544f" font-family="Arial, sans-serif" font-size="18" font-weight="800" text-anchor="middle">SR</text>
+  <path fill="#fff100" d="M32 3 56 12v18c0 15.5-9.8 25.4-24 31C17.8 55.4 8 45.5 8 30V12L32 3Z"/>
+  <path fill="none" stroke="#000" stroke-width="4" d="M32 7 52 14.5V30c0 12.7-7.7 21.2-20 26.4C19.7 51.2 12 42.7 12 30V14.5L32 7Z"/>
+  <text x="32" y="38" fill="#000" font-family="Arial, sans-serif" font-size="18" font-weight="800" text-anchor="middle">SR</text>
 </svg>
