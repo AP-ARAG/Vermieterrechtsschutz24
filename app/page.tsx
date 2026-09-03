@@ -183,8 +183,14 @@ export default function Home() {
         </div>
       </section>
       <section className="bottom-cta">
-        <p>Sie möchten Ihren Bedarf persönlich besprechen?</p>
-        <button className="blue-button" type="button" onClick={scrollToOffer}>Rückruf anfordern</button>
+        <div className="bottom-cta-inner">
+          <div>
+            <p className="eyebrow">Persönlich klären</p>
+            <h2>Sie möchten Ihren Bedarf in Ruhe besprechen?</h2>
+            <p className="bottom-cta-copy">Mit wenigen Angaben bereiten wir das Gespräch passend zu Ihrer Immobilie vor.</p>
+          </div>
+          <button className="blue-button" type="button" onClick={scrollToOffer}>Rückruf anfordern</button>
+        </div>
       </section>
     </SiteShell>
   );

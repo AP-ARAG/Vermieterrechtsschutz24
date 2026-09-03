@@ -36,25 +36,43 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
       {!legalPage && (
         <section className="facts" aria-label="Hinweise zum Angebot">
           <div className="facts-grid">
-            <p><strong>Für Vermieter</strong><br />Bedarf rund um vermietete Immobilien</p>
-            <p><strong>Individuell</strong><br />Beitrag statt pauschalem Beispielpreis</p>
-            <p><strong>Transparent</strong><br />Bedingungen vor dem Abschluss prüfen</p>
-            <p><strong>Versicherungsvermittlung</strong><br />keine anwaltliche Rechtsberatung</p>
+            <article><span aria-hidden="true">01</span><p><strong>Für Vermieter</strong><br />Bedarf rund um vermietete Immobilien</p></article>
+            <article><span aria-hidden="true">02</span><p><strong>Individuell</strong><br />Beitrag statt pauschalem Beispielpreis</p></article>
+            <article><span aria-hidden="true">03</span><p><strong>Transparent</strong><br />Bedingungen vor dem Abschluss prüfen</p></article>
+            <article><span aria-hidden="true">04</span><p><strong>Klare Einordnung</strong><br />Versicherungsvermittlung, keine Rechtsberatung</p></article>
           </div>
         </section>
       )}
       <footer className="site-footer">
         <div className="footer-inner">
-          <div>
-            <strong>{operator.name}</strong>
-            <p>{operator.name}<br />{operator.street}<br />{operator.city}<br />Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
+          <div className="footer-brand-column">
+            <Link href="/" className="footer-brand" aria-label="Zur Startseite">
+              <span className="footer-brand-mark" aria-hidden="true">AP</span>
+              <span><strong>Papadakis</strong><small>Rechtsschutzberatung für Vermieter</small></span>
+            </Link>
+            <p>Persönliche Versicherungsvermittlung für private Vermieter – verständlich eingeordnet und passend zur Immobilie.</p>
+          </div>
+          <div className="footer-contact">
+            <p className="footer-label">Kontakt</p>
+            <address>
+              {operator.name}<br />
+              {operator.street}<br />
+              {operator.city}<br />
+              <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />
+              <a href={`mailto:${operator.email}`}>{operator.email}</a>
+            </address>
           </div>
           <nav aria-label="Rechtliche Seiten">
+            <p className="footer-label">Informationen</p>
             {legalPage && <Link href="/">Home</Link>}
             <Link href="/impressum">Impressum</Link>
             <Link href="/erstinformation">Erstinformation</Link>
             <Link href="/datenschutz">Datenschutz</Link>
           </nav>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 Papadakis Rechtsschutzberatung</span>
+          <span>Versicherungsvermittlung · keine anwaltliche Rechtsberatung</span>
         </div>
       </footer>
     </>
