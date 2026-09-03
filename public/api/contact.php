@@ -50,6 +50,7 @@ $email = trim((string) ($data['email'] ?? ''));
 $phone = trim((string) ($data['phone'] ?? ''));
 $sourceUrl = trim((string) ($data['sourceUrl'] ?? ($_SERVER['HTTP_REFERER'] ?? '')));
 $answers = is_array($data['answers'] ?? null) ? $data['answers'] : [];
+$firstInformationDigital = (string) ($data['erstinformation_digital'] ?? '');
 
 $multipleProperties = trim((string) ($answers['multipleProperties'] ?? $data['multiple_properties'] ?? 'Keine Angabe'));
 $rentLossProtection = trim((string) ($answers['rentLossProtection'] ?? $data['rent_loss_protection'] ?? 'Keine Angabe'));
@@ -67,6 +68,10 @@ if (strlen($phone) > 50 || strlen($sourceUrl) > 500) {
     respond(422, ['success' => false, 'message' => 'Eine Eingabe ist zu lang.']);
 }
 
+if ($firstInformationDigital !== 'ja') {
+    respond(422, ['success' => false, 'message' => 'Bitte stimmen Sie der digitalen Bereitstellung der Erstinformation zu.']);
+}
+
 $allowedAnswers = ['Ja', 'Nein', 'Keine Angabe'];
 foreach ([$multipleProperties, $rentLossProtection, $existingLegalCase] as $answer) {
     if (!in_array($answer, $allowedAnswers, true)) {
@@ -78,8 +83,8 @@ $safeName = preg_replace('/[\\r\\n]+/', ' ', $name) ?? $name;
 $safePhone = preg_replace('/[\\r\\n]+/', ' ', $phone) ?? $phone;
 $safeSourceUrl = filter_var($sourceUrl, FILTER_VALIDATE_URL) !== false ? $sourceUrl : 'Nicht verfügbar';
 
-$recipient = 'info@sofortrechtsschutz.de';
-$subject = 'Neue Anfrage über sofortrechtsschutz.de';
+$recipient = 'info@rechtsschutzpartner24.de';
+$subject = 'Neue Anfrage über vermieterrechtsschutz24.de';
 $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 $body = implode("\r\n", [
     'Neue Anfrage über die Website',
@@ -91,6 +96,7 @@ $body = implode("\r\n", [
     'Mehr als eine Wohnung oder ein Haus: ' . $multipleProperties,
     'Zusätzlicher Mietausfallschutz: ' . $rentLossProtection,
     'Bereits bestehender Rechtsfall: ' . $existingLegalCase,
+    'Erstinformation: digitaler Bereitstellung ausdrücklich zugestimmt',
     '',
     'Seite: ' . $safeSourceUrl,
     'Zeitpunkt: ' . gmdate('Y-m-d H:i:s') . ' UTC',
@@ -100,12 +106,12 @@ $headers = implode("\r\n", [
     'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
     'Content-Transfer-Encoding: 8bit',
-    'From: Sofortrechtsschutz Website <info@sofortrechtsschutz.de>',
+    'From: Vermieterrechtsschutz24 Website <info@rechtsschutzpartner24.de>',
     'Reply-To: ' . $email,
 ]);
 
 if (!mail($recipient, $encodedSubject, $body, $headers)) {
-    error_log('Sofortrechtsschutz: Kontaktformular konnte nicht versendet werden.');
+    error_log('Vermieterrechtsschutz24: Kontaktformular konnte nicht versendet werden.');
     respond(500, ['success' => false, 'message' => 'Die Anfrage konnte gerade nicht gesendet werden.']);
 }
 

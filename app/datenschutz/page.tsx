@@ -11,7 +11,7 @@ export default function Datenschutz() {
 
           <h2>1. Verantwortlicher</h2>
           <p>{operator.name}<br />{operator.businessName}<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
-          <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
+          <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.directEmail}`}>{operator.directEmail}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
 
           <h2>2. Bereitstellung der Website</h2>
           <p>Die Website wird bei IONOS SE, Elgendorfer Straße 57, 56410 Montabaur, gehostet. Beim Aufruf verarbeitet der Hostingdienst technische Zugriffsdaten, damit die Seite ausgeliefert sowie sicher und stabil betrieben werden kann. Dazu können die angeforderte Seite oder Datei, Referrer, Browser, Betriebssystem, Gerätetyp und Zugriffszeit gehören.</p>
@@ -21,6 +21,7 @@ export default function Datenschutz() {
           <p>Wenn Sie das Formular verwenden, verarbeiten wir Ihren Namen, Ihre E-Mail-Adresse, eine freiwillig angegebene Telefonnummer, die Antworten zu Ihrer Vermietsituation sowie die Adresse der aufgerufenen Seite. Diese Angaben werden benötigt, um Ihre Anfrage zuzuordnen, vorzubereiten und zu beantworten.</p>
           <p>Der PHP-Endpunkt auf unserem Hosting wandelt die Angaben in eine E-Mail um. Die Website legt dafür keine eigene Kundendatenbank an. Bei der Übertragung und Zustellung verarbeiten die eingesetzten Hosting- und E-Mail-Dienstleister die technisch erforderlichen Daten.</p>
           <p>Die Verarbeitung erfolgt für vorvertragliche Maßnahmen auf Ihre Anfrage hin nach Art. 6 Abs. 1 lit. b DSGVO. Soweit es um die geordnete Bearbeitung und Abwehr missbräuchlicher Anfragen geht, stützen wir sie ergänzend auf Art. 6 Abs. 1 lit. f DSGVO.</p>
+          <p>Die gesonderte Zustimmung zur Bereitstellung der Erstinformation über diese Website dient der Dokumentation nach § 16 Abs. 2 VersVermV. Die Erstinformation kann gespeichert oder ausgedruckt und auf Wunsch vor dem ersten Geschäftskontakt kostenlos auf Papier angefordert werden.</p>
 
           <h2>4. Empfänger</h2>
           <p>Zugriff erhalten nur Personen und Dienstleister, die ihn für Hosting, E-Mail-Zustellung oder die Bearbeitung Ihrer Anfrage benötigen. Angaben werden an einen Versicherer nur übermittelt, soweit dies zur gewünschten Beratung oder Angebotserstellung erforderlich ist und mit Ihnen abgestimmt wurde. Eine Nutzung zum Verkauf von Adressdaten findet nicht statt.</p>

@@ -11,7 +11,7 @@ export default function Impressum() {
 
           <h2>Anbieterangaben</h2>
           <p>{operator.name}<br />{operator.qualification}<br />{operator.businessName}<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
-          <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />Telefax: {operator.faxDisplay}<br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
+          <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.directEmail}`}>{operator.directEmail}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
           <p><a href={operator.profileUrl} target="_blank" rel="noreferrer">Offizielles Vermittlerprofil</a></p>
 
           <h2>Berufsrechtliche Angaben</h2>
@@ -19,7 +19,7 @@ export default function Impressum() {
           <p>Eintragung im Versicherungsvermittlerregister:<br />Registrierungsnummer {operator.registerNumber}</p>
           <p>Das Register kann bei der gemeinsamen Registerstelle eingesehen werden:</p>
           <p>Deutsche Industrie- und Handelskammer (DIHK)<br />Breite Straße 29<br />10178 Berlin<br />Telefon: 0180 600 585 0<br /><a href="https://www.vermittlerregister.info/" target="_blank" rel="noreferrer">www.vermittlerregister.info</a></p>
-          <p>Die Vermittlung erfolgt als selbstständiger Handelsvertreter für ARAG SE, ARAG Allgemeine Versicherungs-AG, ARAG Krankenversicherungs-AG, ALTE LEIPZIGER und Helvetia. Für einen vermittelten Vertrag wird eine im Versicherungsbeitrag enthaltene Provision gezahlt.</p>
+          <p>Die Vermittlung erfolgt als gebundener Versicherungsvertreter im Auftrag der ARAG Versicherungsgruppe. Weitere Angaben zu Beratung, Vergütung und Beteiligungsverhältnissen enthält die <a href="/erstinformation">Erstinformation nach § 15 VersVermV</a>.</p>
           <p>Maßgebliche berufsrechtliche Vorschriften sind insbesondere § 34d GewO, §§ 59 bis 68 VVG und die VersVermV. Die Vorschriften sind unter <a href="https://www.gesetze-im-internet.de/" target="_blank" rel="noreferrer">gesetze-im-internet.de</a> abrufbar.</p>
 
           <h2>Schlichtungsstellen</h2>

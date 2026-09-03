@@ -5,16 +5,18 @@ import test from "node:test";
 const dist = new URL("../dist/", import.meta.url);
 
 test("builds a deployable PHP-backed multi-page website", async () => {
-  const [home, impressum, datenschutz] = await Promise.all([
+  const [home, impressum, erstinformation, datenschutz] = await Promise.all([
     readFile(new URL("index.html", dist), "utf8"),
     readFile(new URL("impressum/index.html", dist), "utf8"),
+    readFile(new URL("erstinformation/index.html", dist), "utf8"),
     readFile(new URL("datenschutz/index.html", dist), "utf8"),
   ]);
 
-  assert.match(home, /SofortRechtsschutz für Vermieter/);
+  assert.match(home, /Vermieterrechtsschutz24/);
   assert.match(home, /<div id="root"><\/div>/);
-  assert.match(impressum, /Impressum \| SofortRechtsschutz/);
-  assert.match(datenschutz, /Datenschutz \| SofortRechtsschutz/);
+  assert.match(impressum, /Impressum \| Vermieterrechtsschutz24/);
+  assert.match(erstinformation, /Erstinformation \| Vermieterrechtsschutz24/);
+  assert.match(datenschutz, /Datenschutz \| Vermieterrechtsschutz24/);
   assert.doesNotMatch(home, /codex-preview|react-loading-skeleton/);
 });
 
@@ -31,6 +33,7 @@ test("bundles the funnel, legal content and public assets", async () => {
 
   assert.match(bundledJavaScript, /Fragen vor der Anfrage/);
   assert.match(bundledJavaScript, /Formular absenden/);
+  assert.match(bundledJavaScript, /Erstinformation nach § 15 VersVermV/);
   assert.match(bundledJavaScript, /api\/contact\.php/);
   assert.doesNotMatch(bundledJavaScript, /formsubmit\.co/);
   assert.match(bundledJavaScript, /Anbieterangaben/);
@@ -41,8 +44,10 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledStyles, /#f8f0dd/);
   assert.match(bundledStyles, /#fcf9f4/);
   assert.match(bundledStyles, /#f1e5c7/);
+  assert.match(bundledStyles, /consent-field/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("favicon.svg", dist))).size > 0);
+  assert.match(await readFile(new URL("favicon.svg", dist), "utf8"), />VR<\/text>/);
   assert.ok((await stat(new URL("api/contact.php", dist))).size > 0);
 });

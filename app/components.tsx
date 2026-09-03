@@ -15,9 +15,9 @@ export function Header() {
   return (
     <header className="site-header">
       <Link href="/" className="brand-link" aria-label="Zur Startseite">
-        <span className="brand-mark" aria-hidden="true">SR</span>
+        <span className="brand-mark" aria-hidden="true">VR</span>
         <span className="brand-copy">
-          <strong>SofortRechtsschutz</strong>
+          <strong>Vermieterrechtsschutz24</strong>
           <small>Persönliche Beratung für Vermieter</small>
         </span>
       </Link>
@@ -42,11 +42,12 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
       <footer className="site-footer">
         <div>
           <strong>{operator.businessName}</strong>
-          <p>{operator.name}<br />{operator.street}<br />{operator.city}<br />Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />Telefax: {operator.faxDisplay}<br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
+          <p>{operator.name}<br />{operator.street}<br />{operator.city}<br />Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
         </div>
         <nav aria-label="Rechtliche Seiten">
           {legalPage && <Link href="/">Home</Link>}
           <Link href="/impressum">Impressum</Link>
+          <Link href="/erstinformation">Erstinformation</Link>
           <Link href="/datenschutz">Datenschutz</Link>
         </nav>
       </footer>
@@ -79,6 +80,7 @@ export function OfferWizard() {
     const formData = new FormData(event.currentTarget);
     const payload = {
       honeypot: String(formData.get("_honey") ?? ""),
+      erstinformation_digital: String(formData.get("erstinformation_digital") ?? ""),
       sourceUrl: window.location.href,
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
@@ -97,7 +99,7 @@ export function OfferWizard() {
         body: JSON.stringify(payload),
       });
       const result = await response.json().catch(() => null) as { success?: boolean | string } | null;
-      if (!response.ok || result?.success === false || result?.success === "false") {
+      if (!response.ok || (result?.success !== true && result?.success !== "true")) {
         throw new Error("Formularversand fehlgeschlagen");
       }
       setStatus("sent");
@@ -144,7 +146,8 @@ export function OfferWizard() {
       <label>Telefon<div className="phone-input"><span>🇩🇪 &nbsp; +49</span><input type="tel" name="phone" autoComplete="tel" aria-label="Telefonnummer" /></div></label>
       <label className="form-honeypot" aria-hidden="true">Bitte nicht ausfüllen<input name="_honey" tabIndex={-1} autoComplete="off" /></label>
       <p className="privacy-note">Mit dem Absenden bitten Sie uns, Ihre Angaben zur Bearbeitung der Anfrage und für den gewünschten Rückruf zu verwenden. Einzelheiten stehen in unserer <Link href="/datenschutz">Datenschutzerklärung</Link>.</p>
-      {status === "error" && <p className="form-error" role="alert">Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie an <a href="mailto:info@sofortrechtsschutz.de">info@sofortrechtsschutz.de</a>.</p>}
+      <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Ich stimme ausdrücklich zu, dass mir die <Link href="/erstinformation" target="_blank" rel="noreferrer">Erstinformation nach § 15 VersVermV</Link> über diese Website bereitgestellt wird. Ich kann sie speichern oder ausdrucken und vor dem ersten Geschäftskontakt kostenlos auf Papier anfordern.</span></label>
+      {status === "error" && <p className="form-error" role="alert">Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie an <a href={`mailto:${operator.email}`}>{operator.email}</a>.</p>}
       <div className="wizard-nav">
         <button type="button" className="back-button" onClick={() => setStep(2)} disabled={status === "sending"}>Zurück</button>
         <button type="submit" className="blue-button" disabled={status === "sending"}>{status === "sending" ? "Wird gesendet …" : "Formular absenden"}</button>
