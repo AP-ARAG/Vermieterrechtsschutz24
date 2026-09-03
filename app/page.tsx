@@ -2,43 +2,63 @@
 
 import { OfferWizard, SiteShell, scrollToOffer } from "./components";
 
-const services = [
-  ["Bonitäts-Checks", <>Mit dem <strong>Bonitäts-Check</strong> können Sie bei der Auswahl zukünftiger Mieter vorsorgen. In der Premiumvariante begleitet ein durch uns bezahlter Dienstleister auf Wunsch den Ein- und Auszug. Er erstellt im Namen beider Vertragspartner ein <strong>Übergabeprotokoll.</strong></>],
-  ["ARAG JuraTel.®", <>Ganz gleich wann Sie einen juristischen Rat brauchen – greifen Sie kurzerhand zum Telefon und sprechen Sie mit einem Anwalt. Das geht auch nachts, damit Sie beruhigt schlafen können.</>],
-  ["Steuer- und Bauherrentelefon", <>In allen Bausituationen vermitteln wir Ihnen rund um die Uhr auf Wunsch einen auf Ihren Fall <strong>spezialisierten Anwalt.</strong> Schon weit vor dem ersten Spatenstich und lange nach dem Richtfest.</>],
-  ["Mediation", <>Wir sind für Sie da mit der Konfliktlösung durch Mediation. Wir vermitteln und <strong>bezahlen einen Mediator</strong>, der telefonisch und persönlich hilft, einen Streit frühzeitig beizulegen.</>],
-  ["Außergerichtliche Sachverständigen-Kosten", <>Soll ein außergerichtlich bestellter Sachverständiger mit dem Einverständnis beider Parteien Ihre Position stärken, tragen wir auch dafür die Kosten.</>],
-  ["ARAG Online Rechts-Service", <>Wir stellen Ihnen rechtssichere Formulare und vorgefertigte Mietverträge zur Verfügung.</>],
-  ["Mietausfallsschutz", <>Wenn der Vermieter kündigt und der Mieter seiner Mietzahlung daraufhin nicht mehr nachkommt, übernehmen wir die Miete für wahlweise 6 oder 12 Monate.</>],
-  ["Forderungs-Management", <>Unser Inkasso-Partner kümmert sich für Sie um offene und rückständige Mieten.</>],
+const topics = [
+  ["Mietverhältnisse", "Konflikte aus einem Mietverhältnis können schnell aufwendig werden. In der Beratung klären wir, welche versicherbaren Risiken für Ihre Situation relevant sind."],
+  ["Wohnung und Grundstück", "Neben vermieteten Wohnungen können je nach Tarif auch zugehörige Grundstücke oder weitere Einheiten berücksichtigt werden."],
+  ["Verträge rund ums Objekt", "Hausmeisterdienste, Handwerksbetriebe oder andere Vertragspartner bringen eigene Risiken mit. Wir schauen, welcher Schutz dazu passen kann."],
+  ["Behörden und Abgaben", "Auch Auseinandersetzungen mit Behörden oder zu grundstücksbezogenen Abgaben können bei der Bedarfsermittlung eine Rolle spielen."],
+  ["Bauen und Sanieren", "Bei geplanten Baumaßnahmen prüfen wir gemeinsam, ob ein zusätzlicher Baustein für die Bauphase sinnvoll und verfügbar ist."],
+  ["Mietausfall", "Ein Mietausfallschutz ist nicht automatisch Bestandteil jeder Lösung. Wir berücksichtigen den Wunsch danach bei der Angebotserstellung."],
+  ["Außergerichtliche Einigung", "Mediation kann helfen, einen Streit ohne Gerichtsverfahren zu lösen. Ob und in welchem Umfang Kosten übernommen werden, hängt vom Tarif ab."],
+  ["Persönliche Orientierung", "Sie erhalten eine verständliche Einordnung von Leistungsumfang, Selbstbeteiligung, Wartezeiten und wichtigen Ausschlüssen."],
 ];
 
-const comfort = ["Übernahme der Anwalts- und Prozesskosten (außergerichtlich und gerichtlich)", "Bonitäts-Check", "ARAG JuraTel.®", "Steuer- und Bauherrentelefon", "Mediation", "Außergerichtliche Sachverständigen-Kosten", "ARAG Online Rechts-Service", "Forderungsmanagement", "Optional: Mietausfallsschutz (mit 3 Monaten Wartezeit)"];
-const premium = [...comfort.slice(0, 8), "Zusätzlich: Bauherren-Rechtsschutz", "Optional: Mietausfallsschutz (mit 3 Monaten Wartezeit)"];
+const consultationSteps = [
+  {
+    number: "01",
+    title: "Ausgangslage erfassen",
+    text: "Wir halten fest, welche Immobilie Sie vermieten, wie viele Einheiten betroffen sind und ob bereits ein Konflikt bekannt ist.",
+    items: ["Objekt und Nutzung", "Anzahl der Einheiten", "Bestehende Streitfälle"],
+  },
+  {
+    number: "02",
+    title: "Bedarf einordnen",
+    text: "Gemeinsam priorisieren wir die Risiken, die für Ihre Vermietung besonders wichtig sind.",
+    items: ["Gewünschter Schutzumfang", "Optionale Zusatzbausteine", "Passende Selbstbeteiligung"],
+  },
+  {
+    number: "03",
+    title: "Angebot in Ruhe prüfen",
+    text: "Sie erhalten ein individuelles Angebot und können Bedingungen, Grenzen und Beitrag vor einer Entscheidung vergleichen.",
+    items: ["Konkrete Tarifunterlagen", "Leistungen und Ausschlüsse", "Keine Online-Sofortbindung"],
+  },
+];
 
 const faqs = [
-  ["Bauherren-Rechtsschutz", "Ihr Bauantrag wird nur mit diversen, zum Teil nicht nachvollziehbaren Auflagen genehmigt. Sie nehmen sich einen Anwalt und legen Widerspruch ein – auf unsere Kosten. Auf Wunsch vermitteln wir auch einen auf dem Gebiet spezialisierten Anwalt."],
-  ["Wohnungs- und Grundstücks-Rechtsschutz", "Bei einem Mieter sind die Mietrückstände soweit aufgelaufen, dass Sie eine Räumungsklage erwägen. Ein Fachanwalt übernimmt für Sie die rechtlichen Schritte und erwirkt einen Räumungstitel. Wir tragen die Räumungskosten sowie die Einlagerung von Mieterinventar. Auch Mietausfall, Übergabeprotokolle und Eigenbedarf können abgesichert sein."],
-  ["Mediation", "In Ihrem Mietshaus ist zwischen zwei Parteien ein Streit entbrannt, der Sie zum Handeln zwingt. Sie schalten zur Streitbeilegung einen durch die ARAG vermittelten Mediator ein."],
-  ["Straf-Rechtsschutz", "Ein Bewohner des Nachbarhauses hat sich schwer verletzt. Die Staatsanwaltschaft leitet ein Ermittlungsverfahren gegen Sie ein. Sie nehmen sich auf unsere Kosten einen Anwalt, der die Einstellung des Verfahrens erreicht."],
-  ["Ordnungswidrigkeiten-Rechtsschutz", "Ein Mieter wirft Ihnen vor, dass beim Ablesen der Heizung nicht geeichte Messgeräte zum Einsatz gekommen sind. Sie wollen sich gegen den Vorwurf wehren."],
-  ["Steuer-Rechtsschutz", "Der Grundsteuer-Bescheid für Ihre Immobilie scheint zu hoch, Sie legen Einspruch ein. Oder es gibt Konflikte um die Höhe der laufenden Abwasser- oder Abfallgebühren."],
-  ["Rechtsschutz im Vertrags- und Sachenrecht", "Es gibt Streitigkeiten mit Dienstleistern wie Hausmeister, Reinigungsfirma oder Gärtner, weil diese nicht ordnungsgemäß gearbeitet haben."],
-  ["Verwaltungs-Rechtsschutz", "Ihnen wird vorgeworfen, Brandschutzvorschriften nicht eingehalten zu haben."],
-  ["Rechtsschutz für Ihre Immobilie in Österreich", "Auch Ihre Immobilie in Österreich können Sie bei uns versichern."],
+  ["Ist ein bereits laufender Streit versichert?", "Ein schon bekannter oder begonnener Konflikt ist regelmäßig nicht rückwirkend versicherbar. Ob eine Leistung möglich ist, entscheidet sich ausschließlich nach dem konkreten Vertrag und der Prüfung des Versicherers."],
+  ["Gibt es eine Wartezeit?", "Das hängt vom gewählten Tarif und vom betroffenen Leistungsbereich ab. Im persönlichen Angebot weisen wir Wartezeiten ausdrücklich aus."],
+  ["Kann ich mehrere Wohnungen berücksichtigen?", "Ja, mehrere Einheiten können bei der Bedarfsermittlung erfasst werden. Anzahl, Nutzung und Mieteinnahmen können den Beitrag und den angebotenen Schutz beeinflussen."],
+  ["Welche Kosten können versichert sein?", "Je nach Vertrag können beispielsweise Anwalts-, Gerichts-, Mediations- oder Sachverständigenkosten umfasst sein. Maßgeblich sind immer Versicherungsschein und Versicherungsbedingungen."],
+  ["Erhalte ich hier eine Rechtsberatung?", "Nein. Diese Website dient der Kontaktaufnahme für eine Versicherungsvermittlung. Eine rechtliche Beurteilung Ihres Einzelfalls leisten zugelassene Rechtsanwältinnen und Rechtsanwälte."],
+  ["Was passiert nach meiner Anfrage?", "Ihre Angaben werden zur Vorbereitung des Rückrufs genutzt. Im Gespräch klären wir offene Punkte und erstellen nur dann ein Angebot, wenn der gewünschte Schutz grundsätzlich passt."],
+  ["Werden meine Daten für Werbung verwendet?", "Die Anfrage wird zur Bearbeitung Ihres Anliegens genutzt. Details zu Empfängern, Speicherdauer und Ihren Rechten finden Sie in der Datenschutzerklärung."],
 ];
 
-function TrustStrip({ mobile = false }: { mobile?: boolean }) {
+function TrustStrip() {
   return (
-    <section className={`trust-strip ${mobile ? "trust-mobile" : "trust-desktop"}`}>
-      <p>Vertrauen Sie beim Immobilien-Rechtsschutz für Vermieter auf den <strong>mehrfachen Testsieger!</strong></p>
-      <a href="https://www.arag.com/medien/pdf/presse/pm_deutscher_versicherungs-award.pdf" target="_blank" rel="noreferrer" aria-label="Deutscher Versicherungs-Award öffnen"><img src="/awards.png" alt="Testsiegel und Deutscher Versicherungs Award" /></a>
+    <section className="trust-strip" aria-label="Vorteile der persönlichen Beratung">
+      <p>Übersichtlich vom ersten Bedarf bis zum konkreten Angebot.</p>
+      <ul>
+        <li><strong>Persönlich</strong><span>Ein direkter Ansprechpartner</span></li>
+        <li><strong>Nachvollziehbar</strong><span>Bedingungen klar eingeordnet</span></li>
+        <li><strong>Unverbindlich</strong><span>Erst prüfen, dann entscheiden</span></li>
+      </ul>
     </section>
   );
 }
 
 function CheckList({ items }: { items: string[] }) {
-  return <ul>{items.map(item => <li key={item}><span>✓</span>{item}</li>)}</ul>;
+  return <ul>{items.map(item => <li key={item}><span aria-hidden="true">✓</span>{item}</li>)}</ul>;
 }
 
 export default function Home() {
@@ -47,12 +67,12 @@ export default function Home() {
       <section className="hero" id="angebot">
         <div className="hero-panel">
           <div className="hero-copy">
-            <h1>Immobilien-Rechtsschutz für Vermieter.</h1>
-            <p>Bereits ab € 6,90 pro Monat.</p>
+            <h1>Rechtsschutz für private Vermieter – passend zur Immobilie.</h1>
+            <p>Persönlich statt pauschal.</p>
             <ul className="hero-benefits">
-              <li>✓ <span>Sofortschutz ohne Wartezeit*</span></li>
-              <li>✓ <span>24-Stunden Anwaltshotline</span></li>
-              <li>✓ <span>Übernahme von Anwalts- und Gerichtskosten</span></li>
+              <li><span aria-hidden="true">✓</span><span>Bedarf strukturiert erfassen</span></li>
+              <li><span aria-hidden="true">✓</span><span>Leistungsumfang verständlich prüfen</span></li>
+              <li><span aria-hidden="true">✓</span><span>Individuelles Angebot erhalten</span></li>
             </ul>
           </div>
           <OfferWizard />
@@ -62,11 +82,12 @@ export default function Home() {
       <TrustStrip />
 
       <section className="services-section">
-        <h2>Profitieren Sie von diesen Leistungen der ARAG<br className="desktop-only" /> Immobilien-Rechtsschutz Versicherung</h2>
+        <h2>Diese Themen können bei der Absicherung einer vermieteten Immobilie wichtig sein</h2>
+        <p className="section-note">Die Übersicht beschreibt typische Beratungsfelder, aber keine zugesagten Versicherungsleistungen. Entscheidend sind immer das individuelle Angebot und die dazugehörigen Bedingungen.</p>
         <div className="services-grid">
-          {services.map(([title, body]) => (
-            <article className="service-card" key={title as string}>
-              <div className="round-check">✓</div>
+          {topics.map(([title, body]) => (
+            <article className="service-card" key={title}>
+              <div className="round-check" aria-hidden="true">✓</div>
               <h3>{title}</h3>
               <p>{body}</p>
             </article>
@@ -74,54 +95,56 @@ export default function Home() {
         </div>
       </section>
 
-      <TrustStrip mobile />
-
       <section className="plans-intro">
-        <h2>Wie umfassend Sie sich gegen rechtliche Auseinandersetzungen ohne finanzielle Risiken rund um die Vermietung einer Immobilie absichern möchten, entscheiden Sie selbst!</h2>
+        <p className="eyebrow">Der Weg zum Angebot</p>
+        <h2>Drei Schritte, damit Schutzumfang und Immobilie zusammenpassen</h2>
       </section>
       <section className="plans-section">
         <div className="plans-grid">
-          <article className="plan plan-basic">
-            <div className="stars">★ ☆ ☆</div><h3>Basis-Paket<br />ab € 6,90</h3><p className="per-month">pro Monat</p><hr /><CheckList items={["Übernahme der Anwalts- und Prozesskosten (nur gerichtlich)"]} />
-          </article>
-          <article className="plan plan-comfort">
-            <div className="stars">★ ★ ☆</div><h3>Komfort-Paket<br />ab € 15,90</h3><p className="per-month">pro Monat</p><span className="top-product">TOP-PRODUKT</span><hr /><CheckList items={comfort} />
-          </article>
-          <article className="plan plan-premium">
-            <div className="stars">★ ★ ★</div><h3>Premium-Paket<br />ab € 27,90</h3><p className="per-month">pro Monat</p><hr /><CheckList items={premium} />
-          </article>
+          {consultationSteps.map((step, index) => (
+            <article className={`plan plan-${["basic", "comfort", "premium"][index]}`} key={step.number}>
+              <div className="step-number" aria-hidden="true">{step.number}</div>
+              <h3>{step.title}</h3>
+              <p className="plan-copy">{step.text}</p>
+              <hr />
+              <CheckList items={step.items} />
+            </article>
+          ))}
         </div>
       </section>
       <section className="plan-footnote">
-        <p>*Preise abhängig von der Anzahl der Wohnungen und der Jahresbruttomiete. Beim Rechtsschutz gilt für bestimmte Leistungen eine Wartezeit von drei Monaten.</p>
-        <button className="blue-button" type="button" onClick={scrollToOffer}>Jetzt Angebot einholen</button>
+        <p>Beiträge und Leistungen lassen sich erst anhand Ihrer Angaben und der aktuellen Versicherungsbedingungen verlässlich bestimmen. Diese Website stellt weder ein verbindliches Angebot noch eine Deckungszusage dar.</p>
+        <button className="blue-button" type="button" onClick={scrollToOffer}>Rückruf anfordern</button>
       </section>
 
       <section className="builders-section">
         <div className="builders-inner">
-          <h2>Exklusiv im Immobilien-Rechtsschutz Premium-Paket:<br /><strong>Der ARAG Bauherren-Rechtsschutz*</strong></h2>
-          <p className="builders-note">*Beim Bauherrenrechtsschutz gilt eine Wartezeit von sechs Monaten.</p>
-          <p className="builders-lead">Sie planen einen Um- oder sogar Neubau? Ein spannendes und ereignisreiches Unterfangen für Sie als Bauherr. Wir unterstützen Sie dabei mit vielen Leistungen und tragen dafür die Kosten.</p>
+          <p className="eyebrow">Bauen und modernisieren</p>
+          <h2>Zusatzschutz für ein Bauvorhaben frühzeitig mitdenken</h2>
+          <p className="builders-lead">Ein Umbau, eine energetische Sanierung oder ein Neubau verändert die Risikolage. Deshalb sollte vor Projektbeginn geklärt werden, welche Konflikte versicherbar sind und ab wann der Schutz gelten kann.</p>
           <hr />
           <div className="builder-copy">
-            <h3>Das gibt es so nur bei der ARAG: Der Bauherren-Rechtsschutz</h3>
-            <p>Wir zahlen beim ARAG Bauherren-Rechtsschutz für die <strong>Anwaltsberatung</strong>, für notwendige Anwaltsschreiben und <strong>rechtliche Schritte</strong>, wenn Sie zum Beispiel mit der Bauantragsbehörde, dem Bauträger, einem Handwerker oder dem Architekten streiten. Und gehen Sie vor Gericht, <strong>übernehmen wir auch dafür die Kosten.</strong> Der Bauherren-Rechtsschutz ist eine <strong>Inklusivleistung der Premiumvariante.</strong></p>
+            <h3>Entscheidend ist der konkrete Vertrag</h3>
+            <p>Versicherbarkeit, Wartezeit, Versicherungssumme und Ausschlüsse unterscheiden sich je nach Produkt. Wir erläutern Ihnen die Unterlagen, bevor Sie sich entscheiden.</p>
           </div>
           <div className="builder-cards">
-            <article><div className="round-check">✓</div><h3>Bauherrentelefon</h3><p>In allen Bausituationen vermitteln wir Ihnen rund um die Uhr einen auf Ihren Fall spezialisierten Anwalt.</p></article>
-            <article><div className="round-check">✓</div><h3>Photovoltaikanlage:<br />Vorsicht Spannung</h3><p>Müssen Sie bei Erwerb, Installation oder Betrieb einer Photovoltaikanlage Ihr Recht durchsetzen, tragen wir dafür die Kosten.</p></article>
-            <article><div className="round-check">✓</div><h3>ARAG Bauherren-Service</h3><p>Nutzen Sie Firmen- und Handwerker-Bonitäts-Checks. Bei Konflikten hilft auf Wunsch ein Mediator.</p></article>
+            <article><div className="round-check" aria-hidden="true">1</div><h3>Projekt beschreiben</h3><p>Art, Umfang und geplanter Start der Maßnahme werden aufgenommen.</p></article>
+            <article><div className="round-check" aria-hidden="true">2</div><h3>Risiken priorisieren</h3><p>Behörden, Planer, Bauträger und Handwerksbetriebe werden getrennt betrachtet.</p></article>
+            <article><div className="round-check" aria-hidden="true">3</div><h3>Bedingungen prüfen</h3><p>Wir weisen auf Beginn, Grenzen und mögliche Wartezeiten des Schutzes hin.</p></article>
           </div>
         </div>
       </section>
 
       <section className="faq-section">
-        <h2>Häufig gestellte Fragen<br />(FAQ)</h2>
+        <h2>Fragen vor der Anfrage</h2>
         <div className="faq-box">
-          {faqs.map(([question, answer]) => <details key={question}><summary>{question}<span>⌄</span></summary><p>{answer}</p></details>)}
+          {faqs.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">⌄</span></summary><p>{answer}</p></details>)}
         </div>
       </section>
-      <section className="bottom-cta"><button className="blue-button" type="button" onClick={scrollToOffer}>Jetzt Angebot einholen</button></section>
+      <section className="bottom-cta">
+        <p>Sie möchten Ihren Bedarf persönlich besprechen?</p>
+        <button className="blue-button" type="button" onClick={scrollToOffer}>Rückruf anfordern</button>
+      </section>
     </SiteShell>
   );
 }

@@ -1,6 +1,6 @@
 # Sofortrechtsschutz Nürnberg
 
-React/Vite-Website mit eigenem PHP-Formularendpunkt für den ARAG Immobilien-Rechtsschutz für Vermieter.
+React/Vite-Website mit eigenem PHP-Formularendpunkt für die persönliche Beratung zum Immobilien-Rechtsschutz für Vermieter.
 
 ## Entwicklung
 

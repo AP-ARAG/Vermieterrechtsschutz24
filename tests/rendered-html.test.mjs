@@ -11,10 +11,10 @@ test("builds a deployable PHP-backed multi-page website", async () => {
     readFile(new URL("datenschutz/index.html", dist), "utf8"),
   ]);
 
-  assert.match(home, /ARAG Vermieterrechtsschutz/);
+  assert.match(home, /SofortRechtsschutz für Vermieter/);
   assert.match(home, /<div id="root"><\/div>/);
-  assert.match(impressum, /Impressum \| ARAG/);
-  assert.match(datenschutz, /Datenschutz \| ARAG/);
+  assert.match(impressum, /Impressum \| SofortRechtsschutz/);
+  assert.match(datenschutz, /Datenschutz \| SofortRechtsschutz/);
   assert.doesNotMatch(home, /codex-preview|react-loading-skeleton/);
 });
 
@@ -25,13 +25,16 @@ test("bundles the funnel, legal content and public assets", async () => {
     scripts.map((name) => readFile(new URL(`assets/${name}`, dist), "utf8")),
   )).join("\n");
 
-  assert.match(bundledJavaScript, /Häufig gestellte Fragen/);
+  assert.match(bundledJavaScript, /Fragen vor der Anfrage/);
   assert.match(bundledJavaScript, /Formular absenden/);
   assert.match(bundledJavaScript, /api\/contact\.php/);
   assert.doesNotMatch(bundledJavaScript, /formsubmit\.co/);
-  assert.match(bundledJavaScript, /Angaben gemäß/);
-  assert.match(bundledJavaScript, /Rechte der betroffenen Person/);
-  assert.ok((await stat(new URL("hero-office.jpg", dist))).size > 0);
-  assert.ok((await stat(new URL("og.png", dist))).size > 0);
+  assert.match(bundledJavaScript, /Anbieterangaben/);
+  assert.match(bundledJavaScript, /Ihre Rechte/);
+  assert.doesNotMatch(bundledJavaScript, /TOP-PRODUKT|Testsieger|weltweit.größter|ab € 6,90/iu);
+  assert.doesNotMatch(bundledJavaScript, /arag-wordmark|awards\.png|hero-office|bauherren\.jpg/);
+  assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
+  assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
+  assert.ok((await stat(new URL("favicon.svg", dist))).size > 0);
   assert.ok((await stat(new URL("api/contact.php", dist))).size > 0);
 });

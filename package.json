@@ -11,7 +11,7 @@
     "start": "vite preview",
     "preview": "vite preview",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
-    "lint": "eslint . --ignore-pattern dist"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
   },
   "dependencies": {
     "react": "19.2.6",
