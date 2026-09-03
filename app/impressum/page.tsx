@@ -10,8 +10,9 @@ export default function Impressum() {
           <p className="legal-intro">Anbieter dieser Website und verantwortlich für ihren geschäftlichen Inhalt:</p>
 
           <h2>Anbieterangaben</h2>
-          <p>{operator.name}<br />{operator.qualification}<br />{operator.businessName}<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
-          <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.directEmail}`}>{operator.directEmail}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
+          <p>{operator.name}<br />{operator.qualification}<br />Betriebliche Anschrift laut Vermittlerregister:<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
+          <p>Kontaktbüro: {operator.businessName}<br />{operator.contactOfficeStreet}<br />{operator.contactOfficeCity}</p>
+          <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail des Vermittlers: <a href={`mailto:${operator.directEmail}`}>{operator.directEmail}</a><br />E-Mail für Website-Anfragen: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
           <p><a href={operator.profileUrl} target="_blank" rel="noreferrer">Offizielles Vermittlerprofil</a></p>
 
           <h2>Berufsrechtliche Angaben</h2>

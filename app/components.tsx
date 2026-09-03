@@ -15,10 +15,10 @@ export function Header() {
   return (
     <header className="site-header">
       <Link href="/" className="brand-link" aria-label="Zur Startseite">
-        <span className="brand-mark" aria-hidden="true">VR</span>
+        <span className="brand-mark" aria-hidden="true">AP</span>
         <span className="brand-copy">
-          <strong>Vermieterrechtsschutz24</strong>
-          <small>Persönliche Beratung für Vermieter</small>
+          <strong>Papadakis</strong>
+          <small>Rechtsschutzberatung für Vermieter</small>
         </span>
       </Link>
       <Link className="outline-button" href="/#angebot">
@@ -41,7 +41,7 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
       )}
       <footer className="site-footer">
         <div>
-          <strong>{operator.businessName}</strong>
+          <strong>{operator.name}</strong>
           <p>{operator.name}<br />{operator.street}<br />{operator.city}<br />Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
         </div>
         <nav aria-label="Rechtliche Seiten">
@@ -65,17 +65,21 @@ export function OfferWizard() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const choose = (answer: string) => {
     const next = [...answers];
     next[step] = answer;
     setAnswers(next);
     setStep(step + 1);
+    setStatus("idle");
+    setErrorMessage("");
   };
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus("sending");
+    setErrorMessage("");
 
     const formData = new FormData(event.currentTarget);
     const payload = {
@@ -98,12 +102,13 @@ export function OfferWizard() {
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
       });
-      const result = await response.json().catch(() => null) as { success?: boolean | string } | null;
+      const result = await response.json().catch(() => null) as { success?: boolean | string; message?: string } | null;
       if (!response.ok || (result?.success !== true && result?.success !== "true")) {
-        throw new Error("Formularversand fehlgeschlagen");
+        throw new Error(result?.message || "Die Anfrage konnte gerade nicht gesendet werden.");
       }
       setStatus("sent");
-    } catch {
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Die Anfrage konnte gerade nicht gesendet werden.");
       setStatus("error");
     }
   };
@@ -114,7 +119,7 @@ export function OfferWizard() {
         <div className="big-check">✓</div>
         <h2>Vielen Dank für Ihre Anfrage!</h2>
         <p>Ihre Angaben wurden erfasst. Wir melden uns schnellstmöglich bei Ihnen.</p>
-        <button className="blue-button" onClick={() => { setStatus("idle"); setStep(0); setAnswers([]); }}>Neue Anfrage</button>
+        <button type="button" className="blue-button" onClick={() => { setStatus("idle"); setStep(0); setAnswers([]); setErrorMessage(""); }}>Neue Anfrage</button>
       </div>
     );
   }
@@ -123,33 +128,34 @@ export function OfferWizard() {
     return (
       <div className="wizard-card" role="group" aria-label={`Schritt ${step + 1} von 4`}>
         <h2>{questions[step]}</h2>
-        <div className="answer-grid" role="radiogroup" aria-label={questions[step]}>
+        <div className="answer-grid" role="group" aria-label={questions[step]}>
           <button type="button" onClick={() => choose("Ja")}><span className="answer-icon">✓</span><span>Ja</span></button>
           <button type="button" onClick={() => choose("Nein")}><span className="answer-icon">×</span><span>Nein</span></button>
         </div>
         <div className="wizard-nav">
-          {step > 0 && <button type="button" className="back-button" onClick={() => setStep(step - 1)}>Zurück</button>}
-          <span className="step-badge">Schritt {step + 1}/4</span>
+          {step > 0 && <button type="button" className="back-button" onClick={() => { setStep(step - 1); setStatus("idle"); setErrorMessage(""); }}>Zurück</button>}
+          <span className="step-badge" aria-live="polite">Schritt {step + 1}/4</span>
         </div>
       </div>
     );
   }
 
   return (
-    <form className="wizard-card contact-form" action={FORM_ENDPOINT} method="POST" onSubmit={submit}>
+    <form className="wizard-card contact-form" action={FORM_ENDPOINT} method="POST" onSubmit={submit} aria-busy={status === "sending"}>
       <h2>Wie dürfen wir Sie erreichen?</h2>
+      <p className="required-note">Mit * gekennzeichnete Felder sind Pflichtfelder.</p>
       <input type="hidden" name="multiple_properties" value={answers[0] ?? "Keine Angabe"} />
       <input type="hidden" name="rent_loss_protection" value={answers[1] ?? "Keine Angabe"} />
       <input type="hidden" name="existing_legal_case" value={answers[2] ?? "Keine Angabe"} />
-      <label>Name *<input name="name" autoComplete="name" required /></label>
-      <label>E-Mail *<input type="email" name="email" autoComplete="email" required /></label>
-      <label>Telefon<div className="phone-input"><span>🇩🇪 &nbsp; +49</span><input type="tel" name="phone" autoComplete="tel" aria-label="Telefonnummer" /></div></label>
+      <label>Name *<input type="text" name="name" autoComplete="name" maxLength={120} required /></label>
+      <label>E-Mail *<input type="email" name="email" autoComplete="email" maxLength={254} required /></label>
+      <label>Telefon (optional)<input type="tel" name="phone" autoComplete="tel" maxLength={50} placeholder="z. B. +49 173 1234567" /></label>
       <label className="form-honeypot" aria-hidden="true">Bitte nicht ausfüllen<input name="_honey" tabIndex={-1} autoComplete="off" /></label>
       <p className="privacy-note">Mit dem Absenden bitten Sie uns, Ihre Angaben zur Bearbeitung der Anfrage und für den gewünschten Rückruf zu verwenden. Einzelheiten stehen in unserer <Link href="/datenschutz">Datenschutzerklärung</Link>.</p>
       <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Ich stimme ausdrücklich zu, dass mir die <Link href="/erstinformation" target="_blank" rel="noreferrer">Erstinformation nach § 15 VersVermV</Link> über diese Website bereitgestellt wird. Ich kann sie speichern oder ausdrucken und vor dem ersten Geschäftskontakt kostenlos auf Papier anfordern.</span></label>
-      {status === "error" && <p className="form-error" role="alert">Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie an <a href={`mailto:${operator.email}`}>{operator.email}</a>.</p>}
+      {status === "error" && <p className="form-error" role="alert">{errorMessage} Bitte versuchen Sie es erneut oder schreiben Sie an <a href={`mailto:${operator.email}`}>{operator.email}</a>.</p>}
       <div className="wizard-nav">
-        <button type="button" className="back-button" onClick={() => setStep(2)} disabled={status === "sending"}>Zurück</button>
+        <button type="button" className="back-button" onClick={() => { setStep(2); setStatus("idle"); setErrorMessage(""); }} disabled={status === "sending"}>Zurück</button>
         <button type="submit" className="blue-button" disabled={status === "sending"}>{status === "sending" ? "Wird gesendet …" : "Formular absenden"}</button>
       </div>
     </form>

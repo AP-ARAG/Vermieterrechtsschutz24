@@ -1,6 +1,7 @@
 "use client";
 
 import { OfferWizard, SiteShell, scrollToOffer } from "./components";
+import { operator } from "./legal-data";
 
 const topics = [
   ["Mietverhältnisse", "Konflikte aus einem Mietverhältnis können schnell aufwendig werden. In der Beratung klären wir, welche versicherbaren Risiken für Ihre Situation relevant sind."],
@@ -67,8 +68,9 @@ export default function Home() {
       <section className="hero" id="angebot">
         <div className="hero-panel">
           <div className="hero-copy">
+            <p className="hero-eyebrow">Persönliche Versicherungsvermittlung</p>
             <h1>Rechtsschutz für private Vermieter – passend zur Immobilie.</h1>
-            <p>Persönlich statt pauschal.</p>
+            <p className="hero-subtitle">Persönlich statt pauschal.</p>
             <ul className="hero-benefits">
               <li><span aria-hidden="true">✓</span><span>Bedarf strukturiert erfassen</span></li>
               <li><span aria-hidden="true">✓</span><span>Leistungsumfang verständlich prüfen</span></li>
@@ -80,6 +82,21 @@ export default function Home() {
       </section>
 
       <TrustStrip />
+
+      <section className="advisor-section" aria-labelledby="advisor-title">
+        <div className="advisor-card">
+          <div className="advisor-monogram" aria-hidden="true">AP</div>
+          <div className="advisor-copy">
+            <p className="eyebrow">Ihr Ansprechpartner</p>
+            <h2 id="advisor-title">Persönlich beraten von {operator.name}</h2>
+            <p>{operator.qualification} bei der {operator.businessName}. Im Gespräch werden Immobilie, gewünschter Schutzumfang und wichtige Vertragsdetails nachvollziehbar eingeordnet.</p>
+            <div className="advisor-actions">
+              <a className="blue-button" href={`tel:${operator.phoneHref}`}>Jetzt anrufen</a>
+              <a className="text-link" href={operator.profileUrl} target="_blank" rel="noreferrer">Offizielles Vermittlerprofil</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="services-section">
         <h2>Diese Themen können bei der Absicherung einer vermieteten Immobilie wichtig sein</h2>

@@ -1,4 +1,4 @@
-# Vermieterrechtsschutz24 Augsburg
+# Papadakis Rechtsschutzberatung
 
 React/Vite-Website mit eigenem PHP-Formularendpunkt für die persönliche Beratung zum Immobilien-Rechtsschutz für Vermieter.
 
@@ -19,7 +19,7 @@ Der Produktions-Build liegt im Ordner `dist/` und enthält eigenständige Seiten
 - `/erstinformation/`
 - `/datenschutz/`
 
-Beim IONOS-Build wird die kanonische Website-Adresse automatisch aus `SITE_URL` übernommen. Lokal wird ersatzweise `https://vermieterrechtsschutz24.de` verwendet.
+Beim IONOS-Build wird die kanonische Website-Adresse automatisch aus `SITE_URL` übernommen. Lokal wird ersatzweise die bestehende IONOS-Adresse verwendet.
 
 ## IONOS Deploy Now (PHP)
 

@@ -10,8 +10,9 @@ export default function Datenschutz() {
           <p className="legal-intro">Hier erfahren Sie, welche personenbezogenen Daten beim Besuch dieser Website und bei einer Anfrage verarbeitet werden.</p>
 
           <h2>1. Verantwortlicher</h2>
-          <p>{operator.name}<br />{operator.businessName}<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
-          <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.directEmail}`}>{operator.directEmail}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
+          <p>{operator.name}<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
+          <p>Kontaktbüro: {operator.businessName}, {operator.contactOfficeStreet}, {operator.contactOfficeCity}</p>
+          <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail des Vermittlers: <a href={`mailto:${operator.directEmail}`}>{operator.directEmail}</a><br />E-Mail für Website-Anfragen: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
 
           <h2>2. Bereitstellung der Website</h2>
           <p>Die Website wird bei IONOS SE, Elgendorfer Straße 57, 56410 Montabaur, gehostet. Beim Aufruf verarbeitet der Hostingdienst technische Zugriffsdaten, damit die Seite ausgeliefert sowie sicher und stabil betrieben werden kann. Dazu können die angeforderte Seite oder Datei, Referrer, Browser, Betriebssystem, Gerätetyp und Zugriffszeit gehören.</p>
