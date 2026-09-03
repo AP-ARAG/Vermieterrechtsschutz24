@@ -49,8 +49,9 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.doesNotMatch(bundledJavaScript, /TOP-PRODUKT|Testsieger|weltweit.größter|ab € 6,90/iu);
   assert.doesNotMatch(bundledJavaScript, /arag-wordmark|awards\.png|hero-office|bauherren\.jpg/);
   assert.match(bundledStyles, /#f8d32c/);
-  assert.match(bundledStyles, /#264668/);
-  assert.match(bundledStyles, /#07071a/);
+  assert.match(bundledStyles, /#1a1a1a/);
+  assert.match(bundledStyles, /#050505/);
+  assert.doesNotMatch(bundledStyles, /#264668|#172f4b|#07071a/);
   assert.match(bundledStyles, /highlights-grid/);
   assert.match(bundledStyles, /consent-field/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
