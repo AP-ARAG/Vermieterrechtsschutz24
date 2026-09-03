@@ -14,6 +14,13 @@ const topics = [
   ["Persönliche Orientierung", "Sie erhalten eine verständliche Einordnung von Leistungsumfang, Selbstbeteiligung, Wartezeiten und wichtigen Ausschlüssen."],
 ];
 
+const highlights = [
+  ["Objektbezogene Aufnahme", "Wohnung, Haus, Nutzung und Anzahl der Einheiten werden strukturiert erfasst."],
+  ["Verständliche Einordnung", "Leistungsbereiche, Ausschlüsse und Selbstbeteiligung werden nachvollziehbar besprochen."],
+  ["Wartezeiten im Blick", "Der gewünschte Versicherungsbeginn und mögliche Wartezeiten werden vorab geklärt."],
+  ["Persönlicher Kontakt", "Sie sprechen direkt mit einem festen Ansprechpartner statt mit einem anonymen Vergleichsportal."],
+];
+
 const consultationSteps = [
   {
     number: "01",
@@ -48,7 +55,7 @@ const faqs = [
 function TrustStrip() {
   return (
     <section className="trust-strip" aria-label="Vorteile der persönlichen Beratung">
-      <p>Übersichtlich vom ersten Bedarf bis zum konkreten Angebot.</p>
+      <p>Von der ersten Einordnung bis zum konkreten Angebot persönlich begleitet.</p>
       <ul>
         <li><strong>Persönlich</strong><span>Ein direkter Ansprechpartner</span></li>
         <li><strong>Nachvollziehbar</strong><span>Bedingungen klar eingeordnet</span></li>
@@ -70,7 +77,10 @@ export default function Home() {
           <div className="hero-copy">
             <p className="hero-eyebrow">Persönliche Versicherungsvermittlung</p>
             <h1>Rechtsschutz für private Vermieter – passend zur Immobilie.</h1>
-            <p className="hero-subtitle">Persönlich statt pauschal.</p>
+            <div className="hero-offer">
+              <strong>Individuell kalkuliert</strong>
+              <span>nach Objekt, Einheiten und gewünschtem Schutzumfang</span>
+            </div>
             <ul className="hero-benefits">
               <li><span aria-hidden="true">✓</span><span>Bedarf strukturiert erfassen</span></li>
               <li><span aria-hidden="true">✓</span><span>Leistungsumfang verständlich prüfen</span></li>
@@ -78,6 +88,18 @@ export default function Home() {
             </ul>
           </div>
           <OfferWizard />
+        </div>
+      </section>
+
+      <section className="highlights-section" aria-label="Vorteile der Beratung">
+        <div className="highlights-grid">
+          {highlights.map(([title, text]) => (
+            <article className="highlight-card" key={title}>
+              <div className="round-check" aria-hidden="true">✓</div>
+              <h2>{title}</h2>
+              <p>{text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -99,6 +121,7 @@ export default function Home() {
       </section>
 
       <section className="services-section">
+        <p className="eyebrow section-eyebrow">Leistungsbereiche einordnen</p>
         <h2>Diese Themen können bei der Absicherung einer vermieteten Immobilie wichtig sein</h2>
         <p className="section-note">Die Übersicht beschreibt typische Beratungsfelder, aber keine zugesagten Versicherungsleistungen. Entscheidend sind immer das individuelle Angebot und die dazugehörigen Bedingungen.</p>
         <div className="services-grid">

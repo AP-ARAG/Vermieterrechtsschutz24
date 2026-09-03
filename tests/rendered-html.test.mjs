@@ -37,6 +37,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Formular absenden/);
   assert.match(bundledJavaScript, /Erstinformation nach § 15 VersVermV/);
   assert.match(bundledJavaScript, /Persönlich beraten von/);
+  assert.match(bundledJavaScript, /Objektbezogene Aufnahme/);
+  assert.match(bundledJavaScript, /Individuell kalkuliert/);
   assert.match(bundledJavaScript, /D-05V5-SZ9YK-16/);
   assert.match(bundledJavaScript, /Buchenbergstr\. 3f/);
   assert.doesNotMatch(bundledJavaScript, /Vermieterrechtsschutz24/);
@@ -46,10 +48,10 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Ihre Rechte/);
   assert.doesNotMatch(bundledJavaScript, /TOP-PRODUKT|Testsieger|weltweit.größter|ab € 6,90/iu);
   assert.doesNotMatch(bundledJavaScript, /arag-wordmark|awards\.png|hero-office|bauherren\.jpg/);
-  assert.match(bundledStyles, /#fff100/);
-  assert.match(bundledStyles, /#f8f0dd/);
-  assert.match(bundledStyles, /#fcf9f4/);
-  assert.match(bundledStyles, /#f1e5c7/);
+  assert.match(bundledStyles, /#f8d32c/);
+  assert.match(bundledStyles, /#264668/);
+  assert.match(bundledStyles, /#07071a/);
+  assert.match(bundledStyles, /highlights-grid/);
   assert.match(bundledStyles, /consent-field/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
