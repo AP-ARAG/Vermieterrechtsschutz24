@@ -14,16 +14,18 @@ export function scrollToOffer() {
 export function Header() {
   return (
     <header className="site-header">
-      <Link href="/" className="brand-link" aria-label="Zur Startseite">
-        <span className="brand-mark" aria-hidden="true">AP</span>
-        <span className="brand-copy">
-          <strong>Papadakis</strong>
-          <small>Rechtsschutzberatung für Vermieter</small>
-        </span>
-      </Link>
-      <Link className="outline-button" href="/#angebot">
-        Jetzt Rückruf anfordern
-      </Link>
+      <div className="header-inner">
+        <Link href="/" className="brand-link" aria-label="Zur Startseite">
+          <span className="brand-mark" aria-hidden="true">AP</span>
+          <span className="brand-copy">
+            <strong>Papadakis</strong>
+            <small>Rechtsschutzberatung für Vermieter</small>
+          </span>
+        </Link>
+        <Link className="outline-button" href="/#angebot">
+          Jetzt Rückruf anfordern
+        </Link>
+      </div>
     </header>
   );
 }
@@ -33,23 +35,27 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
     <>
       {!legalPage && (
         <section className="facts" aria-label="Hinweise zum Angebot">
-          <p><strong>Für Vermieter</strong><br />Bedarf rund um vermietete Immobilien</p>
-          <p><strong>Individuell</strong><br />Beitrag statt pauschalem Beispielpreis</p>
-          <p><strong>Transparent</strong><br />Bedingungen vor dem Abschluss prüfen</p>
-          <p><strong>Versicherungsvermittlung</strong><br />keine anwaltliche Rechtsberatung</p>
+          <div className="facts-grid">
+            <p><strong>Für Vermieter</strong><br />Bedarf rund um vermietete Immobilien</p>
+            <p><strong>Individuell</strong><br />Beitrag statt pauschalem Beispielpreis</p>
+            <p><strong>Transparent</strong><br />Bedingungen vor dem Abschluss prüfen</p>
+            <p><strong>Versicherungsvermittlung</strong><br />keine anwaltliche Rechtsberatung</p>
+          </div>
         </section>
       )}
       <footer className="site-footer">
-        <div>
-          <strong>{operator.name}</strong>
-          <p>{operator.name}<br />{operator.street}<br />{operator.city}<br />Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
+        <div className="footer-inner">
+          <div>
+            <strong>{operator.name}</strong>
+            <p>{operator.name}<br />{operator.street}<br />{operator.city}<br />Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
+          </div>
+          <nav aria-label="Rechtliche Seiten">
+            {legalPage && <Link href="/">Home</Link>}
+            <Link href="/impressum">Impressum</Link>
+            <Link href="/erstinformation">Erstinformation</Link>
+            <Link href="/datenschutz">Datenschutz</Link>
+          </nav>
         </div>
-        <nav aria-label="Rechtliche Seiten">
-          {legalPage && <Link href="/">Home</Link>}
-          <Link href="/impressum">Impressum</Link>
-          <Link href="/erstinformation">Erstinformation</Link>
-          <Link href="/datenschutz">Datenschutz</Link>
-        </nav>
       </footer>
     </>
   );
@@ -127,6 +133,9 @@ export function OfferWizard() {
   if (step < 3) {
     return (
       <div className="wizard-card" role="group" aria-label={`Schritt ${step + 1} von 4`}>
+        <div className="wizard-progress" aria-hidden="true">
+          {[0, 1, 2, 3].map((item) => <span className={item <= step ? "is-active" : ""} key={item} />)}
+        </div>
         <h2>{questions[step]}</h2>
         <div className="answer-grid" role="group" aria-label={questions[step]}>
           <button type="button" onClick={() => choose("Ja")}><span className="answer-icon">✓</span><span>Ja</span></button>
@@ -134,7 +143,7 @@ export function OfferWizard() {
         </div>
         <div className="wizard-nav">
           {step > 0 && <button type="button" className="back-button" onClick={() => { setStep(step - 1); setStatus("idle"); setErrorMessage(""); }}>Zurück</button>}
-          <span className="step-badge" aria-live="polite">Schritt {step + 1}/4</span>
+          <span className="step-badge" aria-live="polite">Schritt {step + 1} von 4</span>
         </div>
       </div>
     );
@@ -142,6 +151,9 @@ export function OfferWizard() {
 
   return (
     <form className="wizard-card contact-form" action={FORM_ENDPOINT} method="POST" onSubmit={submit} aria-busy={status === "sending"}>
+      <div className="wizard-progress" aria-hidden="true">
+        {[0, 1, 2, 3].map((item) => <span className="is-active" key={item} />)}
+      </div>
       <h2>Wie dürfen wir Sie erreichen?</h2>
       <p className="required-note">Mit * gekennzeichnete Felder sind Pflichtfelder.</p>
       <input type="hidden" name="multiple_properties" value={answers[0] ?? "Keine Angabe"} />

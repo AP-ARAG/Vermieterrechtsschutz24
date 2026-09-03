@@ -86,6 +86,7 @@ export default function Home() {
               <li><span aria-hidden="true">✓</span><span>Leistungsumfang verständlich prüfen</span></li>
               <li><span aria-hidden="true">✓</span><span>Individuelles Angebot erhalten</span></li>
             </ul>
+            <p className="hero-trust-note">Unverbindliche Bedarfsaufnahme · keine Online-Sofortbindung</p>
           </div>
           <OfferWizard />
         </div>
