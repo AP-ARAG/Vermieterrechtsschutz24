@@ -10,8 +10,8 @@ export default function Impressum() {
           <p className="legal-intro">Anbieter dieser Website und verantwortlich für ihren geschäftlichen Inhalt:</p>
 
           <h2>Anbieterangaben</h2>
-          <p>{operator.name}<br />{operator.qualification}<br />Betriebliche Anschrift laut Vermittlerregister:<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
-          <p>Kontaktbüro: {operator.businessName}<br />{operator.contactOfficeStreet}<br />{operator.contactOfficeCity}</p>
+          <p>{operator.brandName}<br />Inhaber: {operator.name}<br />{operator.qualification}<br />Betriebliche Anschrift:<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
+          <p>Vermittlungsorganisation: {operator.businessName}</p>
           <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail des Vermittlers: <a href={`mailto:${operator.directEmail}`}>{operator.directEmail}</a><br />E-Mail für Website-Anfragen: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
           <p><a href={operator.profileUrl} target="_blank" rel="noreferrer">Offizielles Vermittlerprofil</a></p>
 
@@ -36,7 +36,7 @@ export default function Impressum() {
           <h2>Urheberrecht und Kennzeichen</h2>
           <p>Texte, Gestaltungselemente und Bildkompositionen dieser Website wurden für dieses Projekt neu erstellt. Eine Nutzung über die gesetzlichen Schranken hinaus bedarf der Zustimmung des jeweiligen Rechteinhabers. Genannte Unternehmens- und Produktnamen können geschützte Kennzeichen ihrer Inhaber sein; ihre Nennung erfolgt ausschließlich zur sachlichen Beschreibung der Vermittlertätigkeit.</p>
 
-          <p className="legal-updated">Stand: 3. September 2026</p>
+          <p className="legal-updated">Stand: 7. September 2026</p>
         </div>
       </article>
     </SiteShell>

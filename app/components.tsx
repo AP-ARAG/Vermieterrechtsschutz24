@@ -16,9 +16,9 @@ export function Header() {
     <header className="site-header">
       <div className="header-inner">
         <Link href="/" className="brand-link" aria-label="Zur Startseite">
-          <span className="brand-mark" aria-hidden="true">AP</span>
+          <span className="brand-mark" aria-hidden="true">M24</span>
           <span className="brand-copy">
-            <strong>Papadakis</strong>
+            <strong>{operator.brandName}</strong>
             <small>Rechtsschutzberatung für Vermieter</small>
           </span>
         </Link>
@@ -47,8 +47,8 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
         <div className="footer-inner">
           <div className="footer-brand-column">
             <Link href="/" className="footer-brand" aria-label="Zur Startseite">
-              <span className="footer-brand-mark" aria-hidden="true">AP</span>
-              <span><strong>Papadakis</strong><small>Rechtsschutzberatung für Vermieter</small></span>
+              <span className="footer-brand-mark" aria-hidden="true">M24</span>
+              <span><strong>{operator.brandName}</strong><small>Rechtsschutzberatung für Vermieter</small></span>
             </Link>
             <p>Persönliche Versicherungsvermittlung für private Vermieter – verständlich eingeordnet und passend zur Immobilie.</p>
           </div>
@@ -71,7 +71,7 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
           </nav>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Papadakis Rechtsschutzberatung</span>
+          <span>© 2026 {operator.brandName}</span>
           <span>Versicherungsvermittlung · keine anwaltliche Rechtsberatung</span>
         </div>
       </footer>

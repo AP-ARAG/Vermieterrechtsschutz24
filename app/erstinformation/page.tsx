@@ -10,8 +10,8 @@ export default function Erstinformation() {
           <p className="legal-intro">Information gemäß § 15 Versicherungsvermittlungsverordnung (VersVermV) beim ersten Geschäftskontakt.</p>
 
           <h2>Vermittler und betriebliche Anschrift</h2>
-          <p>{operator.name}<br />{operator.qualification}<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
-          <p>Kontaktbüro: {operator.businessName}, {operator.contactOfficeStreet}, {operator.contactOfficeCity}</p>
+          <p>{operator.brandName}<br />Inhaber und Vermittler: {operator.name}<br />{operator.qualification}<br />{operator.street}<br />{operator.city}<br />Deutschland</p>
+          <p>Vermittlungsorganisation: {operator.businessName}</p>
           <p>Telefon: <a href={`tel:${operator.phoneHref}`}>{operator.phoneDisplay}</a><br />E-Mail des Vermittlers: <a href={`mailto:${operator.directEmail}`}>{operator.directEmail}</a><br />E-Mail für Website-Anfragen: <a href={`mailto:${operator.email}`}>{operator.email}</a></p>
           <p><a href={operator.profileUrl} target="_blank" rel="noreferrer">Offizielles Vermittlerprofil</a></p>
 
@@ -31,7 +31,7 @@ export default function Erstinformation() {
 
           <h2>Bereitstellung dieser Information</h2>
           <p>Diese Information kann gespeichert oder über die Druckfunktion des Browsers ausgedruckt werden. Auf Wunsch wird sie vor dem ersten Geschäftskontakt kostenlos auf Papier bereitgestellt.</p>
-          <p className="legal-updated">Stand: 3. September 2026</p>
+          <p className="legal-updated">Stand: 7. September 2026</p>
         </div>
       </article>
     </SiteShell>

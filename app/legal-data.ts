@@ -1,9 +1,10 @@
 export const operator = {
+  brandName: "mein-vermieterrechtsschutz24",
   name: "Agapios Papadakis",
   qualification: "Hauptgeschäftsstellenleiter ARAG Versicherungen",
   businessName: "ARAG Hauptgeschäftsstelle Augsburg",
-  street: "Buchenbergstr. 3f",
-  city: "86420 Diedorf",
+  street: "Wankelstraße 2",
+  city: "86356 Neusäß",
   contactOfficeStreet: "Wankelstraße 2",
   contactOfficeCity: "86356 Neusäß",
   phoneDisplay: "0821 509280",

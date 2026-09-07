@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 
-const fallbackSiteUrl = "https://home-5021340165.app-ionos.space";
+const fallbackSiteUrl = "https://mein-vermieterrechtsschutz24.de";
 const canonicalSiteUrl = (process.env.SITE_URL || fallbackSiteUrl).replace(/\/$/, "");
 const siteRoutes = ["", "impressum", "erstinformation", "datenschutz"];
 
