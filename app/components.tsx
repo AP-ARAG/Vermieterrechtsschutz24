@@ -19,7 +19,7 @@ export function Header() {
           <span className="brand-mark" aria-hidden="true">ARAG</span>
           <span className="brand-copy">
             <strong>ARAG Hauptgeschäftsstelle</strong>
-            <small>Ihr direkter Ansprechpartner für Bayern und deutschlandweit</small>
+            <small>- Ihr direkter Ansprechpartner für Bayern und deutschlandweit</small>
           </span>
         </Link>
         <Link className="outline-button" href="/#angebot">
