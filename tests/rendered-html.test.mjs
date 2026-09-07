@@ -56,6 +56,9 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /mein-vermieterrechtsschutz24/);
   assert.match(bundledJavaScript, /ARAG Hauptgeschäftsstelle/);
   assert.match(bundledJavaScript, /- Ihr direkter Ansprechpartner für Bayern und deutschlandweit/);
+  assert.match(bundledJavaScript, /Versicherungsnavigator24/);
+  assert.match(bundledJavaScript, /tierkrankenschutz24\.de/);
+  assert.match(bundledJavaScript, /privatkrankenversicherung24\.de/);
   assert.doesNotMatch(bundledJavaScript, /Buchenbergstr\. 3f|86420 Diedorf/);
   assert.match(bundledJavaScript, /api\/contact\.php/);
   assert.doesNotMatch(bundledJavaScript, /formsubmit\.co/);
@@ -77,6 +80,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.doesNotMatch(bundledStyles, /tariff-badge\{position:absolute/);
   assert.match(bundledStyles, /highlight-card h2\{min-height:56px/);
   assert.match(bundledStyles, /consent-field/);
+  assert.match(bundledStyles, /network-bar/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("agapios-papadakis.jpg", dist))).size > 0);

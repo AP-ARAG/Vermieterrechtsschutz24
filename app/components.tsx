@@ -13,20 +13,31 @@ export function scrollToOffer() {
 
 export function Header() {
   return (
-    <header className="site-header">
-      <div className="header-inner">
-        <Link href="/" className="brand-link" aria-label="Zur Startseite">
-          <span className="brand-mark" aria-hidden="true">ARAG</span>
-          <span className="brand-copy">
-            <strong>ARAG Hauptgeschäftsstelle</strong>
-            <small>- Ihr direkter Ansprechpartner für Bayern und deutschlandweit</small>
-          </span>
-        </Link>
-        <Link className="outline-button" href="/#angebot">
-          Jetzt Rückruf anfordern
-        </Link>
-      </div>
-    </header>
+    <>
+      <aside className="network-bar" aria-label="Versicherungsnavigator24">
+        <a className="network-home" href="https://versicherungsnavigator24.de"><span aria-hidden="true">V24</span> Zur Hauptseite</a>
+        <nav aria-label="Zwischen Versicherungswelten wechseln">
+          <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
+          <a className="is-current" href="/" aria-current="page">Vermieter</a>
+          <a href="https://tierkrankenschutz24.de">Tier</a>
+          <a href="https://privatkrankenversicherung24.de">Private KV</a>
+        </nav>
+      </aside>
+      <header className="site-header">
+        <div className="header-inner">
+          <Link href="/" className="brand-link" aria-label="Zur Startseite">
+            <span className="brand-mark" aria-hidden="true">ARAG</span>
+            <span className="brand-copy">
+              <strong>ARAG Hauptgeschäftsstelle</strong>
+              <small>- Ihr direkter Ansprechpartner für Bayern und deutschlandweit</small>
+            </span>
+          </Link>
+          <Link className="outline-button" href="/#angebot">
+            Jetzt Rückruf anfordern
+          </Link>
+        </div>
+      </header>
+    </>
   );
 }
 
@@ -62,6 +73,13 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
               <a href={`mailto:${operator.email}`}>{operator.email}</a>
             </address>
           </div>
+          <nav aria-label="Versicherungswelten">
+            <p className="footer-label">Versicherungswelten</p>
+            <a href="https://versicherungsnavigator24.de">Alle Themen</a>
+            <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
+            <a href="https://tierkrankenschutz24.de">Tierkrankenversicherung</a>
+            <a href="https://privatkrankenversicherung24.de">Private Krankenversicherung</a>
+          </nav>
           <nav aria-label="Rechtliche Seiten">
             <p className="footer-label">Informationen</p>
             {legalPage && <Link href="/">Home</Link>}
