@@ -162,8 +162,10 @@ export default function Home() {
         <div className="tariff-grid">
           {tariffOptions.map((tariff) => (
             <article className={`tariff-card tariff-${tariff.name.toLowerCase()}${tariff.featured ? " is-featured" : ""}`} key={tariff.name}>
-              {tariff.featured && <span className="tariff-badge">Empfehlung</span>}
-              <p className="tariff-kicker">{tariff.eyebrow}</p>
+              <div className="tariff-meta">
+                <p className="tariff-kicker">{tariff.eyebrow}</p>
+                {tariff.featured && <span className="tariff-badge">Empfehlung</span>}
+              </div>
               <h3>{tariff.name}-Paket</h3>
               <p className="tariff-description">{tariff.description}</p>
               <ul>

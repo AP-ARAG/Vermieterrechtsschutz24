@@ -98,7 +98,7 @@ section[id] { scroll-margin-top: 24px; }
 .highlights-grid { max-width: var(--content); margin: 0 auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
 .highlight-card { min-width: 0; padding: 32px 22px 34px; border: 1px solid rgba(0, 0, 0, .09); border-top: 4px solid var(--yellow); border-radius: 22px; background: #fff; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, .055); }
 .highlight-card .round-check { width: 52px; margin-bottom: 18px; color: var(--blue-deep); background: var(--yellow); }
-.highlight-card h2 { margin: 0 0 12px; color: var(--blue-dark); font-size: clamp(19px, 1.8vw, 24px); line-height: 1.15; font-weight: 550; }
+.highlight-card h2 { min-height: 56px; margin: 0 0 12px; color: var(--blue-dark); display: flex; align-items: center; justify-content: center; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.15; font-weight: 550; }
 .highlight-card p { margin: 0; color: var(--muted); font-size: 14px; }
 
 .advisor-section { padding: clamp(56px, 7vw, 88px) clamp(18px, 5vw, 72px) 12px; }
@@ -131,8 +131,9 @@ section[id] { scroll-margin-top: 24px; }
 .tariff-card { position: relative; min-width: 0; min-height: 360px; padding: 25px 23px 23px; border: 1px solid rgba(0, 0, 0, .12); border-top: 5px solid var(--yellow); border-radius: 20px; background: #fff; display: flex; flex-direction: column; box-shadow: 0 10px 26px rgba(0, 0, 0, .055); }
 .tariff-card.is-featured { background: var(--yellow); border-color: var(--yellow); box-shadow: 0 14px 34px rgba(0, 0, 0, .11); }
 .tariff-card.tariff-premium { color: #fff; background: var(--blue-deep); border-color: var(--blue-deep); border-top-color: var(--yellow); }
-.tariff-badge { position: absolute; top: 18px; right: 18px; padding: 5px 9px; border-radius: 999px; color: #fff; background: var(--blue-deep); font-size: 9px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
-.tariff-kicker { margin: 0 0 7px; color: var(--muted); font-size: 10px; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+.tariff-meta { min-height: 30px; margin-bottom: 6px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 8px; }
+.tariff-badge { padding: 5px 9px; border-radius: 999px; color: #fff; background: var(--blue-deep); font-size: 9px; font-weight: 850; letter-spacing: .08em; line-height: 1.2; text-transform: uppercase; white-space: nowrap; }
+.tariff-kicker { min-width: 0; margin: 2px 0 0; color: var(--muted); font-size: 10px; font-weight: 850; letter-spacing: .09em; line-height: 1.25; text-transform: uppercase; }
 .tariff-premium .tariff-kicker { color: rgba(255, 255, 255, .62); }
 .tariff-card h3 { margin: 0; font-size: clamp(24px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -.025em; }
 .tariff-description { min-height: 42px; margin: 11px 0 15px; color: var(--muted); font-size: 13px; line-height: 1.45; }
@@ -255,6 +256,9 @@ section[id] { scroll-margin-top: 24px; }
   .advisor-copy { width: min(100%, 650px); margin: 0 auto; }
   .advisor-copy > p:not(.eyebrow) { margin-inline: auto; }
   .advisor-actions { justify-content: center; }
+  .facts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .footer-brand-column { grid-column: 1 / -1; }
 }
 
 @media (max-width: 820px) {
@@ -283,9 +287,6 @@ section[id] { scroll-margin-top: 24px; }
   .builders-inner > h2, .builders-note { text-align: center; }
   .bottom-cta-inner { grid-template-columns: 1fr; gap: 26px; }
   .bottom-cta .blue-button { width: max-content; }
-  .facts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .footer-inner { grid-template-columns: 1fr 1fr; gap: 36px; }
-  .footer-brand-column { grid-column: 1 / -1; }
 }
 
 @media (max-width: 540px) {
@@ -302,6 +303,7 @@ section[id] { scroll-margin-top: 24px; }
   .hero-benefits { max-width: 330px; grid-template-columns: 1fr; gap: 2px; }
   .hero-benefits li { justify-content: flex-start; }
   .highlights-grid { grid-template-columns: 1fr; }
+  .highlight-card h2 { min-height: 0; }
   .answer-grid { grid-template-columns: 1fr; gap: 10px; }
   .answer-grid button { min-height: 58px; padding: 12px 16px; flex-direction: row; justify-content: flex-start; gap: 15px; }
   .answer-icon { width: 34px; font-size: 23px; }

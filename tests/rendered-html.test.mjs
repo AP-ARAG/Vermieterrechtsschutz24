@@ -73,6 +73,9 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledStyles, /max-width:1000px/);
   assert.match(bundledStyles, /minmax\(280px,390px\) minmax\(360px,1fr\)/);
   assert.match(bundledStyles, /footer-inner>\*\{min-width:0\}/);
+  assert.match(bundledStyles, /tariff-meta/);
+  assert.doesNotMatch(bundledStyles, /tariff-badge\{position:absolute/);
+  assert.match(bundledStyles, /highlight-card h2\{min-height:56px/);
   assert.match(bundledStyles, /consent-field/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
