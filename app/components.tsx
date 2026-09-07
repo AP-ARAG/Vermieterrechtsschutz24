@@ -73,13 +73,6 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
               <a href={`mailto:${operator.email}`}>{operator.email}</a>
             </address>
           </div>
-          <nav aria-label="Versicherungswelten">
-            <p className="footer-label">Versicherungswelten</p>
-            <a href="https://versicherungsnavigator24.de">Alle Themen</a>
-            <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
-            <a href="https://tierkrankenschutz24.de">Tierkrankenversicherung</a>
-            <a href="https://privatkrankenversicherung24.de">Private Krankenversicherung</a>
-          </nav>
           <nav aria-label="Rechtliche Seiten">
             <p className="footer-label">Informationen</p>
             {legalPage && <Link href="/">Home</Link>}
