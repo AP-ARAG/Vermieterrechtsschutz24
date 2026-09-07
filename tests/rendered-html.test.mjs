@@ -34,6 +34,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   )).join("\n");
 
   assert.match(bundledJavaScript, /Fragen vor der Anfrage/);
+  assert.match(bundledJavaScript, /Rechtsschutz für Vermieter – passend zur Immobilie\./);
+  assert.doesNotMatch(bundledJavaScript, /Rechtsschutz für private Vermieter – passend zur Immobilie\./);
   assert.match(bundledJavaScript, /Formular absenden/);
   assert.match(bundledJavaScript, /Erstinformation nach § 15 VersVermV/);
   assert.match(bundledJavaScript, /Persönlich beraten von/);

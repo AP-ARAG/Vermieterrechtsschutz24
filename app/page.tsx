@@ -76,7 +76,7 @@ export default function Home() {
         <div className="hero-panel">
           <div className="hero-copy">
             <p className="hero-eyebrow">Persönliche Versicherungsvermittlung</p>
-            <h1>Rechtsschutz für private Vermieter – passend zur Immobilie.</h1>
+            <h1>Rechtsschutz für Vermieter – passend zur Immobilie.</h1>
             <div className="hero-offer">
               <strong>Individuell kalkuliert</strong>
               <span>nach Objekt, Einheiten und gewünschtem Schutzumfang</span>
