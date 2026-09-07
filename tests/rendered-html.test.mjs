@@ -41,6 +41,11 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Persönlich beraten von/);
   assert.match(bundledJavaScript, /Objektbezogene Aufnahme/);
   assert.match(bundledJavaScript, /Individuell kalkuliert/);
+  assert.match(bundledJavaScript, /Tarife auf einen Blick/);
+  assert.match(bundledJavaScript, /Grundabsicherung/);
+  assert.match(bundledJavaScript, /Erweiterter Schutz/);
+  assert.match(bundledJavaScript, /Bauherren-Rechtsschutz enthalten/);
+  assert.match(bundledJavaScript, /Diese Übersicht ist eine verkürzte Orientierung/);
   assert.match(bundledJavaScript, /D-05V5-SZ9YK-16/);
   assert.match(bundledJavaScript, /Wankelstraße 2/);
   assert.match(bundledJavaScript, /86356 Neusäß/);

@@ -120,6 +120,31 @@ section[id] { scroll-margin-top: 24px; }
 .service-card h3 { margin: 0 0 14px; font-size: clamp(20px, 1.9vw, 25px); line-height: 1.18; font-weight: 650; }
 .service-card p { margin: 0; font-size: 15px; }
 
+.tariff-overview { padding: clamp(58px, 7vw, 86px) clamp(16px, 5vw, 72px); background: var(--surface-warm); }
+.tariff-intro { max-width: 820px; margin: 0 auto 34px; text-align: center; }
+.tariff-intro .eyebrow { margin-bottom: 8px; }
+.tariff-intro h2 { margin: 0; font-size: clamp(28px, 3.7vw, 42px); line-height: 1.12; font-weight: 650; letter-spacing: -.025em; }
+.tariff-intro > p:last-child { max-width: 660px; margin: 13px auto 0; color: var(--muted); font-size: 14px; }
+.tariff-grid { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+.tariff-card { position: relative; min-width: 0; min-height: 360px; padding: 25px 23px 23px; border: 1px solid rgba(0, 0, 0, .12); border-top: 5px solid var(--yellow); border-radius: 20px; background: #fff; display: flex; flex-direction: column; box-shadow: 0 10px 26px rgba(0, 0, 0, .055); }
+.tariff-card.is-featured { background: var(--yellow); border-color: var(--yellow); box-shadow: 0 14px 34px rgba(0, 0, 0, .11); }
+.tariff-card.tariff-premium { color: #fff; background: var(--blue-deep); border-color: var(--blue-deep); border-top-color: var(--yellow); }
+.tariff-badge { position: absolute; top: 18px; right: 18px; padding: 5px 9px; border-radius: 999px; color: #fff; background: var(--blue-deep); font-size: 9px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.tariff-kicker { margin: 0 0 7px; color: var(--muted); font-size: 10px; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+.tariff-premium .tariff-kicker { color: rgba(255, 255, 255, .62); }
+.tariff-card h3 { margin: 0; font-size: clamp(24px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -.025em; }
+.tariff-description { min-height: 42px; margin: 11px 0 15px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.tariff-premium .tariff-description { color: rgba(255, 255, 255, .7); }
+.tariff-card ul { margin: 0 0 22px; padding: 15px 0 0; border-top: 1px solid rgba(0, 0, 0, .12); list-style: none; }
+.tariff-premium ul { border-top-color: rgba(255, 255, 255, .2); }
+.tariff-card li { position: relative; margin: 10px 0; padding-left: 25px; font-size: 13px; line-height: 1.35; }
+.tariff-card li::before { content: "✓"; position: absolute; left: 0; top: -.05em; width: 18px; height: 18px; display: grid; place-items: center; border: 1.5px solid currentColor; border-radius: 50%; font-size: 10px; font-weight: 900; }
+.tariff-button { width: 100%; min-height: 42px; margin-top: auto; border: 0; border-radius: 999px; color: #fff; background: var(--blue-deep); padding: 9px 15px; font-size: 12px; font-weight: 800; transition: transform .16s ease, background .16s ease; }
+.tariff-button:hover { transform: translateY(-1px); background: #2b2b2b; }
+.tariff-premium .tariff-button { color: var(--blue-deep); background: var(--yellow); }
+.tariff-premium .tariff-button:hover { background: #ffe469; }
+.tariff-disclaimer { max-width: 940px; margin: 22px auto 0; color: var(--muted); font-size: 11px; line-height: 1.5; text-align: center; }
+
 .plans-intro { padding: 76px clamp(18px, 7vw, 90px) 40px; background: var(--surface-warm); }
 .plans-intro h2 { margin-bottom: 0; }
 .eyebrow { margin: 0 0 12px; color: var(--blue); font-size: 14px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
@@ -234,6 +259,8 @@ section[id] { scroll-margin-top: 24px; }
   .trust-strip li:first-child { border-top: 0; }
   .services-grid { grid-template-columns: 1fr; }
   .service-card { padding: 28px; }
+  .tariff-grid { max-width: 620px; grid-template-columns: 1fr; }
+  .tariff-card { min-height: 0; }
   .plans-grid { grid-template-columns: 1fr; gap: 18px; }
   .plan { padding: 28px 25px 36px; }
   .plan h3, .per-month { text-align: left; }
@@ -272,6 +299,10 @@ section[id] { scroll-margin-top: 24px; }
   .advisor-actions { justify-content: center; }
   .services-section > h2, .plans-intro h2, .faq-section > h2 { margin-bottom: 32px; }
   .service-card { padding: 26px 20px; border-radius: 18px; }
+  .tariff-overview { padding-inline: 12px; }
+  .tariff-intro { margin-bottom: 25px; }
+  .tariff-card { padding: 23px 20px 20px; border-radius: 17px; }
+  .tariff-description { min-height: 0; }
   .plan { border-radius: 22px; }
   .builders-section { padding: 28px 12px; }
   .builders-inner { padding: 24px 16px; border-radius: 20px; }

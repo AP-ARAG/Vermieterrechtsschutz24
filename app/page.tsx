@@ -42,6 +42,28 @@ const consultationSteps = [
   },
 ];
 
+const tariffOptions = [
+  {
+    name: "Basis",
+    eyebrow: "Grundabsicherung",
+    description: "Klarer Grundschutz für die gerichtliche Durchsetzung Ihrer Interessen.",
+    features: ["Anwalts- und Gerichtskosten vor Gericht", "ARAG JuraTel® und Mediation", "Unbegrenzte Versicherungssumme in Deutschland"],
+  },
+  {
+    name: "Komfort",
+    eyebrow: "Erweiterter Schutz",
+    description: "Ergänzt den Grundschutz um wichtige außergerichtliche Leistungen.",
+    features: ["Außergerichtliche Anwaltskosten", "Forderungsmanagement bei Mietrückständen", "Mietausfallschutz optional wählbar"],
+    featured: true,
+  },
+  {
+    name: "Premium",
+    eyebrow: "Umfangreicher Schutz",
+    description: "Mehr Leistungsumfang für Vermietung und ausgewählte Bauvorhaben.",
+    features: ["Leistungen aus dem Komfort-Paket", "Bauherren-Rechtsschutz enthalten", "Schutz bei ausgewählten Handwerkerkonflikten"],
+  },
+];
+
 const faqs = [
   ["Ist ein bereits laufender Streit versichert?", "Ein schon bekannter oder begonnener Konflikt ist regelmäßig nicht rückwirkend versicherbar. Ob eine Leistung möglich ist, entscheidet sich ausschließlich nach dem konkreten Vertrag und der Prüfung des Versicherers."],
   ["Gibt es eine Wartezeit?", "Das hängt vom gewählten Tarif und vom betroffenen Leistungsbereich ab. Im persönlichen Angebot weisen wir Wartezeiten ausdrücklich aus."],
@@ -134,6 +156,29 @@ export default function Home() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="tariff-overview" aria-labelledby="tariff-title">
+        <div className="tariff-intro">
+          <p className="eyebrow">Tarife auf einen Blick</p>
+          <h2 id="tariff-title">Basis, Komfort oder Premium</h2>
+          <p>Drei Leistungsstufen – kompakt eingeordnet. Den konkreten Beitrag berechnen wir passend zu Ihrer Immobilie.</p>
+        </div>
+        <div className="tariff-grid">
+          {tariffOptions.map((tariff) => (
+            <article className={`tariff-card tariff-${tariff.name.toLowerCase()}${tariff.featured ? " is-featured" : ""}`} key={tariff.name}>
+              {tariff.featured && <span className="tariff-badge">Empfehlung</span>}
+              <p className="tariff-kicker">{tariff.eyebrow}</p>
+              <h3>{tariff.name}-Paket</h3>
+              <p className="tariff-description">{tariff.description}</p>
+              <ul>
+                {tariff.features.map((feature) => <li key={feature}>{feature}</li>)}
+              </ul>
+              <button className="tariff-button" type="button" onClick={scrollToOffer}>{tariff.name} anfragen</button>
+            </article>
+          ))}
+        </div>
+        <p className="tariff-disclaimer">Diese Übersicht ist eine verkürzte Orientierung. Maßgeblich sind das individuelle Angebot, der Versicherungsschein und die vereinbarten Versicherungsbedingungen. Leistungen, Ausschlüsse, Wartezeiten und Beitrag können abweichen.</p>
       </section>
 
       <section className="plans-intro">
