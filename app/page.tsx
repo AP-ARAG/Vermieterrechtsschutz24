@@ -9,8 +9,8 @@ const topics = [
   ["Verträge rund ums Objekt", "Hausmeisterdienste, Handwerksbetriebe oder andere Vertragspartner bringen eigene Risiken mit. Wir schauen, welcher Schutz dazu passen kann."],
   ["Behörden und Abgaben", "Auch Auseinandersetzungen mit Behörden oder zu grundstücksbezogenen Abgaben können bei der Bedarfsermittlung eine Rolle spielen."],
   ["Bauen und Sanieren", "Bei geplanten Baumaßnahmen prüfen wir gemeinsam, ob ein zusätzlicher Baustein für die Bauphase sinnvoll und verfügbar ist."],
-  ["Mietausfall", "Ein Mietausfallschutz ist nicht automatisch Bestandteil jeder Lösung. Wir berücksichtigen den Wunsch danach bei der Angebotserstellung."],
-  ["Außergerichtliche Einigung", "Mediation kann helfen, einen Streit ohne Gerichtsverfahren zu lösen. Ob und in welchem Umfang Kosten übernommen werden, hängt vom Tarif ab."],
+  ["Mietausfall", "Optional übernehmen wir die Miete für wahlweise 6 oder 12 Monate. Das ist der Fall, wenn der Vermieter den Mieter kündigt und dieser seiner Mietzahlung nicht mehr nachkommt."],
+  ["Außergerichtliche Einigung", "Wir vermitteln Ihnen einen erfahrenen Mediator und übernehmen die Kosten. Telefonisch oder persönlich unterstützt er dabei, Streitigkeiten frühzeitig und einvernehmlich zu lösen."],
   ["Persönliche Orientierung", "Sie erhalten eine verständliche Einordnung von Leistungsumfang, Selbstbeteiligung, Wartezeiten und wichtigen Ausschlüssen."],
 ];
 
@@ -74,19 +74,6 @@ const faqs = [
   ["Werden meine Daten für Werbung verwendet?", "Die Anfrage wird zur Bearbeitung Ihres Anliegens genutzt. Details zu Empfängern, Speicherdauer und Ihren Rechten finden Sie in der Datenschutzerklärung."],
 ];
 
-function TrustStrip() {
-  return (
-    <section className="trust-strip" aria-label="Vorteile der persönlichen Beratung">
-      <p>Von der ersten Einordnung bis zum konkreten Angebot persönlich begleitet.</p>
-      <ul>
-        <li><strong>Persönlich</strong><span>Ein direkter Ansprechpartner</span></li>
-        <li><strong>Nachvollziehbar</strong><span>Bedingungen klar eingeordnet</span></li>
-        <li><strong>Unverbindlich</strong><span>Erst prüfen, dann entscheiden</span></li>
-      </ul>
-    </section>
-  );
-}
-
 function CheckList({ items }: { items: string[] }) {
   return <ul>{items.map(item => <li key={item}><span aria-hidden="true">✓</span>{item}</li>)}</ul>;
 }
@@ -114,7 +101,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="highlights-section" aria-label="Vorteile der Beratung">
+      <section className="highlights-section" aria-labelledby="highlights-title">
+        <div className="highlights-intro">
+          <h2 id="highlights-title">Von der ersten Einordnung bis zum konkreten Angebot persönlich begleitet.</h2>
+          <ul aria-label="Vorteile der persönlichen Beratung">
+            <li><strong>Persönlich</strong><span>Ein direkter Ansprechpartner</span></li>
+            <li><strong>Nachvollziehbar</strong><span>Bedingungen klar eingeordnet</span></li>
+            <li><strong>Unverbindlich</strong><span>Erst prüfen, dann entscheiden</span></li>
+          </ul>
+        </div>
         <div className="highlights-grid">
           {highlights.map(([title, text]) => (
             <article className="highlight-card" key={title}>
@@ -126,11 +121,11 @@ export default function Home() {
         </div>
       </section>
 
-      <TrustStrip />
-
       <section className="advisor-section" aria-labelledby="advisor-title">
         <div className="advisor-card">
-          <div className="advisor-monogram" aria-hidden="true">AP</div>
+          <div className="advisor-portrait">
+            <img src="/agapios-papadakis.jpg" alt={`Porträt von ${operator.name}`} />
+          </div>
           <div className="advisor-copy">
             <p className="eyebrow">Ihr Ansprechpartner</p>
             <h2 id="advisor-title">Persönlich beraten von {operator.name}</h2>

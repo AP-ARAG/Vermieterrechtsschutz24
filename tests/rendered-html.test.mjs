@@ -39,6 +39,10 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Formular absenden/);
   assert.match(bundledJavaScript, /Erstinformation nach § 15 VersVermV/);
   assert.match(bundledJavaScript, /Persönlich beraten von/);
+  assert.match(bundledJavaScript, /agapios-papadakis\.jpg/);
+  assert.match(bundledJavaScript, /Optional übernehmen wir die Miete für wahlweise 6 oder 12 Monate/);
+  assert.match(bundledJavaScript, /Wir vermitteln Ihnen einen erfahrenen Mediator und übernehmen die Kosten/);
+  assert.match(bundledJavaScript, /Von der ersten Einordnung bis zum konkreten Angebot persönlich begleitet/);
   assert.match(bundledJavaScript, /Objektbezogene Aufnahme/);
   assert.match(bundledJavaScript, /Individuell kalkuliert/);
   assert.match(bundledJavaScript, /Tarife auf einen Blick/);
@@ -64,9 +68,12 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledStyles, /#050505/);
   assert.doesNotMatch(bundledStyles, /#264668|#172f4b|#07071a/);
   assert.match(bundledStyles, /highlights-grid/);
+  assert.match(bundledStyles, /highlights-intro/);
+  assert.doesNotMatch(bundledStyles, /trust-strip/);
   assert.match(bundledStyles, /consent-field/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
+  assert.ok((await stat(new URL("agapios-papadakis.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("favicon.svg", dist))).size > 0);
   assert.ok((await stat(new URL("og.png", dist))).size > 0);
   assert.match(await readFile(new URL("favicon.svg", dist), "utf8"), />M24<\/text>/);
