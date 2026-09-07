@@ -15,12 +15,12 @@ export function Header() {
   return (
     <>
       <aside className="network-bar" aria-label="Versicherungsnavigator24">
-        <a className="network-home" href="https://versicherungsnavigator24.de"><span aria-hidden="true">V24</span> Zur Hauptseite</a>
+        <a className="network-home" href="https://home-5021372330.app-ionos.space/"><span aria-hidden="true">V24</span> Zur Hauptseite</a>
         <nav aria-label="Zwischen Versicherungswelten wechseln">
           <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
           <a className="is-current" href="/" aria-current="page">Vermieter</a>
-          <a href="https://tierkrankenschutz24.de">Tier</a>
-          <a href="https://privatkrankenversicherung24.de">Private KV</a>
+          <a href="https://home-5021372330.app-ionos.space/tierkrankenversicherung/">Tier</a>
+          <a href="https://home-5021372330.app-ionos.space/private-krankenversicherung/">Private KV</a>
         </nav>
       </aside>
       <header className="site-header">
