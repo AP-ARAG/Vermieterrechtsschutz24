@@ -16,10 +16,10 @@ export function Header() {
     <header className="site-header">
       <div className="header-inner">
         <Link href="/" className="brand-link" aria-label="Zur Startseite">
-          <span className="brand-mark" aria-hidden="true">M24</span>
+          <span className="brand-mark" aria-hidden="true">ARAG</span>
           <span className="brand-copy">
-            <strong>{operator.brandName}</strong>
-            <small>Rechtsschutzberatung für Vermieter</small>
+            <strong>ARAG Hauptgeschäftsstelle</strong>
+            <small>Ihr direkter Ansprechpartner für Bayern und deutschlandweit</small>
           </span>
         </Link>
         <Link className="outline-button" href="/#angebot">

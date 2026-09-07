@@ -33,7 +33,7 @@ section[id] { scroll-margin-top: 24px; }
 .site-header { min-height: 82px; background: var(--yellow); }
 .header-inner { width: min(100%, 1380px); min-height: inherit; margin: 0 auto; padding: 12px clamp(18px, 5vw, 80px); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand-link { min-width: 0; display: inline-flex; align-items: center; gap: 12px; color: var(--blue-deep); text-decoration: none; }
-.brand-mark { flex: 0 0 auto; width: 48px; aspect-ratio: 1; display: grid; place-items: center; border: 2px solid var(--blue-deep); border-radius: 15px 15px 20px 20px; background: #fff; box-shadow: 0 5px 14px rgba(0, 0, 0, .1); font-size: 17px; font-weight: 900; letter-spacing: -.04em; }
+.brand-mark { flex: 0 0 auto; width: 48px; aspect-ratio: 1; display: grid; place-items: center; border: 2px solid var(--blue-deep); border-radius: 15px 15px 20px 20px; background: #fff; box-shadow: 0 5px 14px rgba(0, 0, 0, .1); font-size: 12px; font-weight: 900; letter-spacing: -.04em; }
 .brand-copy { min-width: 0; display: grid; }
 .brand-copy strong { font-size: clamp(19px, 2.2vw, 28px); line-height: 1.05; letter-spacing: -.03em; }
 .brand-copy small { margin-top: 3px; font-size: clamp(10px, 1vw, 13px); line-height: 1.15; }
@@ -249,8 +249,8 @@ section[id] { scroll-margin-top: 24px; }
 
 @media (max-width: 540px) {
   .header-inner { align-items: center; }
-  .brand-copy small { display: none; }
-  .brand-mark { width: 38px; font-size: 14px; }
+  .brand-copy small { margin-top: 2px; font-size: 9px; }
+  .brand-mark { width: 38px; font-size: 9px; }
   .brand-copy strong { font-size: clamp(16px, 5.2vw, 21px); }
   .outline-button { max-width: 132px; padding-inline: 12px; line-height: 1.1; }
   .hero { padding: 22px 12px; }

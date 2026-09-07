@@ -43,6 +43,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Wankelstraße 2/);
   assert.match(bundledJavaScript, /86356 Neusäß/);
   assert.match(bundledJavaScript, /mein-vermieterrechtsschutz24/);
+  assert.match(bundledJavaScript, /ARAG Hauptgeschäftsstelle/);
+  assert.match(bundledJavaScript, /Ihr direkter Ansprechpartner für Bayern und deutschlandweit/);
   assert.doesNotMatch(bundledJavaScript, /Buchenbergstr\. 3f|86420 Diedorf/);
   assert.match(bundledJavaScript, /api\/contact\.php/);
   assert.doesNotMatch(bundledJavaScript, /formsubmit\.co/);
