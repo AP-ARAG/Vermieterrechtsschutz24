@@ -57,8 +57,9 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /ARAG Hauptgeschäftsstelle/);
   assert.match(bundledJavaScript, /- Ihr direkter Ansprechpartner für Bayern und deutschlandweit/);
   assert.match(bundledJavaScript, /Versicherungsnavigator24/);
-  assert.match(bundledJavaScript, /home-5021372330\.app-ionos\.space\/tierkrankenversicherung/);
-  assert.match(bundledJavaScript, /home-5021372330\.app-ionos\.space\/private-krankenversicherung/);
+  assert.match(bundledJavaScript, /home-5021386814\.app-ionos\.space/);
+  assert.match(bundledJavaScript, /home-5021386515\.app-ionos\.space/);
+  assert.match(bundledJavaScript, /home-5021386578\.app-ionos\.space/);
   assert.doesNotMatch(bundledJavaScript, /Buchenbergstr\. 3f|86420 Diedorf/);
   assert.match(bundledJavaScript, /api\/contact\.php/);
   assert.doesNotMatch(bundledJavaScript, /formsubmit\.co/);
