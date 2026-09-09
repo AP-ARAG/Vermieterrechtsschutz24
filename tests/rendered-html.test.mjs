@@ -54,8 +54,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Wankelstraße 2/);
   assert.match(bundledJavaScript, /86356 Neusäß/);
   assert.match(bundledJavaScript, /mein-vermieterrechtsschutz24/);
-  assert.match(bundledJavaScript, /ARAG Hauptgeschäftsstelle/);
-  assert.match(bundledJavaScript, /- Ihr direkter Ansprechpartner für Bayern und deutschlandweit/);
+  assert.match(bundledJavaScript, /Vermieterrechtsschutz24/);
+  assert.match(bundledJavaScript, /ARAG Rechtsschutz für Vermieter persönlich beraten/);
   assert.match(bundledJavaScript, /Versicherungsnavigator24/);
   assert.match(bundledJavaScript, /home-5021386814\.app-ionos\.space/);
   assert.match(bundledJavaScript, /home-5021386515\.app-ionos\.space/);

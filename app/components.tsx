@@ -15,21 +15,31 @@ export function Header() {
   return (
     <>
       <aside className="network-bar" aria-label="Versicherungsnavigator24">
-        <a className="network-home" href="https://home-5021386814.app-ionos.space/"><span aria-hidden="true">V24</span> Zur Hauptseite</a>
-        <nav aria-label="Zwischen Versicherungswelten wechseln">
+        <a className="network-home" href="https://home-5021386814.app-ionos.space/"><span aria-hidden="true">V24</span><strong>Zur Hauptseite</strong></a>
+        <nav className="desktop-nav" aria-label="Zwischen Versicherungswelten wechseln">
           <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
           <a className="is-current" href="/" aria-current="page">Vermieter</a>
           <a href="https://home-5021386515.app-ionos.space/">Tier</a>
           <a href="https://home-5021386578.app-ionos.space/">Private KV</a>
         </nav>
+        <details className="mobile-menu">
+          <summary aria-label="Navigation öffnen">Menü</summary>
+          <nav aria-label="Mobile Versicherungsbereiche">
+            <a href="https://home-5021386814.app-ionos.space/">Zur Hauptseite</a>
+            <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
+            <a href="/">Vermieter</a>
+            <a href="https://home-5021386515.app-ionos.space/">Tierkrankenschutz24</a>
+            <a href="https://home-5021386578.app-ionos.space/">PrivatKrankenversicherung24</a>
+          </nav>
+        </details>
       </aside>
       <header className="site-header">
         <div className="header-inner">
           <Link href="/" className="brand-link" aria-label="Zur Startseite">
             <span className="brand-mark" aria-hidden="true">ARAG</span>
             <span className="brand-copy">
-              <strong>ARAG Hauptgeschäftsstelle</strong>
-              <small>- Ihr direkter Ansprechpartner für Bayern und deutschlandweit</small>
+              <strong>Vermieterrechtsschutz24</strong>
+              <small>ARAG Rechtsschutz für Vermieter persönlich beraten</small>
             </span>
           </Link>
           <Link className="outline-button" href="/#angebot">
