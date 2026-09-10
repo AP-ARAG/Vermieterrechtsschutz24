@@ -19,7 +19,7 @@ export function Header() {
         <nav className="desktop-nav" aria-label="Zwischen Versicherungswelten wechseln">
           <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
           <a className="is-current" href="/" aria-current="page">Vermieter</a>
-          <a href="https://home-5021386515.app-ionos.space/">Tier</a>
+          <a href="https://tiersafe.de/">Tier</a>
           <a href="https://home-5021386578.app-ionos.space/">Private KV</a>
         </nav>
         <details className="mobile-menu">
@@ -28,7 +28,7 @@ export function Header() {
             <a href="https://home-5021386814.app-ionos.space/">Zur Hauptseite</a>
             <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
             <a href="/">Vermieter</a>
-            <a href="https://home-5021386515.app-ionos.space/">Tierkrankenschutz24</a>
+            <a href="https://tiersafe.de/">Tierkrankenschutz24</a>
             <a href="https://home-5021386578.app-ionos.space/">PrivatKrankenversicherung24</a>
           </nav>
         </details>
