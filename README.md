@@ -1,4 +1,4 @@
-# mein-vermieterrechtsschutz24
+# Vermieterrechtsschutz24
 
 React/Vite-Website mit eigenem PHP-Formularendpunkt für die persönliche Beratung zum Immobilien-Rechtsschutz für Vermieter.
 

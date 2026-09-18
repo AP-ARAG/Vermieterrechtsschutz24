@@ -89,7 +89,7 @@ $safePhone = preg_replace('/[\\r\\n]+/', ' ', $phone) ?? $phone;
 $safeSourceUrl = filter_var($sourceUrl, FILTER_VALIDATE_URL) !== false ? $sourceUrl : 'Nicht verfügbar';
 
 $recipient = 'info@rechtsschutzpartner24.de';
-$subject = 'Neue Anfrage über mein-vermieterrechtsschutz24';
+$subject = 'Neue Anfrage über Vermieterrechtsschutz24';
 $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 $body = implode("\r\n", [
     'Neue Anfrage über die Website',
@@ -112,12 +112,12 @@ $headers = implode("\r\n", [
     'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
     'Content-Transfer-Encoding: 8bit',
-    'From: mein-vermieterrechtsschutz24 <info@rechtsschutzpartner24.de>',
+    'From: Vermieterrechtsschutz24 <info@rechtsschutzpartner24.de>',
     'Reply-To: ' . $email,
 ]);
 
 if (!mail($recipient, $encodedSubject, $body, $headers)) {
-    error_log('mein-vermieterrechtsschutz24: Kontaktformular konnte nicht versendet werden.');
+    error_log('Vermieterrechtsschutz24: Kontaktformular konnte nicht versendet werden.');
     respond(500, ['success' => false, 'message' => 'Die Anfrage konnte gerade nicht gesendet werden.']);
 }
 

@@ -1,5 +1,5 @@
 export const operator = {
-  brandName: "mein-vermieterrechtsschutz24",
+  brandName: "Vermieterrechtsschutz24",
   name: "Agapios Papadakis",
   qualification: "Hauptgeschäftsstellenleiter ARAG Versicherungen",
   businessName: "ARAG Hauptgeschäftsstelle Augsburg",

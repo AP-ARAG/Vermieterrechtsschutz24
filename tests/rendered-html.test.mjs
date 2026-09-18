@@ -12,11 +12,19 @@ test("builds a deployable PHP-backed multi-page website", async () => {
     readFile(new URL("datenschutz/index.html", dist), "utf8"),
   ]);
 
-  assert.match(home, /mein-vermieterrechtsschutz24 \| Rechtsschutzberatung für Vermieter/);
+  assert.match(home, /Vermieterrechtsschutz24 \| Rechtsschutzberatung für Vermieter/);
   assert.match(home, /<div id="root"><\/div>/);
-  assert.match(impressum, /Impressum \| mein-vermieterrechtsschutz24/);
-  assert.match(erstinformation, /Erstinformation \| mein-vermieterrechtsschutz24/);
-  assert.match(datenschutz, /Datenschutz \| mein-vermieterrechtsschutz24/);
+  assert.match(impressum, /Impressum \| Vermieterrechtsschutz24/);
+  assert.match(erstinformation, /Erstinformation \| Vermieterrechtsschutz24/);
+  assert.match(datenschutz, /Datenschutz \| Vermieterrechtsschutz24/);
+  assert.match(home, /https:\/\/vermieterrechtsschutz24\.com\//);
+  assert.match(impressum, /https:\/\/vermieterrechtsschutz24\.com\/impressum/);
+  assert.match(erstinformation, /https:\/\/vermieterrechtsschutz24\.com\/erstinformation/);
+  assert.match(datenschutz, /https:\/\/vermieterrechtsschutz24\.com\/datenschutz/);
+  assert.doesNotMatch(
+    [home, impressum, erstinformation, datenschutz].join("\n"),
+    /mein-vermieterrechtsschutz24/i,
+  );
   assert.match(home, /twitter:image/);
   assert.match(home, /og:image:width/);
   assert.doesNotMatch(home, /codex-preview|react-loading-skeleton/);
@@ -59,7 +67,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /D-05V5-SZ9YK-16/);
   assert.match(bundledJavaScript, /Wankelstraße 2/);
   assert.match(bundledJavaScript, /86356 Neusäß/);
-  assert.match(bundledJavaScript, /mein-vermieterrechtsschutz24/);
+  assert.match(bundledJavaScript, /Vermieterrechtsschutz24/);
+  assert.doesNotMatch(bundledJavaScript, /mein-vermieterrechtsschutz24/i);
   assert.match(bundledJavaScript, /Hauptgeschäftsstelle ARAG/);
   assert.doesNotMatch(bundledJavaScript, /brand-mark[^>]*>ARAG/);
   assert.doesNotMatch(bundledJavaScript, /ARAG Rechtsschutz für Vermieter persönlich beraten/);
