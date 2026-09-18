@@ -133,6 +133,7 @@ export function OfferWizard() {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
+      datenschutz_bestaetigt: String(formData.get("datenschutz_bestaetigt") ?? ""),
       answers: {
         multipleProperties: answers[0] ?? "Keine Angabe",
         rentLossProtection: answers[1] ?? "Keine Angabe",
@@ -201,7 +202,7 @@ export function OfferWizard() {
       <label>E-Mail *<input type="email" name="email" autoComplete="email" maxLength={254} required /></label>
       <label>Telefon (optional)<input type="tel" name="phone" autoComplete="tel" maxLength={50} placeholder="z. B. +49 173 1234567" /></label>
       <label className="form-honeypot" aria-hidden="true">Bitte nicht ausfüllen<input name="_honey" tabIndex={-1} autoComplete="off" /></label>
-      <p className="privacy-note">Mit dem Absenden bitten Sie uns, Ihre Angaben zur Bearbeitung der Anfrage und für den gewünschten Rückruf zu verwenden. Einzelheiten stehen in unserer <Link href="/datenschutz">Datenschutzerklärung</Link>.</p>
+      <label className="privacy-note consent-field"><input type="checkbox" name="datenschutz_bestaetigt" value="ja" required /> <span>Ich habe die <Link href="/datenschutz" target="_blank" rel="noreferrer">Datenschutzerklärung</Link> zur Kenntnis genommen und bitte um Bearbeitung meiner Anfrage.</span></label>
       <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Ich stimme ausdrücklich zu, dass mir die <Link href="/erstinformation" target="_blank" rel="noreferrer">Erstinformation nach § 15 VersVermV</Link> über diese Website bereitgestellt wird. Ich kann sie speichern oder ausdrucken und vor dem ersten Geschäftskontakt kostenlos auf Papier anfordern.</span></label>
       {status === "error" && <p className="form-error" role="alert">{errorMessage} Bitte versuchen Sie es erneut oder schreiben Sie an <a href={`mailto:${operator.email}`}>{operator.email}</a>.</p>}
       <div className="wizard-nav">

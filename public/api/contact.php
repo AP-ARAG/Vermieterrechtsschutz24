@@ -50,6 +50,7 @@ $email = trim((string) ($data['email'] ?? ''));
 $phone = trim((string) ($data['phone'] ?? ''));
 $sourceUrl = trim((string) ($data['sourceUrl'] ?? ($_SERVER['HTTP_REFERER'] ?? '')));
 $answers = is_array($data['answers'] ?? null) ? $data['answers'] : [];
+$privacyConfirmed = (string) ($data['datenschutz_bestaetigt'] ?? '');
 $firstInformationDigital = (string) ($data['erstinformation_digital'] ?? '');
 
 $multipleProperties = trim((string) ($answers['multipleProperties'] ?? $data['multiple_properties'] ?? 'Keine Angabe'));
@@ -66,6 +67,10 @@ if (strlen($email) > 254 || filter_var($email, FILTER_VALIDATE_EMAIL) === false)
 
 if (strlen($phone) > 50 || strlen($sourceUrl) > 500) {
     respond(422, ['success' => false, 'message' => 'Eine Eingabe ist zu lang.']);
+}
+
+if ($privacyConfirmed !== 'ja') {
+    respond(422, ['success' => false, 'message' => 'Bitte bestätigen Sie die Kenntnisnahme der Datenschutzerklärung.']);
 }
 
 if ($firstInformationDigital !== 'ja') {
@@ -96,6 +101,7 @@ $body = implode("\r\n", [
     'Mehr als eine Wohnung oder ein Haus: ' . $multipleProperties,
     'Zusätzlicher Mietausfallschutz: ' . $rentLossProtection,
     'Bereits bestehender Rechtsfall: ' . $existingLegalCase,
+    'Datenschutzerklärung: Kenntnisnahme bestätigt',
     'Erstinformation: digitaler Bereitstellung ausdrücklich zugestimmt',
     '',
     'Seite: ' . $safeSourceUrl,
