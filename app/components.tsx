@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Link from "./link";
 import { operator } from "./legal-data";
 
@@ -104,6 +104,89 @@ const questions = [
   "Mietausfall mitprüfen?",
   "Besteht bereits ein Rechtsfall?",
 ];
+
+const infoItems = [
+  {
+    title: "ARAG JuraTel®",
+    text: "Eine telefonische juristische Ersteinschätzung kann je nach Tarif enthalten sein. Umfang und Voraussetzungen ergeben sich aus dem konkreten Angebot und den Versicherungsbedingungen.",
+  },
+  {
+    title: "Anwalts- & Gerichtskosten",
+    text: "Je nach Leistungsvariante können Anwalts- und Gerichtskosten gerichtlich und teilweise außergerichtlich versichert sein. Maßgeblich sind der vereinbarte Tarif und die Bedingungen.",
+  },
+  {
+    title: "Wartezeiten & Beginn",
+    text: "Für einzelne Leistungsbereiche können Wartezeiten gelten. Versicherungsbeginn und bereits bekannte Rechtsfälle werden deshalb vor dem Abschluss ausdrücklich geprüft.",
+  },
+];
+
+export function OfferInfoPoints() {
+  const [activeInfo, setActiveInfo] = useState<number | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (activeInfo === null) return;
+
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const close = () => setActiveInfo(null);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") close();
+      if (event.key === "Tab") {
+        event.preventDefault();
+        closeButtonRef.current?.focus();
+      }
+    };
+
+    document.body.classList.add("has-info-modal");
+    document.addEventListener("keydown", handleKeyDown);
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.body.classList.remove("has-info-modal");
+      document.removeEventListener("keydown", handleKeyDown);
+      previousFocus?.focus();
+    };
+  }, [activeInfo]);
+
+  const item = activeInfo === null ? null : infoItems[activeInfo];
+
+  return (
+    <>
+      <ul className="offer-info-points" aria-label="Mehr zu wichtigen Leistungen">
+        {infoItems.map((info, index) => (
+          <li key={info.title}>
+            <button type="button" aria-haspopup="dialog" onClick={() => setActiveInfo(index)}>
+              <span className="offer-info-check" aria-hidden="true">✓</span>
+              <span>{info.title}</span>
+              <span className="offer-info-icon" aria-hidden="true">i</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {item && (
+        <div className="offer-info-backdrop">
+          <button className="offer-info-dismiss-layer" type="button" onClick={() => setActiveInfo(null)} aria-label="Information schließen" />
+          <div
+            ref={dialogRef}
+            className="offer-info-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="offer-info-title"
+            aria-describedby="offer-info-text"
+          >
+            <button ref={closeButtonRef} className="offer-info-close" type="button" onClick={() => setActiveInfo(null)} aria-label="Information schließen">×</button>
+            <p className="offer-info-eyebrow">Kurz erklärt</p>
+            <h2 id="offer-info-title">{item.title}</h2>
+            <p id="offer-info-text">{item.text}</p>
+            <p className="offer-info-note">Verbindlich sind ausschließlich Angebot, Versicherungsschein und Versicherungsbedingungen.</p>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 
 export function OfferWizard() {
   const [step, setStep] = useState(0);

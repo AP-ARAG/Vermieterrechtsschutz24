@@ -37,6 +37,11 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Passender Schutz für Ihre Immobilie\./);
   assert.doesNotMatch(bundledJavaScript, /Rechtsschutz für private Vermieter – passend zur Immobilie\./);
   assert.match(bundledJavaScript, /Anfrage senden/);
+  assert.match(bundledJavaScript, /Mehr zu wichtigen Leistungen/);
+  assert.match(bundledJavaScript, /ARAG JuraTel®/);
+  assert.match(bundledJavaScript, /Anwalts- & Gerichtskosten/);
+  assert.match(bundledJavaScript, /Wartezeiten & Beginn/);
+  assert.match(bundledJavaScript, /Information schließen/);
   assert.match(bundledJavaScript, /datenschutz_bestaetigt/);
   assert.match(bundledJavaScript, /Erstinformation nach § 15 VersVermV/);
   assert.match(bundledJavaScript, /Persönlich beraten von/);
