@@ -38,7 +38,7 @@ export function Header() {
           <Link href="/" className="brand-link" aria-label="Zur Startseite">
             <span className="brand-mark" aria-hidden="true">ARAG</span>
             <span className="brand-copy">
-              <strong>Vermieterrechtsschutz24</strong>
+              <strong>Hauptgeschäftsstelle Augsburg</strong>
               <small>ARAG Rechtsschutz für Vermieter persönlich beraten</small>
             </span>
           </Link>
