@@ -39,7 +39,6 @@ export function Header() {
             <span className="brand-mark" aria-hidden="true">ARAG</span>
             <span className="brand-copy">
               <strong>Hauptgeschäftsstelle ARAG</strong>
-              <small>ARAG Rechtsschutz für Vermieter persönlich beraten</small>
             </span>
           </Link>
           <Link className="outline-button" href="/#angebot">
