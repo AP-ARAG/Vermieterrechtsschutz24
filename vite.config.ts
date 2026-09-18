@@ -16,7 +16,7 @@ export default defineConfig({
       },
       generateBundle() {
         const urls = siteRoutes
-          .map((route) => `  <url><loc>${canonicalSiteUrl}/${route}</loc></url>`)
+          .map((route) => `  <url><loc>${canonicalSiteUrl}/${route}</loc><lastmod>2026-09-18</lastmod></url>`)
           .join("\n");
         this.emitFile({
           type: "asset",

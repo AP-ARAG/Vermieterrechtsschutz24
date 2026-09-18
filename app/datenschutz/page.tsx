@@ -32,6 +32,7 @@ export default function Datenschutz() {
 
           <h2>6. Cookies, Analyse und externe Inhalte</h2>
           <p>Diese Website setzt selbst keine Cookies, speichert keine Auswahl im lokalen Browserspeicher und bindet keine Werbe-, Tracking- oder Social-Media-Dienste ein. Schriften werden vom jeweiligen Endgerät geladen. Die sichtbaren Bilder und Grafiken liegen auf demselben Webserver. Deshalb ist für diese Website derzeit kein Einwilligungsbanner erforderlich.</p>
+          <p>Die Bedienhilfen für größere Schrift, stärkeren Kontrast, eine gut lesbare Schrift und reduzierte Bewegung arbeiten ausschließlich im geöffneten Browserfenster. Die Auswahl wird nicht gespeichert. Auch der Hinweis beim Verlassen der Startseite wird lokal ausgelöst und verarbeitet keine personenbezogenen Daten.</p>
           <p>IONOS kann im Rahmen des Hostingprodukts anonymisierte Reichweiteninformationen bereitstellen. Wir setzen darüber hinaus kein eigenes Analysewerkzeug ein und erstellen keine personenbezogenen Nutzungsprofile.</p>
 
           <h2>7. Ihre Rechte</h2>
@@ -44,7 +45,7 @@ export default function Datenschutz() {
           <h2>9. Sicherheit und Aktualisierung</h2>
           <p>Die Übertragung erfolgt verschlüsselt per HTTPS. Kein Übertragungsweg ist vollständig risikofrei; senden Sie daher keine vertraulichen Unterlagen oder Angaben zu einem Rechtsfall über das kurze Anfrageformular. Wir passen diese Hinweise an, wenn sich die eingesetzten Dienste oder gesetzlichen Anforderungen ändern.</p>
 
-          <p className="legal-updated">Stand: 7. September 2026</p>
+          <p className="legal-updated">Stand: 18. September 2026</p>
         </div>
       </article>
     </SiteShell>

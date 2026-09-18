@@ -167,7 +167,7 @@ export default function Home() {
             </article>
           ))}
         </div>
-        <p className="tariff-disclaimer">Diese Übersicht ist eine verkürzte Orientierung. Maßgeblich sind das individuelle Angebot, der Versicherungsschein und die vereinbarten Versicherungsbedingungen. Leistungen, Ausschlüsse, Wartezeiten und Beitrag können abweichen.</p>
+        <p className="tariff-disclaimer">Diese Übersicht ist eine verkürzte Orientierung. Maßgeblich sind das individuelle Angebot, der Versicherungsschein und die vereinbarten Versicherungsbedingungen. Leistungen, Ausschlüsse, Wartezeiten und Beitrag können abweichen. <a href="https://www.arag.de/rechtsschutzversicherung/vermieterrechtsschutz/" target="_blank" rel="noreferrer">Offizielle ARAG Produktinformationen</a>.</p>
       </section>
 
       <section className="plans-intro">

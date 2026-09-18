@@ -27,6 +27,9 @@ test("builds a deployable PHP-backed multi-page website", async () => {
   );
   assert.match(home, /twitter:image/);
   assert.match(home, /og:image:width/);
+  assert.match(home, /site-tools\.js\?v=20260918-a11y-exit-v1/);
+  assert.match(home, /"@type":"InsuranceAgency"/);
+  assert.match(home, /"@type":"FAQPage"/);
   assert.doesNotMatch(home, /codex-preview|react-loading-skeleton/);
 });
 
@@ -102,9 +105,16 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.ok((await stat(new URL("agapios-papadakis.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("favicon.svg", dist))).size > 0);
   assert.ok((await stat(new URL("og.png", dist))).size > 0);
+  assert.ok((await stat(new URL("site-tools.js", dist))).size > 0);
+  assert.match(await readFile(new URL("site-tools.js", dist), "utf8"), /Die Auswahl wird nicht gespeichert/);
   assert.match(await readFile(new URL("favicon.svg", dist), "utf8"), />M24<\/text>/);
   assert.ok((await stat(new URL("api/contact.php", dist))).size > 0);
   assert.match(await readFile(new URL(".htaccess", dist), "utf8"), /no-cache, no-store, must-revalidate/);
   assert.match(await readFile(new URL("robots.txt", dist), "utf8"), /Sitemap:/);
   assert.match(await readFile(new URL("sitemap.xml", dist), "utf8"), /erstinformation/);
+  assert.match(await readFile(new URL("sitemap.xml", dist), "utf8"), /2026-09-18/);
+  assert.match(bundledJavaScript, /data-exit-intent/);
+  assert.match(bundledJavaScript, /Offizielle ARAG Produktinformationen/);
+  assert.match(bundledStyles, /\.a11y-tools/);
+  assert.match(bundledStyles, /\.exit-intent/);
 });

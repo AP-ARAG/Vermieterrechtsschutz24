@@ -301,6 +301,16 @@ export function SiteShell({ children, legalPage = false }: { children: React.Rea
       <Header />
       <main id="main-content">{children}</main>
       <Footer legalPage={legalPage} />
+      {!legalPage && (
+        <span
+          hidden
+          data-exit-intent
+          data-exit-target="#angebot"
+          data-exit-title="Noch eine Frage zu Ihrer Immobilie?"
+          data-exit-copy="Ordnen Sie Ihren Bedarf in wenigen Schritten ein oder sprechen Sie direkt mit Ihrem persönlichen Ansprechpartner."
+          data-exit-action="Bedarf jetzt einordnen"
+        />
+      )}
     </>
   );
 }
