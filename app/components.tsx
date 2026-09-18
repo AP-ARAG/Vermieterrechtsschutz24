@@ -36,7 +36,6 @@ export function Header() {
       <header className="site-header">
         <div className="header-inner">
           <Link href="/" className="brand-link" aria-label="Zur Startseite">
-            <span className="brand-mark" aria-hidden="true">ARAG</span>
             <span className="brand-copy">
               <strong>Hauptgeschäftsstelle ARAG</strong>
             </span>
