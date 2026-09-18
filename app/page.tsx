@@ -84,18 +84,9 @@ export default function Home() {
       <section className="hero" id="angebot">
         <div className="hero-panel">
           <div className="hero-copy">
-            <p className="hero-eyebrow">Persönliche Versicherungsvermittlung</p>
-            <h1>Rechtsschutz für Vermieter – passend zur Immobilie.</h1>
-            <div className="hero-offer">
-              <strong>Individuell kalkuliert</strong>
-              <span>nach Objekt, Einheiten und gewünschtem Schutzumfang</span>
-            </div>
-            <ul className="hero-benefits">
-              <li><span aria-hidden="true">✓</span><span>Bedarf strukturiert erfassen</span></li>
-              <li><span aria-hidden="true">✓</span><span>Leistungsumfang verständlich prüfen</span></li>
-              <li><span aria-hidden="true">✓</span><span>Individuelles Angebot erhalten</span></li>
-            </ul>
-            <p className="hero-trust-note">Unverbindliche Bedarfsaufnahme · keine Online-Sofortbindung</p>
+            <p className="hero-eyebrow">Vermieterrechtsschutz</p>
+            <h1>Passender Schutz für Ihre Immobilie.</h1>
+            <p className="hero-summary">Persönlich. Unverbindlich. Klar.</p>
           </div>
           <OfferWizard />
         </div>

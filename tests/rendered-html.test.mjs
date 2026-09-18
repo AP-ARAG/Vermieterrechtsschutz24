@@ -34,9 +34,9 @@ test("bundles the funnel, legal content and public assets", async () => {
   )).join("\n");
 
   assert.match(bundledJavaScript, /Fragen vor der Anfrage/);
-  assert.match(bundledJavaScript, /Rechtsschutz für Vermieter – passend zur Immobilie\./);
+  assert.match(bundledJavaScript, /Passender Schutz für Ihre Immobilie\./);
   assert.doesNotMatch(bundledJavaScript, /Rechtsschutz für private Vermieter – passend zur Immobilie\./);
-  assert.match(bundledJavaScript, /Formular absenden/);
+  assert.match(bundledJavaScript, /Anfrage senden/);
   assert.match(bundledJavaScript, /datenschutz_bestaetigt/);
   assert.match(bundledJavaScript, /Erstinformation nach § 15 VersVermV/);
   assert.match(bundledJavaScript, /Persönlich beraten von/);
@@ -45,7 +45,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Wir vermitteln Ihnen einen erfahrenen Mediator und übernehmen die Kosten/);
   assert.match(bundledJavaScript, /Von der ersten Einordnung bis zum konkreten Angebot persönlich begleitet/);
   assert.match(bundledJavaScript, /Objektbezogene Aufnahme/);
-  assert.match(bundledJavaScript, /Individuell kalkuliert/);
+  assert.doesNotMatch(bundledJavaScript, /Individuell kalkuliert/);
   assert.match(bundledJavaScript, /Tarife auf einen Blick/);
   assert.match(bundledJavaScript, /Grundabsicherung/);
   assert.match(bundledJavaScript, /Erweiterter Schutz/);

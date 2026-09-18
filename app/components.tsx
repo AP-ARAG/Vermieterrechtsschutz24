@@ -100,9 +100,9 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
 }
 
 const questions = [
-  "Möchten Sie mehr als eine Wohnung oder ein Haus berücksichtigen?",
-  "Soll ein möglicher Mietausfall in der Beratung berücksichtigt werden?",
-  "Ist bereits ein konkreter Streit oder Rechtsfall bekannt?",
+  "Mehrere Objekte absichern?",
+  "Mietausfall mitprüfen?",
+  "Besteht bereits ein Rechtsfall?",
 ];
 
 export function OfferWizard() {
@@ -193,21 +193,20 @@ export function OfferWizard() {
       <div className="wizard-progress" aria-hidden="true">
         {[0, 1, 2, 3].map((item) => <span className="is-active" key={item} />)}
       </div>
-      <h2>Wie dürfen wir Sie erreichen?</h2>
-      <p className="required-note">Mit * gekennzeichnete Felder sind Pflichtfelder.</p>
+      <h2>Kontaktdaten</h2>
       <input type="hidden" name="multiple_properties" value={answers[0] ?? "Keine Angabe"} />
       <input type="hidden" name="rent_loss_protection" value={answers[1] ?? "Keine Angabe"} />
       <input type="hidden" name="existing_legal_case" value={answers[2] ?? "Keine Angabe"} />
       <label>Name *<input type="text" name="name" autoComplete="name" maxLength={120} required /></label>
       <label>E-Mail *<input type="email" name="email" autoComplete="email" maxLength={254} required /></label>
-      <label>Telefon (optional)<input type="tel" name="phone" autoComplete="tel" maxLength={50} placeholder="z. B. +49 173 1234567" /></label>
+      <label>Telefon<input type="tel" name="phone" autoComplete="tel" maxLength={50} placeholder="Optional" /></label>
       <label className="form-honeypot" aria-hidden="true">Bitte nicht ausfüllen<input name="_honey" tabIndex={-1} autoComplete="off" /></label>
-      <label className="privacy-note consent-field"><input type="checkbox" name="datenschutz_bestaetigt" value="ja" required /> <span>Ich habe die <Link href="/datenschutz" target="_blank" rel="noreferrer">Datenschutzerklärung</Link> zur Kenntnis genommen und bitte um Bearbeitung meiner Anfrage.</span></label>
-      <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Ich stimme ausdrücklich zu, dass mir die <Link href="/erstinformation" target="_blank" rel="noreferrer">Erstinformation nach § 15 VersVermV</Link> über diese Website bereitgestellt wird. Ich kann sie speichern oder ausdrucken und vor dem ersten Geschäftskontakt kostenlos auf Papier anfordern.</span></label>
+      <label className="privacy-note consent-field"><input type="checkbox" name="datenschutz_bestaetigt" value="ja" required /> <span><Link href="/datenschutz" target="_blank" rel="noreferrer">Datenschutzerklärung</Link> zur Kenntnis genommen.</span></label>
+      <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Digitaler <Link href="/erstinformation" target="_blank" rel="noreferrer">Erstinformation</Link> ausdrücklich zugestimmt.</span></label>
       {status === "error" && <p className="form-error" role="alert">{errorMessage} Bitte versuchen Sie es erneut oder schreiben Sie an <a href={`mailto:${operator.email}`}>{operator.email}</a>.</p>}
       <div className="wizard-nav">
         <button type="button" className="back-button" onClick={() => { setStep(2); setStatus("idle"); setErrorMessage(""); }} disabled={status === "sending"}>Zurück</button>
-        <button type="submit" className="blue-button" disabled={status === "sending"}>{status === "sending" ? "Wird gesendet …" : "Formular absenden"}</button>
+        <button type="submit" className="blue-button" disabled={status === "sending"}>{status === "sending" ? "Wird gesendet …" : "Anfrage senden"}</button>
       </div>
     </form>
   );
