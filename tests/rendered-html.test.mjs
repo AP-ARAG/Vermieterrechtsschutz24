@@ -88,6 +88,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.ok((await stat(new URL("og.png", dist))).size > 0);
   assert.match(await readFile(new URL("favicon.svg", dist), "utf8"), />M24<\/text>/);
   assert.ok((await stat(new URL("api/contact.php", dist))).size > 0);
+  assert.match(await readFile(new URL(".htaccess", dist), "utf8"), /no-cache, no-store, must-revalidate/);
   assert.match(await readFile(new URL("robots.txt", dist), "utf8"), /Sitemap:/);
   assert.match(await readFile(new URL("sitemap.xml", dist), "utf8"), /erstinformation/);
 });
