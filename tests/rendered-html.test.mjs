@@ -27,7 +27,7 @@ test("builds a deployable PHP-backed multi-page website", async () => {
   );
   assert.match(home, /twitter:image/);
   assert.match(home, /og:image:width/);
-  assert.match(home, /site-tools\.js\?v=20260918-a11y-exit-v1/);
+  assert.match(home, /site-tools\.js\?v=20260922-a11y-stable-v3/);
   assert.match(home, /"@type":"InsuranceAgency"/);
   assert.match(home, /"@type":"FAQPage"/);
   assert.doesNotMatch(home, /codex-preview|react-loading-skeleton/);
@@ -116,5 +116,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /data-exit-intent/);
   assert.match(bundledJavaScript, /Offizielle ARAG Produktinformationen/);
   assert.match(bundledStyles, /\.a11y-tools/);
+  assert.match(bundledStyles, /\.a11y-panel\[hidden\]/);
+  assert.match(bundledStyles, /safe-area-inset-bottom/);
+  assert.doesNotMatch(bundledStyles, /a11y-high-contrast body\{[^}]*filter:/);
   assert.match(bundledStyles, /\.exit-intent/);
 });
