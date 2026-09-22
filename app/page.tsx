@@ -116,7 +116,7 @@ export default function Home() {
       <section className="advisor-section" aria-labelledby="advisor-title">
         <div className="advisor-card">
           <div className="advisor-portrait">
-            <img src="/agapios-papadakis.jpg" alt={`Porträt von ${operator.name}`} />
+            <img src="/agapios-papadakis.jpg" alt={`Porträt von ${operator.name}`} width="1447" height="1087" loading="lazy" decoding="async" />
           </div>
           <div className="advisor-copy">
             <p className="eyebrow">Ihr Ansprechpartner</p>
@@ -216,15 +216,18 @@ export default function Home() {
           {faqs.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">⌄</span></summary><p>{answer}</p></details>)}
         </div>
       </section>
-      <section className="bottom-cta">
-        <div className="bottom-cta-inner">
-          <div>
-            <p className="eyebrow">Persönlich klären</p>
-            <h2>Sie möchten Ihren Bedarf in Ruhe besprechen?</h2>
-            <p className="bottom-cta-copy">Mit wenigen Angaben bereiten wir das Gespräch passend zu Ihrer Immobilie vor.</p>
-          </div>
-          <button className="blue-button" type="button" onClick={scrollToOffer}>Rückruf anfordern</button>
+      <section className="closing-funnel" aria-labelledby="closing-funnel-title">
+        <div className="closing-funnel-copy">
+          <p className="eyebrow">Noch einmal vollständig prüfen</p>
+          <h2 id="closing-funnel-title">Ihre Immobilie noch einmal vollständig einordnen.</h2>
+          <p>Der gleiche ausführliche Bedarfscheck steht Ihnen auch hier am Seitenende zur Verfügung.</p>
+          <ul>
+            <li>Sechs verständliche Schritte</li>
+            <li>Objekt, Schutzbedarf und Startzeitpunkt</li>
+            <li>Unverbindliche persönliche Rückmeldung</li>
+          </ul>
         </div>
+        <div className="closing-funnel-panel"><OfferWizard /></div>
       </section>
     </SiteShell>
   );

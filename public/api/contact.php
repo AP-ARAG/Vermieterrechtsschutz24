@@ -53,9 +53,11 @@ $answers = is_array($data['answers'] ?? null) ? $data['answers'] : [];
 $privacyConfirmed = (string) ($data['datenschutz_bestaetigt'] ?? '');
 $firstInformationDigital = (string) ($data['erstinformation_digital'] ?? '');
 
-$multipleProperties = trim((string) ($answers['multipleProperties'] ?? $data['multiple_properties'] ?? 'Keine Angabe'));
+$propertyCount = trim((string) ($answers['propertyCount'] ?? $data['property_count'] ?? 'Keine Angabe'));
+$propertyType = trim((string) ($answers['propertyType'] ?? $data['property_type'] ?? 'Keine Angabe'));
 $rentLossProtection = trim((string) ($answers['rentLossProtection'] ?? $data['rent_loss_protection'] ?? 'Keine Angabe'));
 $existingLegalCase = trim((string) ($answers['existingLegalCase'] ?? $data['existing_legal_case'] ?? 'Keine Angabe'));
+$desiredStart = trim((string) ($answers['desiredStart'] ?? $data['desired_start'] ?? 'Keine Angabe'));
 
 if (strlen($name) < 2 || strlen($name) > 120) {
     respond(422, ['success' => false, 'message' => 'Bitte geben Sie einen gültigen Namen ein.']);
@@ -77,9 +79,22 @@ if ($firstInformationDigital !== 'ja') {
     respond(422, ['success' => false, 'message' => 'Bitte stimmen Sie der digitalen Bereitstellung der Erstinformation zu.']);
 }
 
-$allowedAnswers = ['Ja', 'Nein', 'Keine Angabe'];
-foreach ([$multipleProperties, $rentLossProtection, $existingLegalCase] as $answer) {
-    if (!in_array($answer, $allowedAnswers, true)) {
+$allowedAnswers = [
+    'propertyCount' => ['Eine Einheit', '2 bis 5 Einheiten', 'Mehr als 5 Einheiten', 'Keine Angabe'],
+    'propertyType' => ['Wohnung', 'Haus', 'Gewerbe', 'Gemischter Bestand', 'Keine Angabe'],
+    'rentLossProtection' => ['Ja', 'Nein', 'Bitte einordnen', 'Keine Angabe'],
+    'existingLegalCase' => ['Nein', 'Ja', 'Nicht sicher', 'Keine Angabe'],
+    'desiredStart' => ['Möglichst bald', 'In 1 bis 3 Monaten', 'Erst orientieren', 'Keine Angabe'],
+];
+$submittedAnswers = [
+    'propertyCount' => $propertyCount,
+    'propertyType' => $propertyType,
+    'rentLossProtection' => $rentLossProtection,
+    'existingLegalCase' => $existingLegalCase,
+    'desiredStart' => $desiredStart,
+];
+foreach ($submittedAnswers as $key => $answer) {
+    if (!in_array($answer, $allowedAnswers[$key], true)) {
         respond(422, ['success' => false, 'message' => 'Ungültige Formularantwort.']);
     }
 }
@@ -98,9 +113,11 @@ $body = implode("\r\n", [
     'E-Mail: ' . $email,
     'Telefon: ' . ($safePhone !== '' ? $safePhone : 'Keine Angabe'),
     '',
-    'Mehr als eine Wohnung oder ein Haus: ' . $multipleProperties,
+    'Anzahl der Einheiten: ' . $propertyCount,
+    'Art der Immobilie: ' . $propertyType,
     'Zusätzlicher Mietausfallschutz: ' . $rentLossProtection,
     'Bereits bestehender Rechtsfall: ' . $existingLegalCase,
+    'Gewünschter Start: ' . $desiredStart,
     'Datenschutzerklärung: Kenntnisnahme bestätigt',
     'Erstinformation: digitaler Bereitstellung ausdrücklich zugestimmt',
     '',

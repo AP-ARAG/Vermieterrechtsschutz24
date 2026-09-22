@@ -99,9 +99,11 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
 }
 
 const questions = [
-  "Mehrere Objekte absichern?",
-  "Mietausfall mitprüfen?",
-  "Besteht bereits ein Rechtsfall?",
+  { title: "Wie viele Einheiten möchten Sie absichern?", options: ["Eine Einheit", "2 bis 5 Einheiten", "Mehr als 5 Einheiten"] },
+  { title: "Um welche Immobilien geht es?", options: ["Wohnung", "Haus", "Gewerbe", "Gemischter Bestand"] },
+  { title: "Mietausfallschutz mitprüfen?", options: ["Ja", "Nein", "Bitte einordnen"] },
+  { title: "Besteht bereits ein Rechtsfall?", options: ["Nein", "Ja", "Nicht sicher"] },
+  { title: "Wann soll der Schutz starten?", options: ["Möglichst bald", "In 1 bis 3 Monaten", "Erst orientieren"] },
 ];
 
 const infoItems = [
@@ -217,9 +219,11 @@ export function OfferWizard() {
       phone: String(formData.get("phone") ?? ""),
       datenschutz_bestaetigt: String(formData.get("datenschutz_bestaetigt") ?? ""),
       answers: {
-        multipleProperties: answers[0] ?? "Keine Angabe",
-        rentLossProtection: answers[1] ?? "Keine Angabe",
-        existingLegalCase: answers[2] ?? "Keine Angabe",
+        propertyCount: answers[0] ?? "Keine Angabe",
+        propertyType: answers[1] ?? "Keine Angabe",
+        rentLossProtection: answers[2] ?? "Keine Angabe",
+        existingLegalCase: answers[3] ?? "Keine Angabe",
+        desiredStart: answers[4] ?? "Keine Angabe",
       },
     };
 
@@ -251,20 +255,21 @@ export function OfferWizard() {
     );
   }
 
-  if (step < 3) {
+  if (step < questions.length) {
     return (
-      <div className="wizard-card" role="group" aria-label={`Schritt ${step + 1} von 4`}>
+      <div className="wizard-card" role="group" aria-label={`Schritt ${step + 1} von ${questions.length + 1}`}>
         <div className="wizard-progress" aria-hidden="true">
-          {[0, 1, 2, 3].map((item) => <span className={item <= step ? "is-active" : ""} key={item} />)}
+          {Array.from({ length: questions.length + 1 }, (_, item) => <span className={item <= step ? "is-active" : ""} key={item} />)}
         </div>
-        <h2>{questions[step]}</h2>
-        <div className="answer-grid" role="group" aria-label={questions[step]}>
-          <button type="button" onClick={() => choose("Ja")}><span className="answer-icon">✓</span><span>Ja</span></button>
-          <button type="button" onClick={() => choose("Nein")}><span className="answer-icon">×</span><span>Nein</span></button>
+        <h2>{questions[step].title}</h2>
+        <div className="answer-grid" role="group" aria-label={questions[step].title}>
+          {questions[step].options.map((option, optionIndex) => (
+            <button type="button" onClick={() => choose(option)} key={option}><span className="answer-icon">{optionIndex + 1}</span><span>{option}</span></button>
+          ))}
         </div>
         <div className="wizard-nav">
           {step > 0 && <button type="button" className="back-button" onClick={() => { setStep(step - 1); setStatus("idle"); setErrorMessage(""); }}>Zurück</button>}
-          <span className="step-badge" aria-live="polite">Schritt {step + 1} von 4</span>
+          <span className="step-badge" aria-live="polite">Schritt {step + 1} von {questions.length + 1}</span>
         </div>
       </div>
     );
@@ -273,12 +278,14 @@ export function OfferWizard() {
   return (
     <form className="wizard-card contact-form" action={FORM_ENDPOINT} method="POST" onSubmit={submit} aria-busy={status === "sending"}>
       <div className="wizard-progress" aria-hidden="true">
-        {[0, 1, 2, 3].map((item) => <span className="is-active" key={item} />)}
+        {Array.from({ length: questions.length + 1 }, (_, item) => <span className="is-active" key={item} />)}
       </div>
       <h2>Kontaktdaten</h2>
-      <input type="hidden" name="multiple_properties" value={answers[0] ?? "Keine Angabe"} />
-      <input type="hidden" name="rent_loss_protection" value={answers[1] ?? "Keine Angabe"} />
-      <input type="hidden" name="existing_legal_case" value={answers[2] ?? "Keine Angabe"} />
+      <input type="hidden" name="property_count" value={answers[0] ?? "Keine Angabe"} />
+      <input type="hidden" name="property_type" value={answers[1] ?? "Keine Angabe"} />
+      <input type="hidden" name="rent_loss_protection" value={answers[2] ?? "Keine Angabe"} />
+      <input type="hidden" name="existing_legal_case" value={answers[3] ?? "Keine Angabe"} />
+      <input type="hidden" name="desired_start" value={answers[4] ?? "Keine Angabe"} />
       <label>Name *<input type="text" name="name" autoComplete="name" maxLength={120} required /></label>
       <label>E-Mail *<input type="email" name="email" autoComplete="email" maxLength={254} required /></label>
       <label>Telefon<input type="tel" name="phone" autoComplete="tel" maxLength={50} placeholder="Optional" /></label>
@@ -287,7 +294,7 @@ export function OfferWizard() {
       <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Digitaler <Link href="/erstinformation" target="_blank" rel="noreferrer">Erstinformation</Link> ausdrücklich zugestimmt.</span></label>
       {status === "error" && <p className="form-error" role="alert">{errorMessage} Bitte versuchen Sie es erneut oder schreiben Sie an <a href={`mailto:${operator.email}`}>{operator.email}</a>.</p>}
       <div className="wizard-nav">
-        <button type="button" className="back-button" onClick={() => { setStep(2); setStatus("idle"); setErrorMessage(""); }} disabled={status === "sending"}>Zurück</button>
+        <button type="button" className="back-button" onClick={() => { setStep(questions.length - 1); setStatus("idle"); setErrorMessage(""); }} disabled={status === "sending"}>Zurück</button>
         <button type="submit" className="blue-button" disabled={status === "sending"}>{status === "sending" ? "Wird gesendet …" : "Anfrage senden"}</button>
       </div>
     </form>
