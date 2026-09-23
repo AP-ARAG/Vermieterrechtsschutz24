@@ -27,7 +27,7 @@ test("builds a deployable PHP-backed multi-page website", async () => {
   );
   assert.match(home, /twitter:image/);
   assert.match(home, /og:image:width/);
-  assert.match(home, /site-tools\.js\?v=20260922-a11y-stable-v3/);
+  assert.match(home, /site-tools\.js\?v=20260922-a11y-ui-v4/);
   assert.match(home, /"@type":"InsuranceAgency"/);
   assert.match(home, /"@type":"FAQPage"/);
   assert.doesNotMatch(home, /codex-preview|react-loading-skeleton/);
@@ -107,6 +107,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.ok((await stat(new URL("og.png", dist))).size > 0);
   assert.ok((await stat(new URL("site-tools.js", dist))).size > 0);
   assert.match(await readFile(new URL("site-tools.js", dist), "utf8"), /Die Auswahl wird nicht gespeichert/);
+  assert.match(await readFile(new URL("site-tools.js", dist), "utf8"), /aria-label="Barrierefreiheit"/);
   assert.match(await readFile(new URL("favicon.svg", dist), "utf8"), />M24<\/text>/);
   assert.ok((await stat(new URL("api/contact.php", dist))).size > 0);
   assert.match(await readFile(new URL(".htaccess", dist), "utf8"), /no-cache, no-store, must-revalidate/);
@@ -118,6 +119,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledStyles, /\.a11y-tools/);
   assert.match(bundledStyles, /\.a11y-panel\[hidden\]/);
   assert.match(bundledStyles, /safe-area-inset-bottom/);
+  assert.match(bundledStyles, /a11y-trigger\{[^}]*width:52px/);
+  assert.match(bundledStyles, /a11y-options button strong:after/);
   assert.doesNotMatch(bundledStyles, /a11y-high-contrast body\{[^}]*filter:/);
   assert.match(bundledStyles, /\.exit-intent/);
 });
