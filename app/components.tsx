@@ -20,21 +20,15 @@ export function Header() {
   return (
     <>
       <aside className="network-bar" aria-label="Versicherungsnavigator24">
-        <a className="network-home" href="https://home-5021372330.app-ionos.space/"><span aria-hidden="true">V24</span><strong>Zur Hauptseite</strong></a>
         <nav className="desktop-nav" aria-label="Zwischen Versicherungswelten wechseln">
           <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
           <a className="is-current" href="/" aria-current="page">Vermieter</a>
-          <a href="https://tiersafe.de/">Tier</a>
-          <a href="https://home-5021386578.app-ionos.space/">Private KV</a>
         </nav>
         <details className="mobile-menu">
           <summary aria-label="Navigation öffnen">Menü</summary>
           <nav aria-label="Mobile Versicherungsbereiche">
-            <a href="https://home-5021372330.app-ionos.space/">Zur Hauptseite</a>
             <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
             <a href="/">Vermieter</a>
-            <a href="https://tiersafe.de/">Tierkrankenschutz24</a>
-            <a href="https://home-5021386578.app-ionos.space/">PrivatKrankenversicherung24</a>
           </nav>
         </details>
       </aside>

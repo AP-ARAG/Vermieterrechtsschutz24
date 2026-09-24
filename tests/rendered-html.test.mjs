@@ -76,9 +76,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.doesNotMatch(bundledJavaScript, /brand-mark[^>]*>ARAG/);
   assert.doesNotMatch(bundledJavaScript, /ARAG Rechtsschutz für Vermieter persönlich beraten/);
   assert.match(bundledJavaScript, /Versicherungsnavigator24/);
-  assert.match(bundledJavaScript, /home-5021372330\.app-ionos\.space/);
-  assert.match(bundledJavaScript, /tiersafe\.de/);
-  assert.match(bundledJavaScript, /home-5021386578\.app-ionos\.space/);
+  assert.doesNotMatch(bundledJavaScript, /home-5021372330\.app-ionos\.space|tiersafe\.de|home-5021386578\.app-ionos\.space/);
   assert.doesNotMatch(bundledJavaScript, /Buchenbergstr\. 3f|86420 Diedorf/);
   assert.match(bundledJavaScript, /rechtsschutzpartner24\.de\/contact\.php/);
   assert.match(bundledJavaScript, /form_type/);
