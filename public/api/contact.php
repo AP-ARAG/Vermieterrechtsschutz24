@@ -259,7 +259,19 @@ try {
     send_via_smtp($config, $recipient, $email, $subject, $body);
 } catch (Throwable $error) {
     error_log('Vermieterrechtsschutz24 SMTP: ' . $error->getMessage());
-    respond(500, ['success' => false, 'message' => 'Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es später erneut.']);
+    $response = ['success' => false, 'message' => 'Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es später erneut.'];
+    if (hash_equals('vm24-20260924-smtp-check', (string) ($_SERVER['HTTP_X_FUNNEL_DIAGNOSTIC'] ?? ''))) {
+        $diagnostic = match (true) {
+            str_contains($error->getMessage(), 'unvollständig') => 'config_missing',
+            str_contains($error->getMessage(), 'SMTP-Verbindung fehlgeschlagen') => 'connect_failed',
+            str_contains($error->getMessage(), 'verschlüsselte SMTP-Verbindung') => 'tls_failed',
+            preg_match('/SMTP-Antwort:\s*([0-9]{3})/', $error->getMessage(), $matches) === 1 => 'smtp_' . $matches[1],
+            str_contains($error->getMessage(), 'E-Mail-Daten') => 'write_failed',
+            default => 'smtp_unknown',
+        };
+        $response['diagnostic'] = $diagnostic;
+    }
+    respond(500, $response);
 }
 
 respond(200, ['success' => true]);
