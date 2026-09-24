@@ -45,7 +45,7 @@ jobs:
         with:
           input-directory: .deploy-now/Vermieterrechtsschutz24
           output-directory: dist
-          intermediate-data-file: .template-renderer-data
+          intermediate-data-file: dist/.template-renderer-data
 
 # Please do not touch the following action
       - name: Store deployment content
