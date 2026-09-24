@@ -112,7 +112,9 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(await readFile(new URL("site-tools.js", dist), "utf8"), /aria-label="Barrierefreiheit"/);
   assert.match(await readFile(new URL("favicon.svg", dist), "utf8"), />M24<\/text>/);
   assert.ok((await stat(new URL("api/contact.php", dist))).size > 0);
-  assert.match(await readFile(new URL(".htaccess", dist), "utf8"), /no-cache, no-store, must-revalidate/);
+  const htaccess = await readFile(new URL(".htaccess", dist), "utf8");
+  assert.match(htaccess, /no-cache, no-store, must-revalidate/);
+  assert.match(htaccess, /<FilesMatch "\^\\\.">[\s\S]*Require all denied/);
   assert.match(await readFile(new URL("robots.txt", dist), "utf8"), /Sitemap:/);
   assert.match(await readFile(new URL("sitemap.xml", dist), "utf8"), /erstinformation/);
   assert.match(await readFile(new URL("sitemap.xml", dist), "utf8"), /2026-09-18/);

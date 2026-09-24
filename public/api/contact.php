@@ -275,6 +275,13 @@ try {
                 ['MAIL_HOST', 'MAIL_PORT', 'MAIL_USERNAME', 'MAIL_PASSWORD', 'MAIL_FROM_ADDRESS'],
                 static fn (string $key): bool => config_value($config, $key) === ''
             ));
+            $response['unresolved'] = array_values(array_filter(
+                ['MAIL_HOST', 'MAIL_PORT', 'MAIL_USERNAME', 'MAIL_PASSWORD', 'MAIL_ENCRYPTION', 'MAIL_FROM_ADDRESS'],
+                static function (string $key) use ($config): bool {
+                    $value = config_value($config, $key);
+                    return str_starts_with($value, '$IONOS_') || str_starts_with($value, 'IONOS_');
+                }
+            ));
         }
     }
     respond(500, $response);
