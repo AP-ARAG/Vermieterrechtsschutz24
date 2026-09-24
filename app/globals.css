@@ -16,6 +16,7 @@
 }
 
 * { box-sizing: border-box; }
+main section[id], .facts[id], footer[id] { scroll-margin-top: 104px; }
 html { scroll-behavior: smooth; text-size-adjust: 100%; }
 body { margin: 0; min-width: 280px; color: var(--ink); background: #fff; font-family: "Avenir Next", "Segoe UI", Arial, Helvetica, sans-serif; font-size: clamp(15px, 1.05vw, 17px); line-height: 1.5; }
 body.has-info-modal { overflow: hidden; }

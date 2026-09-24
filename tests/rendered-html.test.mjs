@@ -61,6 +61,15 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Wir vermitteln Ihnen einen erfahrenen Mediator und übernehmen die Kosten/);
   assert.match(bundledJavaScript, /Von der ersten Einordnung bis zum konkreten Angebot persönlich begleitet/);
   assert.match(bundledJavaScript, /Objektbezogene Aufnahme/);
+  for (const anchor of [
+    "angebot", "beratungsvorteile", "ansprechpartner", "leistungsbereiche", "tarife",
+    "weg-zum-angebot", "beratung-in-drei-schritten", "hinweis-beitraege-leistungen",
+    "bauen-und-modernisieren", "haeufige-fragen", "abschluss-anfrage",
+    "hinweise-zum-angebot", "kontakt-rechtliches",
+  ]) {
+    assert.match(bundledJavaScript, new RegExp(anchor));
+  }
+  assert.match(bundledStyles, /scroll-margin-top:104px/);
   assert.doesNotMatch(bundledJavaScript, /Individuell kalkuliert/);
   assert.match(bundledJavaScript, /Tarife auf einen Blick/);
   assert.match(bundledJavaScript, /Grundabsicherung/);
