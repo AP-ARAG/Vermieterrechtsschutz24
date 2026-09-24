@@ -31,6 +31,6 @@ Beim IONOS-Build wird die kanonische Website-Adresse automatisch aus `SITE_URL` 
 
 ## Kontaktformular
 
-Das Formular sendet per AJAX an `dist/api/contact.php`. Der PHP-Endpunkt validiert die Angaben, verwendet ein Honeypot-Feld gegen einfache Bots und leitet Anfragen per E-Mail an `info@rechtsschutzpartner24.de` weiter.
+Das Formular sendet per AJAX an `dist/api/contact.php`. Der PHP-Endpunkt validiert die Angaben, verwendet ein Honeypot-Feld gegen einfache Bots und übergibt Anfragen authentifiziert über den IONOS-SMTP-Account an `leads.ap.arag@gmail.com`. Die Runtime-Zugangsdaten werden beim Deployment aus `.deploy-now/Vermieterrechtsschutz24/api/.env.template` in `dist/api/.env` gerendert und nicht im Repository gespeichert.
 
 Alternativ kann beim Build über `VITE_FORM_ENDPOINT` ein anderer kompatibler JSON-Endpunkt gesetzt werden.

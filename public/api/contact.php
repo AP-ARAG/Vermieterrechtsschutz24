@@ -5,12 +5,138 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 header('Cache-Control: no-store, max-age=0');
 header('X-Content-Type-Options: nosniff');
+header('X-Funnel-Mailer: ionos-smtp-v1');
 
 function respond(int $status, array $body): never
 {
     http_response_code($status);
     echo json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
+}
+
+/** @param array<string, string> $config */
+function config_value(array $config, string $key): string
+{
+    $environmentValue = getenv($key);
+    if ($environmentValue !== false && $environmentValue !== '') {
+        return $environmentValue;
+    }
+
+    return trim((string) ($config[$key] ?? ''));
+}
+
+/**
+ * @param resource $socket
+ * @param int[] $expectedCodes
+ */
+function smtp_response($socket, array $expectedCodes): string
+{
+    $response = '';
+    while (($line = fgets($socket, 515)) !== false) {
+        $response .= $line;
+        if (strlen($line) >= 4 && $line[3] === ' ') {
+            break;
+        }
+    }
+
+    $code = (int) substr($response, 0, 3);
+    if (!in_array($code, $expectedCodes, true)) {
+        throw new RuntimeException('Unerwartete SMTP-Antwort: ' . trim($response));
+    }
+
+    return $response;
+}
+
+/**
+ * @param resource $socket
+ * @param int[] $expectedCodes
+ */
+function smtp_command($socket, string $command, array $expectedCodes): string
+{
+    if (fwrite($socket, $command . "\r\n") === false) {
+        throw new RuntimeException('SMTP-Befehl konnte nicht gesendet werden.');
+    }
+
+    return smtp_response($socket, $expectedCodes);
+}
+
+/** @param array<string, string> $config */
+function send_via_smtp(
+    array $config,
+    string $recipient,
+    string $replyTo,
+    string $subject,
+    string $message
+): void {
+    $host = config_value($config, 'MAIL_HOST');
+    $port = (int) config_value($config, 'MAIL_PORT');
+    $username = config_value($config, 'MAIL_USERNAME');
+    $password = config_value($config, 'MAIL_PASSWORD');
+    $encryption = strtolower(config_value($config, 'MAIL_ENCRYPTION'));
+    $fromAddress = config_value($config, 'MAIL_FROM_ADDRESS');
+
+    if ($host === '' || $port < 1 || $username === '' || $password === '' || $fromAddress === '') {
+        throw new RuntimeException('Die IONOS-SMTP-Konfiguration ist unvollständig.');
+    }
+
+    $transport = in_array($encryption, ['ssl', 'smtps'], true) ? 'ssl://' : 'tcp://';
+    $socket = @stream_socket_client(
+        $transport . $host . ':' . $port,
+        $errorNumber,
+        $errorMessage,
+        15,
+        STREAM_CLIENT_CONNECT
+    );
+
+    if ($socket === false) {
+        throw new RuntimeException('SMTP-Verbindung fehlgeschlagen: ' . $errorNumber . ' ' . $errorMessage);
+    }
+
+    try {
+        stream_set_timeout($socket, 15);
+        smtp_response($socket, [220]);
+        smtp_command($socket, 'EHLO vermieterrechtsschutz24.com', [250]);
+
+        if (in_array($encryption, ['tls', 'starttls'], true)) {
+            smtp_command($socket, 'STARTTLS', [220]);
+            if (stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) !== true) {
+                throw new RuntimeException('Die verschlüsselte SMTP-Verbindung konnte nicht aufgebaut werden.');
+            }
+            smtp_command($socket, 'EHLO vermieterrechtsschutz24.com', [250]);
+        }
+
+        smtp_command($socket, 'AUTH LOGIN', [334]);
+        smtp_command($socket, base64_encode($username), [334]);
+        smtp_command($socket, base64_encode($password), [235]);
+        smtp_command($socket, 'MAIL FROM:<' . $fromAddress . '>', [250]);
+        smtp_command($socket, 'RCPT TO:<' . $recipient . '>', [250, 251]);
+        smtp_command($socket, 'DATA', [354]);
+
+        $headers = [
+            'From: Vermieterrechtsschutz24 <' . $fromAddress . '>',
+            'Reply-To: ' . $replyTo,
+            'To: <' . $recipient . '>',
+            'Subject: =?UTF-8?B?' . base64_encode($subject) . '?=',
+            'Date: ' . date(DATE_RFC2822),
+            'Message-ID: <' . bin2hex(random_bytes(12)) . '@vermieterrechtsschutz24.com>',
+            'MIME-Version: 1.0',
+            'Content-Type: text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding: 8bit',
+            'X-Mailer: Vermieterrechtsschutz24',
+        ];
+        $normalizedMessage = str_replace(["\r\n", "\r"], "\n", $message);
+        $normalizedMessage = str_replace("\n", "\r\n", $normalizedMessage);
+        $normalizedMessage = preg_replace('/(?m)^\./', '..', $normalizedMessage) ?? $normalizedMessage;
+
+        if (fwrite($socket, implode("\r\n", $headers) . "\r\n\r\n" . $normalizedMessage . "\r\n.\r\n") === false) {
+            throw new RuntimeException('Die E-Mail-Daten konnten nicht übertragen werden.');
+        }
+
+        smtp_response($socket, [250]);
+        smtp_command($socket, 'QUIT', [221]);
+    } finally {
+        fclose($socket);
+    }
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
@@ -105,7 +231,6 @@ $safeSourceUrl = filter_var($sourceUrl, FILTER_VALIDATE_URL) !== false ? $source
 
 $recipient = 'leads.ap.arag@gmail.com';
 $subject = 'Neue Anfrage über Vermieterrechtsschutz24';
-$encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 $body = implode("\r\n", [
     'Neue Anfrage über die Website',
     '',
@@ -125,17 +250,16 @@ $body = implode("\r\n", [
     'Zeitpunkt: ' . gmdate('Y-m-d H:i:s') . ' UTC',
 ]);
 
-$headers = implode("\r\n", [
-    'MIME-Version: 1.0',
-    'Content-Type: text/plain; charset=UTF-8',
-    'Content-Transfer-Encoding: 8bit',
-    'From: Vermieterrechtsschutz24 <info@rechtsschutzpartner24.de>',
-    'Reply-To: ' . $email,
-]);
+$configPath = __DIR__ . '/.env';
+$config = is_readable($configPath)
+    ? (parse_ini_file($configPath, false, INI_SCANNER_RAW) ?: [])
+    : [];
 
-if (!mail($recipient, $encodedSubject, $body, $headers)) {
-    error_log('Vermieterrechtsschutz24: Kontaktformular konnte nicht versendet werden.');
-    respond(500, ['success' => false, 'message' => 'Die Anfrage konnte gerade nicht gesendet werden.']);
+try {
+    send_via_smtp($config, $recipient, $email, $subject, $body);
+} catch (Throwable $error) {
+    error_log('Vermieterrechtsschutz24 SMTP: ' . $error->getMessage());
+    respond(500, ['success' => false, 'message' => 'Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es später erneut.']);
 }
 
 respond(200, ['success' => true]);
