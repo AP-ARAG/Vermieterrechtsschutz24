@@ -100,6 +100,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledStyles, /highlight-card h2\{min-height:56px/);
   assert.match(bundledStyles, /consent-field/);
   assert.match(bundledStyles, /network-bar/);
+  assert.match(bundledStyles, /place-items:start center/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("agapios-papadakis.jpg", dist))).size > 0);
