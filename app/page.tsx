@@ -88,8 +88,8 @@ export default function Home() {
             <h1>Passender Schutz für Ihre Immobilie.</h1>
             <p className="hero-summary">Persönlich. Unverbindlich. Klar.</p>
           </div>
-          <OfferInfoPoints />
           <OfferWizard />
+          <OfferInfoPoints />
         </div>
       </section>
 

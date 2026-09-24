@@ -97,13 +97,62 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
   );
 }
 
-const questions = [
-  { title: "Wie viele Einheiten möchten Sie absichern?", options: ["Eine Einheit", "2 bis 5 Einheiten", "Mehr als 5 Einheiten"] },
-  { title: "Um welche Immobilien geht es?", options: ["Wohnung", "Haus", "Gewerbe", "Gemischter Bestand"] },
-  { title: "Mietausfallschutz mitprüfen?", options: ["Ja", "Nein", "Bitte einordnen"] },
-  { title: "Besteht bereits ein Rechtsfall?", options: ["Nein", "Ja", "Nicht sicher"] },
-  { title: "Wann soll der Schutz starten?", options: ["Möglichst bald", "In 1 bis 3 Monaten", "Erst orientieren"] },
+type AnswerIconName = "home" | "buildings" | "portfolio" | "apartment" | "business" | "mixed" | "check" | "minus" | "question" | "shield" | "case" | "fast" | "calendar" | "compass";
+
+type AnswerOption = {
+  label: string;
+  icon: AnswerIconName;
+};
+
+const questions: { title: string; options: AnswerOption[] }[] = [
+  { title: "Wie viele Einheiten möchten Sie absichern?", options: [
+    { label: "Eine Einheit", icon: "home" },
+    { label: "2 bis 5 Einheiten", icon: "buildings" },
+    { label: "Mehr als 5 Einheiten", icon: "portfolio" },
+  ] },
+  { title: "Um welche Immobilien geht es?", options: [
+    { label: "Wohnung", icon: "apartment" },
+    { label: "Haus", icon: "home" },
+    { label: "Gewerbe", icon: "business" },
+    { label: "Gemischter Bestand", icon: "mixed" },
+  ] },
+  { title: "Mietausfallschutz mitprüfen?", options: [
+    { label: "Ja", icon: "check" },
+    { label: "Nein", icon: "minus" },
+    { label: "Bitte einordnen", icon: "question" },
+  ] },
+  { title: "Besteht bereits ein Rechtsfall?", options: [
+    { label: "Nein", icon: "shield" },
+    { label: "Ja", icon: "case" },
+    { label: "Nicht sicher", icon: "question" },
+  ] },
+  { title: "Wann soll der Schutz starten?", options: [
+    { label: "Möglichst bald", icon: "fast" },
+    { label: "In 1 bis 3 Monaten", icon: "calendar" },
+    { label: "Erst orientieren", icon: "compass" },
+  ] },
 ];
+
+function AnswerIcon({ name }: { name: AnswerIconName }) {
+  const paths: Record<AnswerIconName, React.ReactNode> = {
+    home: <><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V21h13V10.5"/><path d="M9.5 21v-6h5v6"/></>,
+    buildings: <><path d="M3 21V8h8v13"/><path d="M11 21V3h10v18"/><path d="M6 11h2M6 15h2M14 7h2M18 7h1M14 11h2M18 11h1M14 15h2M18 15h1"/></>,
+    portfolio: <><path d="M3 21v-9h6v9M9 21V7h6v14M15 21V3h6v18"/><path d="M5.5 15h1M11.5 11h1M17.5 7h1"/></>,
+    apartment: <><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M14 7h2M9 11h2M14 11h2M9 15h2M14 15h2M11 21v-3h2v3"/></>,
+    business: <><path d="M4 10h16l-2-6H6l-2 6Z"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></>,
+    mixed: <><rect x="3" y="4" width="8" height="8" rx="1"/><rect x="13" y="4" width="8" height="8" rx="1"/><rect x="3" y="14" width="8" height="7" rx="1"/><rect x="13" y="14" width="8" height="7" rx="1"/></>,
+    check: <><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16.5 9"/></>,
+    minus: <><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></>,
+    question: <><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.4 2.4 0 1 1 3.5 2.15c-.85.45-1.3.95-1.3 1.85M12 16.8h.01"/></>,
+    shield: <><path d="M12 3 5 6v5c0 4.6 2.8 8.2 7 10 4.2-1.8 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></>,
+    case: <><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V4h6v3M3 12h18M10 12v2h4v-2"/></>,
+    fast: <><path d="M13 2 5 14h7l-1 8 8-12h-7l1-8Z"/></>,
+    calendar: <><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 17h2"/></>,
+    compass: <><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.1 4.9-4.9 2.1 2.1-4.9 4.9-2.1Z"/></>,
+  };
+
+  return <svg className="answer-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">{paths[name]}</svg>;
+}
 
 const infoItems = [
   {
@@ -258,18 +307,18 @@ export function OfferWizard() {
   if (step < questions.length) {
     return (
       <div className="wizard-card" role="group" aria-label={`Schritt ${step + 1} von ${questions.length + 1}`}>
-        <div className="wizard-progress" aria-hidden="true">
-          {Array.from({ length: questions.length + 1 }, (_, item) => <span className={item <= step ? "is-active" : ""} key={item} />)}
+        <div className="wizard-intro">
+          <h2>Angebot anfragen</h2>
+          <p className="step-badge" aria-live="polite">Schritt {step + 1} von {questions.length + 1}</p>
         </div>
-        <h2>{questions[step].title}</h2>
+        <h3 className="wizard-question">{questions[step].title}</h3>
         <div className="answer-grid" role="group" aria-label={questions[step].title}>
-          {questions[step].options.map((option, optionIndex) => (
-            <button type="button" onClick={() => choose(option)} key={option}><span className="answer-icon">{optionIndex + 1}</span><span>{option}</span></button>
+          {questions[step].options.map((option) => (
+            <button type="button" onClick={() => choose(option.label)} key={option.label}><AnswerIcon name={option.icon} /><span>{option.label}</span></button>
           ))}
         </div>
         <div className="wizard-nav">
           {step > 0 && <button type="button" className="back-button" onClick={() => { setStep(step - 1); setStatus("idle"); setErrorMessage(""); }}>Zurück</button>}
-          <span className="step-badge" aria-live="polite">Schritt {step + 1} von {questions.length + 1}</span>
         </div>
       </div>
     );
@@ -277,18 +326,21 @@ export function OfferWizard() {
 
   return (
     <form className="wizard-card contact-form" action={FORM_ENDPOINT} method="POST" onSubmit={submit} aria-busy={status === "sending"}>
-      <div className="wizard-progress" aria-hidden="true">
-        {Array.from({ length: questions.length + 1 }, (_, item) => <span className="is-active" key={item} />)}
+      <div className="wizard-intro">
+        <h2>Angebot anfragen</h2>
+        <p className="step-badge" aria-live="polite">Schritt {questions.length + 1} von {questions.length + 1}</p>
       </div>
-      <h2>Kontaktdaten</h2>
+      <h3 className="wizard-question">Kontaktdaten</h3>
       <input type="hidden" name="property_count" value={answers[0] ?? "Keine Angabe"} />
       <input type="hidden" name="property_type" value={answers[1] ?? "Keine Angabe"} />
       <input type="hidden" name="rent_loss_protection" value={answers[2] ?? "Keine Angabe"} />
       <input type="hidden" name="existing_legal_case" value={answers[3] ?? "Keine Angabe"} />
       <input type="hidden" name="desired_start" value={answers[4] ?? "Keine Angabe"} />
-      <label>Name *<input type="text" name="name" autoComplete="name" maxLength={120} required /></label>
-      <label>E-Mail *<input type="email" name="email" autoComplete="email" maxLength={254} required /></label>
-      <label>Telefon *<input type="tel" name="phone" autoComplete="tel" maxLength={50} required /></label>
+      <div className="contact-fields">
+        <label className="contact-name"><span>Name</span><input type="text" name="name" autoComplete="name" maxLength={120} placeholder="Name" required /></label>
+        <label><span>E-Mail</span><input type="email" name="email" autoComplete="email" maxLength={254} placeholder="E-Mail-Adresse" required /></label>
+        <label><span>Telefon</span><input type="tel" name="phone" autoComplete="tel" maxLength={50} placeholder="Telefonnummer" required /></label>
+      </div>
       <label className="form-honeypot" aria-hidden="true">Bitte nicht ausfüllen<input name="_honey" tabIndex={-1} autoComplete="off" /></label>
       <label className="privacy-note consent-field"><input type="checkbox" name="datenschutz_bestaetigt" value="ja" required /> <span><Link href="/datenschutz" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</Link> zur Kenntnis genommen.</span></label>
       <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Digitaler <Link href="/erstinformation" target="_blank" rel="noopener noreferrer">Erstinformation</Link> ausdrücklich zugestimmt.</span></label>

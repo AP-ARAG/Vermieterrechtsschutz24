@@ -48,6 +48,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Passender Schutz für Ihre Immobilie\./);
   assert.doesNotMatch(bundledJavaScript, /Rechtsschutz für private Vermieter – passend zur Immobilie\./);
   assert.match(bundledJavaScript, /Anfrage senden/);
+  assert.match(bundledJavaScript, /Angebot anfragen/);
+  assert.match(bundledJavaScript, /Schritt/);
   assert.match(bundledJavaScript, /Mehr zu wichtigen Leistungen/);
   assert.match(bundledJavaScript, /ARAG JuraTel®/);
   assert.match(bundledJavaScript, /Anwalts- & Gerichtskosten/);
@@ -113,6 +115,10 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledStyles, /network-bar/);
   assert.match(bundledStyles, /place-items:start center/);
   assert.match(bundledStyles, /answer-grid button\{[^}]*overflow-wrap:anywhere[^}]*hyphens:auto/);
+  assert.match(bundledStyles, /hero-panel\{[^}]*width:min\(100%,730px\)/);
+  assert.match(bundledStyles, /answer-grid button\{[^}]*width:203px[^}]*height:141px[^}]*background:#fff/);
+  assert.match(bundledStyles, /answer-icon\{[^}]*stroke:currentColor/);
+  assert.match(bundledStyles, /contact-fields\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
   assert.ok((await stat(new URL("hero-home.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("home-renovation.jpg", dist))).size > 0);
   assert.ok((await stat(new URL("agapios-papadakis.jpg", dist))).size > 0);
