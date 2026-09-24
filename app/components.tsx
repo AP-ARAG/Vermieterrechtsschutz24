@@ -25,7 +25,7 @@ export function Header() {
           <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
           <a className="is-current" href="/" aria-current="page">Vermieter</a>
           <a href="https://tiersafe.de/">Tier</a>
-          <a href="https://home-5021372330.app-ionos.space/private-krankenversicherung/">Private KV</a>
+          <a href="https://home-5021386578.app-ionos.space/">Private KV</a>
         </nav>
         <details className="mobile-menu">
           <summary aria-label="Navigation öffnen">Menü</summary>
@@ -34,7 +34,7 @@ export function Header() {
             <a href="https://rechtsschutzpartner24.de">Rechtsschutz</a>
             <a href="/">Vermieter</a>
             <a href="https://tiersafe.de/">Tierkrankenschutz24</a>
-            <a href="https://home-5021372330.app-ionos.space/private-krankenversicherung/">PrivatKrankenversicherung24</a>
+            <a href="https://home-5021386578.app-ionos.space/">PrivatKrankenversicherung24</a>
           </nav>
         </details>
       </aside>
