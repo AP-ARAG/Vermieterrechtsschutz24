@@ -64,10 +64,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /hashchange/);
   assert.match(bundledJavaScript, /scrollIntoView/);
   for (const anchor of [
-    "angebot", "beratungsvorteile", "ansprechpartner", "leistungsbereiche", "tarife",
-    "weg-zum-angebot", "beratung-in-drei-schritten", "hinweis-beitraege-leistungen",
-    "bauen-und-modernisieren", "haeufige-fragen", "abschluss-anfrage",
-    "hinweise-zum-angebot", "kontakt-rechtliches",
+    "angebot", "vorteile", "berater", "leistungen", "tarife", "ablauf", "schritte",
+    "hinweis", "bau", "fragen", "anfrage", "infos", "kontakt",
   ]) {
     assert.match(bundledJavaScript, new RegExp(anchor));
   }

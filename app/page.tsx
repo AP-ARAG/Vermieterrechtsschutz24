@@ -93,7 +93,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="highlights-section" id="beratungsvorteile" aria-labelledby="highlights-title">
+      <section className="highlights-section" id="vorteile" aria-labelledby="highlights-title">
         <div className="highlights-intro">
           <h2 id="highlights-title">Von der ersten Einordnung bis zum konkreten Angebot persönlich begleitet.</h2>
           <ul aria-label="Vorteile der persönlichen Beratung">
@@ -113,7 +113,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="advisor-section" id="ansprechpartner" aria-labelledby="advisor-title">
+      <section className="advisor-section" id="berater" aria-labelledby="advisor-title">
         <div className="advisor-card">
           <div className="advisor-portrait">
             <img src="/agapios-papadakis.jpg" alt={`Porträt von ${operator.name}`} width="1447" height="1087" loading="lazy" decoding="async" />
@@ -130,7 +130,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="services-section" id="leistungsbereiche">
+      <section className="services-section" id="leistungen">
         <p className="eyebrow section-eyebrow">Leistungsbereiche einordnen</p>
         <h2>Diese Themen können bei der Absicherung einer vermieteten Immobilie wichtig sein</h2>
         <p className="section-note">Die Übersicht beschreibt typische Beratungsfelder, aber keine zugesagten Versicherungsleistungen. Entscheidend sind immer das individuelle Angebot und die dazugehörigen Bedingungen.</p>
@@ -170,11 +170,11 @@ export default function Home() {
         <p className="tariff-disclaimer">Diese Übersicht ist eine verkürzte Orientierung. Maßgeblich sind das individuelle Angebot, der Versicherungsschein und die vereinbarten Versicherungsbedingungen. Leistungen, Ausschlüsse, Wartezeiten und Beitrag können abweichen. <a href="https://www.arag.de/rechtsschutzversicherung/vermieterrechtsschutz/" target="_blank" rel="noopener noreferrer">Offizielle ARAG Produktinformationen</a>.</p>
       </section>
 
-      <section className="plans-intro" id="weg-zum-angebot">
+      <section className="plans-intro" id="ablauf">
         <p className="eyebrow">Der Weg zum Angebot</p>
         <h2>Drei Schritte, damit Schutzumfang und Immobilie zusammenpassen</h2>
       </section>
-      <section className="plans-section" id="beratung-in-drei-schritten">
+      <section className="plans-section" id="schritte">
         <div className="plans-grid">
           {consultationSteps.map((step, index) => (
             <article className={`plan plan-${["basic", "comfort", "premium"][index]}`} key={step.number}>
@@ -187,12 +187,12 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section className="plan-footnote" id="hinweis-beitraege-leistungen">
+      <section className="plan-footnote" id="hinweis">
         <p>Beiträge und Leistungen lassen sich erst anhand Ihrer Angaben und der aktuellen Versicherungsbedingungen verlässlich bestimmen. Diese Website stellt weder ein verbindliches Angebot noch eine Deckungszusage dar.</p>
         <button className="blue-button" type="button" onClick={scrollToOffer}>Rückruf anfordern</button>
       </section>
 
-      <section className="builders-section" id="bauen-und-modernisieren">
+      <section className="builders-section" id="bau">
         <div className="builders-inner">
           <p className="eyebrow">Bauen und modernisieren</p>
           <h2>Zusatzschutz für ein Bauvorhaben frühzeitig mitdenken</h2>
@@ -210,13 +210,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="faq-section" id="haeufige-fragen">
+      <section className="faq-section" id="fragen">
         <h2>Fragen vor der Anfrage</h2>
         <div className="faq-box">
           {faqs.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">⌄</span></summary><p>{answer}</p></details>)}
         </div>
       </section>
-      <section className="closing-funnel" id="abschluss-anfrage" aria-labelledby="closing-funnel-title">
+      <section className="closing-funnel" id="anfrage" aria-labelledby="closing-funnel-title">
         <div className="closing-funnel-copy">
           <p className="eyebrow">Noch einmal vollständig prüfen</p>
           <h2 id="closing-funnel-title">Ihre Immobilie noch einmal vollständig einordnen.</h2>

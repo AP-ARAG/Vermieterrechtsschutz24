@@ -52,7 +52,7 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
   return (
     <>
       {!legalPage && (
-        <section className="facts" id="hinweise-zum-angebot" aria-label="Hinweise zum Angebot">
+        <section className="facts" id="infos" aria-label="Hinweise zum Angebot">
           <div className="facts-grid">
             <article><span aria-hidden="true">01</span><p><strong>Für Vermieter</strong><br />Bedarf rund um vermietete Immobilien</p></article>
             <article><span aria-hidden="true">02</span><p><strong>Individuell</strong><br />Beitrag statt pauschalem Beispielpreis</p></article>
@@ -61,7 +61,7 @@ export function Footer({ legalPage = false }: { legalPage?: boolean }) {
           </div>
         </section>
       )}
-      <footer className="site-footer" id="kontakt-rechtliches">
+      <footer className="site-footer" id="kontakt">
         <div className="footer-inner">
           <div className="footer-brand-column">
             <Link href="/" className="footer-brand" aria-label="Zur Startseite">
