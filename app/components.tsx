@@ -4,8 +4,13 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import Link from "./link";
 import { operator } from "./legal-data";
 
-const DEFAULT_FORM_ENDPOINT = "/api/contact.php";
+const DEFAULT_FORM_ENDPOINT = "https://rechtsschutzpartner24.de/contact.php";
 const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT?.trim() || DEFAULT_FORM_ENDPOINT;
+
+function formText(data: FormData, name: string) {
+  const value = data.get(name);
+  return typeof value === "string" ? value.trim() : "";
+}
 
 export function scrollToOffer() {
   document.getElementById("angebot")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -210,31 +215,32 @@ export function OfferWizard() {
     setErrorMessage("");
 
     const formData = new FormData(event.currentTarget);
-    const payload = {
-      honeypot: String(formData.get("_honey") ?? ""),
-      erstinformation_digital: String(formData.get("erstinformation_digital") ?? ""),
-      sourceUrl: window.location.href,
-      name: String(formData.get("name") ?? ""),
-      email: String(formData.get("email") ?? ""),
-      phone: String(formData.get("phone") ?? ""),
-      datenschutz_bestaetigt: String(formData.get("datenschutz_bestaetigt") ?? ""),
-      answers: {
-        propertyCount: answers[0] ?? "Keine Angabe",
-        propertyType: answers[1] ?? "Keine Angabe",
-        rentLossProtection: answers[2] ?? "Keine Angabe",
-        existingLegalCase: answers[3] ?? "Keine Angabe",
-        desiredStart: answers[4] ?? "Keine Angabe",
-      },
-    };
+    const payload = new URLSearchParams({
+      form_type: "vermieter",
+      name: formText(formData, "name"),
+      email: formText(formData, "email"),
+      phone: formText(formData, "phone"),
+      datenschutz_bestaetigt: formText(formData, "datenschutz_bestaetigt"),
+      erstinformation_digital: formText(formData, "erstinformation_digital"),
+      answers_json: JSON.stringify({
+        Anzahl_Einheiten: answers[0] ?? "Keine Angabe",
+        Immobilienart: answers[1] ?? "Keine Angabe",
+        Mietausfallschutz: answers[2] ?? "Keine Angabe",
+        Bestehender_Rechtsfall: answers[3] ?? "Keine Angabe",
+        Gewuenschter_Start: answers[4] ?? "Keine Angabe",
+      }),
+      source_url: window.location.href,
+      website: formText(formData, "_honey"),
+    });
 
     try {
       const response = await fetch(FORM_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8", Accept: "application/json" },
+        body: payload.toString(),
       });
-      const result = await response.json().catch(() => null) as { success?: boolean | string; message?: string } | null;
-      if (!response.ok || (result?.success !== true && result?.success !== "true")) {
+      const result = await response.json().catch(() => null) as { ok?: boolean; message?: string } | null;
+      if (!response.ok || result?.ok !== true) {
         throw new Error(result?.message || "Die Anfrage konnte gerade nicht gesendet werden.");
       }
       setStatus("sent");
@@ -288,10 +294,10 @@ export function OfferWizard() {
       <input type="hidden" name="desired_start" value={answers[4] ?? "Keine Angabe"} />
       <label>Name *<input type="text" name="name" autoComplete="name" maxLength={120} required /></label>
       <label>E-Mail *<input type="email" name="email" autoComplete="email" maxLength={254} required /></label>
-      <label>Telefon<input type="tel" name="phone" autoComplete="tel" maxLength={50} placeholder="Optional" /></label>
+      <label>Telefon *<input type="tel" name="phone" autoComplete="tel" maxLength={50} required /></label>
       <label className="form-honeypot" aria-hidden="true">Bitte nicht ausfüllen<input name="_honey" tabIndex={-1} autoComplete="off" /></label>
-      <label className="privacy-note consent-field"><input type="checkbox" name="datenschutz_bestaetigt" value="ja" required /> <span><Link href="/datenschutz" target="_blank" rel="noreferrer">Datenschutzerklärung</Link> zur Kenntnis genommen.</span></label>
-      <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Digitaler <Link href="/erstinformation" target="_blank" rel="noreferrer">Erstinformation</Link> ausdrücklich zugestimmt.</span></label>
+      <label className="privacy-note consent-field"><input type="checkbox" name="datenschutz_bestaetigt" value="ja" required /> <span><Link href="/datenschutz" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</Link> zur Kenntnis genommen.</span></label>
+      <label className="privacy-note consent-field"><input type="checkbox" name="erstinformation_digital" value="ja" required /> <span>Digitaler <Link href="/erstinformation" target="_blank" rel="noopener noreferrer">Erstinformation</Link> ausdrücklich zugestimmt.</span></label>
       {status === "error" && <p className="form-error" role="alert">{errorMessage} Bitte versuchen Sie es erneut oder schreiben Sie an <a href={`mailto:${operator.email}`}>{operator.email}</a>.</p>}
       <div className="wizard-nav">
         <button type="button" className="back-button" onClick={() => { setStep(questions.length - 1); setStatus("idle"); setErrorMessage(""); }} disabled={status === "sending"}>Zurück</button>

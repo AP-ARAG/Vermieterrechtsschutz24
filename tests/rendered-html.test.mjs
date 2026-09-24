@@ -80,9 +80,11 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /tiersafe\.de/);
   assert.match(bundledJavaScript, /home-5021386578\.app-ionos\.space/);
   assert.doesNotMatch(bundledJavaScript, /Buchenbergstr\. 3f|86420 Diedorf/);
-  assert.match(bundledJavaScript, /api\/contact\.php/);
+  assert.match(bundledJavaScript, /rechtsschutzpartner24\.de\/contact\.php/);
+  assert.match(bundledJavaScript, /form_type/);
+  assert.match(bundledJavaScript, /answers_json/);
   assert.doesNotMatch(bundledJavaScript, /formsubmit\.co/);
-  assert.match(bundledJavaScript, /Anbieterangaben/);
+  assert.match(bundledJavaScript, /Angaben gemäß § 5 DDG/);
   assert.match(bundledJavaScript, /Ihre Rechte/);
   assert.doesNotMatch(bundledJavaScript, /TOP-PRODUKT|Testsieger|weltweit.größter|ab € 6,90/iu);
   assert.doesNotMatch(bundledJavaScript, /arag-wordmark|awards\.png|hero-office|bauherren\.jpg/);
@@ -117,7 +119,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(htaccess, /<FilesMatch "\^\\\.">[\s\S]*Require all denied/);
   assert.match(await readFile(new URL("robots.txt", dist), "utf8"), /Sitemap:/);
   assert.match(await readFile(new URL("sitemap.xml", dist), "utf8"), /erstinformation/);
-  assert.match(await readFile(new URL("sitemap.xml", dist), "utf8"), /2026-09-18/);
+  assert.match(await readFile(new URL("sitemap.xml", dist), "utf8"), /2026-09-24/);
   assert.match(bundledJavaScript, /data-exit-intent/);
   assert.match(bundledJavaScript, /Offizielle ARAG Produktinformationen/);
   assert.match(bundledStyles, /\.a11y-tools/);
@@ -129,7 +131,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledStyles, /\.exit-intent/);
 });
 
-test("delivers funnel leads to the configured Gmail inbox", async () => {
+test("delivers funnel leads through the shared secured mail endpoint", async () => {
   const endpoint = await readFile(new URL("../public/api/contact.php", import.meta.url), "utf8");
   const runtimeTemplate = await readFile(new URL("../.deploy-now/Vermieterrechtsschutz24/api/.env.template", import.meta.url), "utf8");
   const buildWorkflow = await readFile(new URL("../.github/workflows/Vermieterrechtsschutz24-build.yaml", import.meta.url), "utf8");
@@ -142,4 +144,7 @@ test("delivers funnel leads to the configured Gmail inbox", async () => {
   assert.match(runtimeTemplate, /MAIL_HOST="\$IONOS_MAIL_HOST"/);
   assert.match(runtimeTemplate, /MAIL_PASSWORD="\$IONOS_MAIL_PASSWORD"/);
   assert.match(buildWorkflow, /intermediate-data-file: dist\/\.template-renderer-data/);
+  const privacy = await readFile(new URL("../app/datenschutz/page.tsx", import.meta.url), "utf8");
+  assert.match(privacy, /rechtsschutzpartner24\.de/);
+  assert.match(privacy, /Gmail-Postfach/);
 });

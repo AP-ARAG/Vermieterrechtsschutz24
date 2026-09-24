@@ -124,7 +124,7 @@ export default function Home() {
             <p>{operator.qualification} bei der {operator.businessName}. Im Gespräch werden Immobilie, gewünschter Schutzumfang und wichtige Vertragsdetails nachvollziehbar eingeordnet.</p>
             <div className="advisor-actions">
               <a className="blue-button" href={`tel:${operator.phoneHref}`}>Jetzt anrufen</a>
-              <a className="text-link" href={operator.profileUrl} target="_blank" rel="noreferrer">Offizielles Vermittlerprofil</a>
+              <a className="text-link" href={operator.profileUrl} target="_blank" rel="noopener noreferrer">Offizielles Vermittlerprofil</a>
             </div>
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function Home() {
             </article>
           ))}
         </div>
-        <p className="tariff-disclaimer">Diese Übersicht ist eine verkürzte Orientierung. Maßgeblich sind das individuelle Angebot, der Versicherungsschein und die vereinbarten Versicherungsbedingungen. Leistungen, Ausschlüsse, Wartezeiten und Beitrag können abweichen. <a href="https://www.arag.de/rechtsschutzversicherung/vermieterrechtsschutz/" target="_blank" rel="noreferrer">Offizielle ARAG Produktinformationen</a>.</p>
+        <p className="tariff-disclaimer">Diese Übersicht ist eine verkürzte Orientierung. Maßgeblich sind das individuelle Angebot, der Versicherungsschein und die vereinbarten Versicherungsbedingungen. Leistungen, Ausschlüsse, Wartezeiten und Beitrag können abweichen. <a href="https://www.arag.de/rechtsschutzversicherung/vermieterrechtsschutz/" target="_blank" rel="noopener noreferrer">Offizielle ARAG Produktinformationen</a>.</p>
       </section>
 
       <section className="plans-intro">
