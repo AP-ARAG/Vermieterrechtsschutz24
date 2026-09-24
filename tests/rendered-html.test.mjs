@@ -126,3 +126,10 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.doesNotMatch(bundledStyles, /a11y-high-contrast body\{[^}]*filter:/);
   assert.match(bundledStyles, /\.exit-intent/);
 });
+
+test("delivers funnel leads to the configured Gmail inbox", async () => {
+  const endpoint = await readFile(new URL("../public/api/contact.php", import.meta.url), "utf8");
+  assert.match(endpoint, /leads\.ap\.arag@gmail\.com/);
+  assert.match(endpoint, /datenschutz_bestaetigt/);
+  assert.match(endpoint, /erstinformation_digital/);
+});

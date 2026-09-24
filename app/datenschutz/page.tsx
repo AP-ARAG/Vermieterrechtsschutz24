@@ -20,7 +20,7 @@ export default function Datenschutz() {
 
           <h2>3. Kontaktformular und Rückrufanfrage</h2>
           <p>Wenn Sie das Formular verwenden, verarbeiten wir Ihren Namen, Ihre E-Mail-Adresse, eine freiwillig angegebene Telefonnummer, die Antworten zu Ihrer Vermietsituation sowie die Adresse der aufgerufenen Seite. Diese Angaben werden benötigt, um Ihre Anfrage zuzuordnen, vorzubereiten und zu beantworten.</p>
-          <p>Der PHP-Endpunkt auf unserem Hosting wandelt die Angaben in eine E-Mail um. Die Website legt dafür keine eigene Kundendatenbank an. Bei der Übertragung und Zustellung verarbeiten die eingesetzten Hosting- und E-Mail-Dienstleister die technisch erforderlichen Daten.</p>
+          <p>Der PHP-Endpunkt auf unserem Hosting wandelt die Angaben in eine E-Mail um und stellt sie an das für Website-Anfragen verwendete Gmail-Postfach zu. Die Website legt dafür keine eigene Kundendatenbank an. Bei der Übertragung und Zustellung verarbeiten IONOS und Google die technisch erforderlichen Daten. Weitere Informationen enthält die <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noreferrer">Datenschutzerklärung von Google</a>.</p>
           <p>Die Verarbeitung erfolgt für vorvertragliche Maßnahmen auf Ihre Anfrage hin nach Art. 6 Abs. 1 lit. b DSGVO. Soweit es um die geordnete Bearbeitung und Abwehr missbräuchlicher Anfragen geht, stützen wir sie ergänzend auf Art. 6 Abs. 1 lit. f DSGVO.</p>
           <p>Die gesonderte Zustimmung zur Bereitstellung der Erstinformation über diese Website dient der Dokumentation nach § 16 Abs. 2 VersVermV. Die Erstinformation kann gespeichert oder ausgedruckt und auf Wunsch vor dem ersten Geschäftskontakt kostenlos auf Papier angefordert werden.</p>
 
@@ -45,7 +45,7 @@ export default function Datenschutz() {
           <h2>9. Sicherheit und Aktualisierung</h2>
           <p>Die Übertragung erfolgt verschlüsselt per HTTPS. Kein Übertragungsweg ist vollständig risikofrei; senden Sie daher keine vertraulichen Unterlagen oder Angaben zu einem Rechtsfall über das kurze Anfrageformular. Wir passen diese Hinweise an, wenn sich die eingesetzten Dienste oder gesetzlichen Anforderungen ändern.</p>
 
-          <p className="legal-updated">Stand: 18. September 2026</p>
+          <p className="legal-updated">Stand: 24. September 2026</p>
         </div>
       </article>
     </SiteShell>

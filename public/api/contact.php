@@ -103,7 +103,7 @@ $safeName = preg_replace('/[\\r\\n]+/', ' ', $name) ?? $name;
 $safePhone = preg_replace('/[\\r\\n]+/', ' ', $phone) ?? $phone;
 $safeSourceUrl = filter_var($sourceUrl, FILTER_VALIDATE_URL) !== false ? $sourceUrl : 'Nicht verfügbar';
 
-$recipient = 'info@rechtsschutzpartner24.de';
+$recipient = 'leads.ap.arag@gmail.com';
 $subject = 'Neue Anfrage über Vermieterrechtsschutz24';
 $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 $body = implode("\r\n", [
