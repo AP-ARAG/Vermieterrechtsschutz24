@@ -302,6 +302,27 @@ export function OfferWizard() {
 }
 
 export function SiteShell({ children, legalPage = false }: { children: React.ReactNode; legalPage?: boolean }) {
+  useEffect(() => {
+    let frame = 0;
+    const scrollToCurrentAnchor = () => {
+      const anchor = decodeURIComponent(window.location.hash.slice(1));
+      if (!anchor) return;
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        document.getElementById(anchor)?.scrollIntoView({ block: "start" });
+      });
+    };
+
+    scrollToCurrentAnchor();
+    window.addEventListener("load", scrollToCurrentAnchor);
+    window.addEventListener("hashchange", scrollToCurrentAnchor);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("load", scrollToCurrentAnchor);
+      window.removeEventListener("hashchange", scrollToCurrentAnchor);
+    };
+  }, []);
+
   return (
     <>
       <a className="skip-link" href="#main-content">Zum Inhalt springen</a>
