@@ -63,6 +63,8 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /Objektbezogene Aufnahme/);
   assert.match(bundledJavaScript, /hashchange/);
   assert.match(bundledJavaScript, /scrollIntoView/);
+  assert.match(bundledJavaScript, /tel:\+491721597777/);
+  assert.match(bundledJavaScript, /0172 1597777 anrufen/);
   for (const anchor of [
     "angebot", "vorteile", "berater", "leistungen", "tarife", "ablauf", "schritte",
     "hinweis", "bau", "fragen", "anfrage", "infos", "kontakt",

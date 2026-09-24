@@ -39,8 +39,8 @@ export function Header() {
               <strong>Hauptgeschäftsstelle ARAG</strong>
             </span>
           </Link>
-          <Link className="outline-button" href="/#angebot">
-            Jetzt Rückruf anfordern
+          <Link className="outline-button" href="tel:+491721597777" aria-label="0172 1597777 anrufen">
+            0172 1597777 anrufen
           </Link>
         </div>
       </header>
