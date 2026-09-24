@@ -270,6 +270,12 @@ try {
             default => 'smtp_unknown',
         };
         $response['diagnostic'] = $diagnostic;
+        if ($diagnostic === 'config_missing') {
+            $response['missing'] = array_values(array_filter(
+                ['MAIL_HOST', 'MAIL_PORT', 'MAIL_USERNAME', 'MAIL_PASSWORD', 'MAIL_FROM_ADDRESS'],
+                static fn (string $key): bool => config_value($config, $key) === ''
+            ));
+        }
     }
     respond(500, $response);
 }
