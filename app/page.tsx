@@ -88,7 +88,7 @@ export default function Home() {
             <h1>Passender Schutz für Ihre Immobilie.</h1>
             <p className="hero-summary">Persönlich. Unverbindlich. Klar.</p>
           </div>
-          <OfferWizard />
+          <OfferWizard trackingId="vermieter-hero-lead-submit" />
           <OfferInfoPoints />
         </div>
       </section>
@@ -227,7 +227,7 @@ export default function Home() {
             <li>Unverbindliche persönliche Rückmeldung</li>
           </ul>
         </div>
-        <div className="closing-funnel-panel"><OfferWizard /></div>
+        <div className="closing-funnel-panel"><OfferWizard trackingId="vermieter-bottom-lead-submit" /></div>
       </section>
     </SiteShell>
   );

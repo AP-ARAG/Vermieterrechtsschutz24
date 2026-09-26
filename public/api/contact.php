@@ -25,6 +25,16 @@ function config_value(array $config, string $key): string
     return trim((string) ($config[$key] ?? ''));
 }
 
+/** @param array<string, mixed> $data */
+function clean_tracking_value(array $data, string $key, int $maxLength = 300): string
+{
+    $value = trim((string) ($data[$key] ?? ''));
+    $value = str_replace(["\r", "\n", "\0"], ' ', $value);
+    return function_exists('mb_substr')
+        ? mb_substr($value, 0, $maxLength, 'UTF-8')
+        : substr($value, 0, $maxLength);
+}
+
 /**
  * @param resource $socket
  * @param int[] $expectedCodes
@@ -174,7 +184,7 @@ if ($honeypot !== '') {
 $name = trim((string) ($data['name'] ?? ''));
 $email = trim((string) ($data['email'] ?? ''));
 $phone = trim((string) ($data['phone'] ?? ''));
-$sourceUrl = trim((string) ($data['sourceUrl'] ?? ($_SERVER['HTTP_REFERER'] ?? '')));
+$sourceUrl = trim((string) ($data['source_url'] ?? $data['sourceUrl'] ?? ($_SERVER['HTTP_REFERER'] ?? '')));
 $answers = is_array($data['answers'] ?? null) ? $data['answers'] : [];
 $privacyConfirmed = (string) ($data['datenschutz_bestaetigt'] ?? '');
 $firstInformationDigital = (string) ($data['erstinformation_digital'] ?? '');
@@ -228,6 +238,30 @@ foreach ($submittedAnswers as $key => $answer) {
 $safeName = preg_replace('/[\\r\\n]+/', ' ', $name) ?? $name;
 $safePhone = preg_replace('/[\\r\\n]+/', ' ', $phone) ?? $phone;
 $safeSourceUrl = filter_var($sourceUrl, FILTER_VALIDATE_URL) !== false ? $sourceUrl : 'Nicht verfügbar';
+$trackingFields = [
+    'funnel_id' => ['Formular-ID', 100],
+    'utm_source' => ['UTM-Quelle', 200],
+    'utm_medium' => ['UTM-Medium', 200],
+    'utm_campaign' => ['UTM-Kampagne', 300],
+    'utm_term' => ['UTM-Keyword', 300],
+    'utm_content' => ['UTM-Inhalt', 300],
+    'gclid' => ['Google Click-ID', 300],
+    'gbraid' => ['Google GBRAID', 300],
+    'wbraid' => ['Google WBRAID', 300],
+    'msclkid' => ['Microsoft Click-ID', 300],
+    'fbclid' => ['Meta Click-ID', 300],
+    'referrer_url' => ['Referrer', 500],
+];
+$attributionLines = [];
+foreach ($trackingFields as $key => [$label, $maxLength]) {
+    $value = clean_tracking_value($data, $key, $maxLength);
+    if ($value !== '') {
+        $attributionLines[] = $label . ': ' . $value;
+    }
+}
+if ($attributionLines === []) {
+    $attributionLines[] = 'Keine Kampagnenparameter übermittelt';
+}
 
 $recipient = 'leads.ap.arag@gmail.com';
 $subject = 'Neue Anfrage über Vermieterrechtsschutz24';
@@ -243,6 +277,9 @@ $body = implode("\r\n", [
     'Zusätzlicher Mietausfallschutz: ' . $rentLossProtection,
     'Bereits bestehender Rechtsfall: ' . $existingLegalCase,
     'Gewünschter Start: ' . $desiredStart,
+    '',
+    'Tracking / Attribution:',
+    ...$attributionLines,
     'Datenschutzerklärung: Kenntnisnahme bestätigt',
     'Erstinformation: digitaler Bereitstellung ausdrücklich zugestimmt',
     '',

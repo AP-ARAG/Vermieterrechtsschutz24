@@ -67,6 +67,12 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledJavaScript, /scrollIntoView/);
   assert.match(bundledJavaScript, /tel:\+491721597777/);
   assert.match(bundledJavaScript, /0172 1597777 anrufen/);
+  assert.match(bundledJavaScript, /vermieter-hero-lead-submit/);
+  assert.match(bundledJavaScript, /vermieter-bottom-lead-submit/);
+  assert.match(bundledJavaScript, /insurance_lead_success/);
+  assert.match(bundledJavaScript, /insurance:lead-success/);
+  assert.match(bundledJavaScript, /utm_term/);
+  assert.match(bundledJavaScript, /gclid/);
   for (const anchor of [
     "angebot", "vorteile", "berater", "leistungen", "tarife", "ablauf", "schritte",
     "hinweis", "bau", "fragen", "anfrage", "infos", "kontakt",
@@ -155,6 +161,9 @@ test("delivers funnel leads through the shared secured mail endpoint", async () 
   assert.match(endpoint, /erstinformation_digital/);
   assert.match(endpoint, /send_via_smtp/);
   assert.match(endpoint, /X-Funnel-Mailer: ionos-smtp-v1/);
+  assert.match(endpoint, /UTM-Keyword/);
+  assert.match(endpoint, /Google Click-ID/);
+  assert.match(endpoint, /funnel_id/);
   assert.doesNotMatch(endpoint, /\bmail\s*\(/);
   assert.match(runtimeTemplate, /MAIL_HOST="\$IONOS_MAIL_HOST"/);
   assert.match(runtimeTemplate, /MAIL_PASSWORD="\$IONOS_MAIL_PASSWORD"/);
@@ -162,4 +171,6 @@ test("delivers funnel leads through the shared secured mail endpoint", async () 
   const privacy = await readFile(new URL("../app/datenschutz/page.tsx", import.meta.url), "utf8");
   assert.match(privacy, /rechtsschutzpartner24\.de/);
   assert.match(privacy, /Gmail-Postfach/);
+  assert.match(privacy, /UTM-Keyword/);
+  assert.match(privacy, /26\. September 2026/);
 });

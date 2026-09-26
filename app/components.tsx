@@ -6,6 +6,40 @@ import { operator } from "./legal-data";
 
 const DEFAULT_FORM_ENDPOINT = "https://rechtsschutzpartner24.de/contact.php";
 const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT?.trim() || DEFAULT_FORM_ENDPOINT;
+const ATTRIBUTION_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "msclkid", "fbclid"] as const;
+
+type LeadAttribution = Record<(typeof ATTRIBUTION_KEYS)[number], string> & {
+  source_url: string;
+  referrer_url: string;
+};
+
+function readLeadAttribution(): LeadAttribution {
+  const params = new URLSearchParams(window.location.search);
+  const attribution = Object.fromEntries(ATTRIBUTION_KEYS.map((key) => [key, params.get(key)?.trim() ?? ""])) as Record<(typeof ATTRIBUTION_KEYS)[number], string>;
+  return {
+    ...attribution,
+    source_url: window.location.href,
+    referrer_url: document.referrer,
+  };
+}
+
+function emitLeadConversion(formId: string, attribution: LeadAttribution) {
+  const detail = {
+    event: "insurance_lead_success",
+    lead_type: "vermieterrechtsschutz",
+    form_id: formId,
+    keyword: attribution.utm_term,
+    campaign: attribution.utm_campaign,
+    source: attribution.utm_source,
+  };
+  try {
+    window.dispatchEvent(new CustomEvent("insurance:lead-success", { detail }));
+    const trackingWindow = window as Window & { dataLayer?: Array<Record<string, unknown>> };
+    trackingWindow.dataLayer?.push(detail);
+  } catch (error) {
+    console.warn("Lead-Tracking konnte nicht ausgelöst werden.", error);
+  }
+}
 
 function formText(data: FormData, name: string) {
   const value = data.get(name);
@@ -237,7 +271,7 @@ export function OfferInfoPoints() {
   );
 }
 
-export function OfferWizard() {
+export function OfferWizard({ trackingId }: { trackingId: "vermieter-hero-lead-submit" | "vermieter-bottom-lead-submit" }) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -258,8 +292,10 @@ export function OfferWizard() {
     setErrorMessage("");
 
     const formData = new FormData(event.currentTarget);
+    const attribution = readLeadAttribution();
     const payload = new URLSearchParams({
       form_type: "vermieter",
+      funnel_id: trackingId,
       name: formText(formData, "name"),
       email: formText(formData, "email"),
       phone: formText(formData, "phone"),
@@ -272,7 +308,7 @@ export function OfferWizard() {
         Bestehender_Rechtsfall: answers[3] ?? "Keine Angabe",
         Gewuenschter_Start: answers[4] ?? "Keine Angabe",
       }),
-      source_url: window.location.href,
+      ...attribution,
       website: formText(formData, "_honey"),
     });
 
@@ -286,6 +322,7 @@ export function OfferWizard() {
       if (!response.ok || result?.ok !== true) {
         throw new Error(result?.message || "Die Anfrage konnte gerade nicht gesendet werden.");
       }
+      emitLeadConversion(trackingId, attribution);
       setStatus("sent");
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Die Anfrage konnte gerade nicht gesendet werden.");
@@ -347,7 +384,7 @@ export function OfferWizard() {
       {status === "error" && <p className="form-error" role="alert">{errorMessage} Bitte versuchen Sie es erneut oder schreiben Sie an <a href={`mailto:${operator.email}`}>{operator.email}</a>.</p>}
       <div className="wizard-nav">
         <button type="button" className="back-button" onClick={() => { setStep(questions.length - 1); setStatus("idle"); setErrorMessage(""); }} disabled={status === "sending"}>Zurück</button>
-        <button type="submit" className="blue-button" disabled={status === "sending"}>{status === "sending" ? "Wird gesendet …" : "Anfrage senden"}</button>
+        <button id={trackingId} data-conversion="insurance-lead" type="submit" className="blue-button" disabled={status === "sending"}>{status === "sending" ? "Wird gesendet …" : "Anfrage senden"}</button>
       </div>
     </form>
   );
