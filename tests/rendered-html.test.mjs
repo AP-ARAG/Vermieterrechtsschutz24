@@ -156,7 +156,8 @@ test("delivers funnel leads through the shared secured mail endpoint", async () 
   const endpoint = await readFile(new URL("../public/api/contact.php", import.meta.url), "utf8");
   const runtimeTemplate = await readFile(new URL("../.deploy-now/Vermieterrechtsschutz24/api/.env.template", import.meta.url), "utf8");
   const buildWorkflow = await readFile(new URL("../.github/workflows/Vermieterrechtsschutz24-build.yaml", import.meta.url), "utf8");
-  assert.match(endpoint, /leads\.ap\.arag@gmail\.com/);
+  assert.match(endpoint, /info@rechtsschutzpartner24\.de/);
+  assert.doesNotMatch(endpoint, /leads\.ap\.arag@gmail\.com/);
   assert.match(endpoint, /datenschutz_bestaetigt/);
   assert.match(endpoint, /erstinformation_digital/);
   assert.match(endpoint, /send_via_smtp/);
@@ -170,7 +171,8 @@ test("delivers funnel leads through the shared secured mail endpoint", async () 
   assert.match(buildWorkflow, /intermediate-data-file: dist\/\.template-renderer-data/);
   const privacy = await readFile(new URL("../app/datenschutz/page.tsx", import.meta.url), "utf8");
   assert.match(privacy, /rechtsschutzpartner24\.de/);
-  assert.match(privacy, /Gmail-Postfach/);
+  assert.match(privacy, /direkt an.*info@rechtsschutzpartner24\.de/s);
+  assert.doesNotMatch(privacy, /Gmail-Postfach|policies\.google\.com\/privacy/);
   assert.match(privacy, /UTM-Keyword/);
-  assert.match(privacy, /26\. September 2026/);
+  assert.match(privacy, /29\. September 2026/);
 });

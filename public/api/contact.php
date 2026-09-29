@@ -263,7 +263,7 @@ if ($attributionLines === []) {
     $attributionLines[] = 'Keine Kampagnenparameter übermittelt';
 }
 
-$recipient = 'leads.ap.arag@gmail.com';
+$recipient = 'info@rechtsschutzpartner24.de';
 $subject = 'Neue Anfrage über Vermieterrechtsschutz24';
 $body = implode("\r\n", [
     'Neue Anfrage über die Website',
