@@ -7,8 +7,13 @@ name: "Deploy Now: Orchestration"
 run-name: "Deploy Now: Build Vermieterrechtsschutz24 · ${{ github.event.head_commit.message || format('Triggered by {0}', github.triggering_actor) }}"
 
 on:
-  - push
-  - workflow_dispatch
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ionos-production-vermieterrechtsschutz24
+  cancel-in-progress: false
 
 jobs:
   retrieve-project:
@@ -24,7 +29,7 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
-          project-id: c9a7d2d0-4ad1-466e-b525-f0cc368e7b92
+          project-id: 44fe7571-09b4-437d-acb0-491c56ab2f3a
           action: retrieve-info
 
 
@@ -50,6 +55,6 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
-          project-id: c9a7d2d0-4ad1-466e-b525-f0cc368e7b92
+          project-id: 44fe7571-09b4-437d-acb0-491c56ab2f3a
           branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
           action: dispatch-deployments
