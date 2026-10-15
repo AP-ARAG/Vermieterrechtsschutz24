@@ -6,20 +6,31 @@ import { operator } from "./legal-data";
 
 const DEFAULT_FORM_ENDPOINT = "https://rechtsschutzpartner24.de/contact.php";
 const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT?.trim() || DEFAULT_FORM_ENDPOINT;
-const ATTRIBUTION_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "msclkid", "fbclid"] as const;
+const ATTRIBUTION_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"] as const;
 
 type LeadAttribution = Record<(typeof ATTRIBUTION_KEYS)[number], string> & {
   source_url: string;
   referrer_url: string;
 };
 
+function minimizedUrl(value: string, includePath = true): string {
+  try {
+    const url = new URL(value);
+    return ["https:", "http:"].includes(url.protocol)
+      ? url.origin + (includePath ? url.pathname : "")
+      : "";
+  } catch {
+    return "";
+  }
+}
+
 function readLeadAttribution(): LeadAttribution {
   const params = new URLSearchParams(window.location.search);
   const attribution = Object.fromEntries(ATTRIBUTION_KEYS.map((key) => [key, params.get(key)?.trim() ?? ""])) as Record<(typeof ATTRIBUTION_KEYS)[number], string>;
   return {
     ...attribution,
-    source_url: window.location.href,
-    referrer_url: document.referrer,
+    source_url: minimizedUrl(window.location.href),
+    referrer_url: minimizedUrl(document.referrer, false),
   };
 }
 
