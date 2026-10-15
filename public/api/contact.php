@@ -39,6 +39,23 @@ function clean_tracking_value(array $data, string $key, int $maxLength = 300): s
  * @param resource $socket
  * @param int[] $expectedCodes
  */
+function minimized_url(string $value, bool $includePath = true): string
+{
+    $parts = parse_url(str_replace(["\r", "\n", "\0"], '', trim($value)));
+    if (!is_array($parts) || !isset($parts['scheme'], $parts['host'])) {
+        return '';
+    }
+    $scheme = strtolower($parts['scheme']);
+    if (!in_array($scheme, ['https', 'http'], true)) {
+        return '';
+    }
+    $origin = $scheme . '://' . $parts['host'];
+    if (isset($parts['port'])) {
+        $origin .= ':' . $parts['port'];
+    }
+    return $origin . ($includePath ? ($parts['path'] ?? '/') : '');
+}
+
 function smtp_response($socket, array $expectedCodes): string
 {
     $response = '';
@@ -51,7 +68,7 @@ function smtp_response($socket, array $expectedCodes): string
 
     $code = (int) substr($response, 0, 3);
     if (!in_array($code, $expectedCodes, true)) {
-        throw new RuntimeException('Unerwartete SMTP-Antwort: ' . trim($response));
+        throw new RuntimeException('Unerwarteter SMTP-Statuscode.', $code);
     }
 
     return $response;
@@ -99,7 +116,7 @@ function send_via_smtp(
     );
 
     if ($socket === false) {
-        throw new RuntimeException('SMTP-Verbindung fehlgeschlagen: ' . $errorNumber . ' ' . $errorMessage);
+        throw new RuntimeException('SMTP-Verbindung fehlgeschlagen.', (int)$errorNumber);
     }
 
     try {
@@ -184,7 +201,7 @@ if ($honeypot !== '') {
 $name = trim((string) ($data['name'] ?? ''));
 $email = trim((string) ($data['email'] ?? ''));
 $phone = trim((string) ($data['phone'] ?? ''));
-$sourceUrl = trim((string) ($data['source_url'] ?? $data['sourceUrl'] ?? ($_SERVER['HTTP_REFERER'] ?? '')));
+$sourceUrl = minimized_url((string) ($data['source_url'] ?? $data['sourceUrl'] ?? ($_SERVER['HTTP_REFERER'] ?? '')));
 $answers = is_array($data['answers'] ?? null) ? $data['answers'] : [];
 $privacyConfirmed = (string) ($data['datenschutz_bestaetigt'] ?? '');
 $firstInformationDigital = (string) ($data['erstinformation_digital'] ?? '');
@@ -245,16 +262,14 @@ $trackingFields = [
     'utm_campaign' => ['UTM-Kampagne', 300],
     'utm_term' => ['UTM-Keyword', 300],
     'utm_content' => ['UTM-Inhalt', 300],
-    'gclid' => ['Google Click-ID', 300],
-    'gbraid' => ['Google GBRAID', 300],
-    'wbraid' => ['Google WBRAID', 300],
-    'msclkid' => ['Microsoft Click-ID', 300],
-    'fbclid' => ['Meta Click-ID', 300],
     'referrer_url' => ['Referrer', 500],
 ];
 $attributionLines = [];
 foreach ($trackingFields as $key => [$label, $maxLength]) {
     $value = clean_tracking_value($data, $key, $maxLength);
+    if ($key === 'referrer_url') {
+        $value = minimized_url($value, false);
+    }
     if ($value !== '') {
         $attributionLines[] = $label . ': ' . $value;
     }
@@ -295,7 +310,7 @@ $config = is_readable($configPath)
 try {
     send_via_smtp($config, $recipient, $email, $subject, $body);
 } catch (Throwable $error) {
-    error_log('Vermieterrechtsschutz24 SMTP: ' . $error->getMessage());
+    error_log('Vermieterrechtsschutz24: Stufe=Versand; Statuscode=' . (int)$error->getCode() . '; Referenz=' . bin2hex(random_bytes(8)));
     respond(500, ['success' => false, 'message' => 'Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es später erneut.']);
 }
 
