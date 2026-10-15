@@ -152,7 +152,7 @@ test("bundles the funnel, legal content and public assets", async () => {
   assert.match(bundledStyles, /\.exit-intent/);
 });
 
-test("delivers funnel leads through the shared secured mail endpoint", async () => {
+test("keeps the configured mail route and limits request metadata", async () => {
   const endpoint = await readFile(new URL("../public/api/contact.php", import.meta.url), "utf8");
   const runtimeTemplate = await readFile(new URL("../.deploy-now/Vermieterrechtsschutz24/api/.env.template", import.meta.url), "utf8");
   const buildWorkflow = await readFile(new URL("../.github/workflows/Vermieterrechtsschutz24-build.yaml", import.meta.url), "utf8");
@@ -163,7 +163,7 @@ test("delivers funnel leads through the shared secured mail endpoint", async () 
   assert.match(endpoint, /send_via_smtp/);
   assert.match(endpoint, /X-Funnel-Mailer: ionos-smtp-v1/);
   assert.match(endpoint, /UTM-Keyword/);
-  assert.match(endpoint, /Google Click-ID/);
+  assert.doesNotMatch(endpoint, /Google Click-ID|Google GBRAID|Google WBRAID|Microsoft Click-ID|Meta Click-ID/);
   assert.match(endpoint, /funnel_id/);
   assert.doesNotMatch(endpoint, /\bmail\s*\(/);
   assert.match(runtimeTemplate, /MAIL_HOST="\$IONOS_MAIL_HOST"/);
@@ -174,5 +174,33 @@ test("delivers funnel leads through the shared secured mail endpoint", async () 
   assert.match(privacy, /direkt an.*info@rechtsschutzpartner24\.de/s);
   assert.doesNotMatch(privacy, /Gmail-Postfach|policies\.google\.com\/privacy/);
   assert.match(privacy, /UTM-Keyword/);
-  assert.match(privacy, /29\. September 2026/);
+  assert.match(privacy, /16\. Oktober 2026/);
+});
+
+test("removes click IDs and private URL parts before form submission", async () => {
+  const { default: ts } = await import("typescript");
+  const { runInNewContext } = await import("node:vm");
+  const source = await readFile(new URL("../app/components.tsx", import.meta.url), "utf8");
+  const keys = source.match(/const ATTRIBUTION_KEYS = .*;/)?.[0];
+  assert.ok(keys);
+  const helpers = source.slice(source.indexOf("type LeadAttribution"), source.indexOf("function emitLeadConversion"));
+  const code = ts.transpileModule(keys + "\n" + helpers + "\nthis.result = readLeadAttribution();", {
+    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
+  }).outputText;
+  const sandbox = {
+    URL, URLSearchParams,
+    window: { location: {
+      href: "https://vermieterrechtsschutz24.com/angebot?utm_source=synthetisch&gclid=NICHTSENDEN&fbclid=NICHTSENDEN#privat",
+      search: "?utm_source=synthetisch&gclid=NICHTSENDEN&fbclid=NICHTSENDEN",
+    } },
+    document: { referrer: "https://referrer.invalid/personen/privat?token=NICHTSENDEN#privat" },
+  };
+  runInNewContext(code, sandbox);
+  assert.equal(sandbox.result.source_url, "https://vermieterrechtsschutz24.com/angebot");
+  assert.equal(sandbox.result.referrer_url, "https://referrer.invalid");
+  assert.equal(sandbox.result.utm_source, "synthetisch");
+  for (const key of ["gclid", "gbraid", "wbraid", "msclkid", "fbclid"]) {
+    assert.equal(sandbox.result[key], undefined);
+  }
+  assert.doesNotMatch(JSON.stringify(sandbox.result), /NICHTSENDEN|personen\/privat/);
 });
